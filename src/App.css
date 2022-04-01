@@ -1,0 +1,13 @@
+@import url(https://book-art.netlify.app/style.css);
+
+.my-product-page-body-content {
+  display: grid;
+  grid-template-columns: 20% 80%;
+}
+.my-product-page-small-cards {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
