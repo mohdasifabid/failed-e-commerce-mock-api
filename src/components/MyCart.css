@@ -1,0 +1,73 @@
+.duck-bill-card {
+    width: 40%;
+    height: 40%;
+    border-radius: 0.225rem;
+    border: .125rem solid var(--secondary-color);
+    padding: 1rem 0.5rem 0.5rem 1.5rem;
+  }
+  
+  .duck-bill-card-title {
+    width: 85%;
+    font-weight: bold;
+    margin-bottom: 01rem;
+  }
+  .duck-bill-card-price-details {
+    width: 85%;
+    border-bottom: 0.125rem solid var(--primary-color);
+    border-top: 0.125rem solid var(--primary-color);
+  }
+  
+  .duck-bill-card-price-details-content {
+    width: 85%;
+    display: flex;
+    justify-content: space-between;
+    font-size: smaller;
+  }
+  .duck-bill-card-total-amount {
+    width: 85%;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: smaller;
+    border-bottom: 0.125rem solid var(--primary-color);
+  }
+  
+  .duck-bill-card-saving-info {
+    font-size: smaller;
+    padding: .7rem;
+  }
+  .duck-bill-card-btn {
+    width: 50%;
+    font-size: smaller;
+  }
+  .duck-bill-card-btn:hover {
+color: var(--secondary-color);
+background-color: var(--primary-color);
+  }
+
+  .my-cart-page-body-content{
+    min-height: 22.5rem;
+   display: flex;
+  margin: 2rem 1rem;
+justify-content: center;
+  }
+  .my-cart-page-body-content-cards{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+  /*  */
+  .duck-btn-add-to-wishlist{
+    background-color: var(--secondary-color);
+    border: .1rem solid var(--primary-color);
+    
+  }
+  .duck-btn-remove-from-cart{
+    border: .1rem solid var(--primary-color);
+
+    background-color: gray;
+  }
+
+  .duck-product-card-btn{
+cursor: pointer;
+  }

@@ -3,11 +3,74 @@
 .my-product-page-body-content {
   display: grid;
   grid-template-columns: 20% 80%;
+  margin: 2rem 1rem;
 }
 .my-product-page-small-cards {
   display: flex;
-  gap: 1rem;
+  gap: 2rem 1rem;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+}
+
+
+
+/* landing page */
+.landing-page-products-sample{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2%;
+  margin: 1rem 0;
+  
+}
+.landing-page-products-sample-img{
+  width:30%;
+}
+
+
+/* login page  */
+
+.my-login-page-body{
+  display: flex;
+  min-height: 27rem;
+
+  justify-content: center;
+}
+.login-page{
+  width: 70%;
+}
+
+
+/* navbar */
+.nav-container{
+  border-bottom: .125rem solid var(--primary-color);
+}
+.navbar-links{
+  text-decoration: none;
+  color: var(--primary-color);
+}
+.nav-brand-name{
+  font-size: large;
+}
+.nav-login{
+  margin-top: 1rem;
+}
+.nav-input{
+  border-radius: 2rem;
+  height: 2rem;
+  margin-top: .7rem;
+  padding-left: .5rem;
+}
+
+.nav-badge-content {
+  background-color: white;
+  color: var(--primary-color);
+}
+
+.futer-link{
+  color: var(--primary-color);
+  cursor: pointer;
+  font-size: large;
 }

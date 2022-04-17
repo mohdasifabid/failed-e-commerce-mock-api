@@ -13,7 +13,6 @@ export const MyFilters = () => {
       }
     })();
   }, []);
-  console.log(state.categories);
   return (
     <div class="filter-container">
       <div class="filter-header">
@@ -49,7 +48,7 @@ export const MyFilters = () => {
         Categories
         {state.categories.map((item) => {
           return (
-            <label for={item.id} key={item.id}>
+            <label for={item.id} key={item._id}>
               <input
                 id={item.id}
                 name={item.id}

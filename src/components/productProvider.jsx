@@ -22,24 +22,71 @@ const productChooserFunction = (state, action) => {
       };
 
     case "REMOVE_CATEGORY_FILTER":
-      const index = state.filterByCategoryMeter.indexOf(action.payload);
-      const updatedCategoryArray = [...state.filterByCategoryMeter].splice(
-        index,
-        1
+      const filteredCategory = [...state.filterByCategoryMeter];
+      const updatedfilterByCategoryMeter = filteredCategory.filter(
+        (item) => item !== action.payload
       );
-      if (index === -1) {
-        return state;
-      }
-
       return {
         ...state,
-        filterByCategoryMeter: updatedCategoryArray,
+        filterByCategoryMeter: updatedfilterByCategoryMeter,
       };
 
     case "ADD_CATEGORY_FILTER":
       return {
         ...state,
         filterByCategoryMeter: [...state.filterByCategoryMeter, action.payload],
+      };
+
+    case "SEARCH_BY_INPUT":
+      return {
+        ...state,
+        searchByInput: action.payload,
+      };
+
+    case "ADD_TO_CART":
+      return {
+        ...state,
+        itemsInCart: [...state.itemsInCart, action.payload],
+      };
+    case "REMOVE_FROM_CART":
+      const cart = [...state.itemsInCart];
+      const updatedCartItems = cart.filter(
+        (item) => item.id !== action.payload.id
+      );
+      return {
+        ...state,
+        itemsInCart: updatedCartItems,
+      };
+
+    case "ADD_TO_WISHLIST":
+      return {
+        ...state,
+        itemsInWishlist: [...state.itemsInWishlist, action.payload],
+      };
+    case "ADD_TO_WISHLIST_FROM_CART":
+      return {
+        ...state,
+        itemsInCart: [...state.itemsInCart].filter(
+          (item) => item.id !== action.payload.id
+        ),
+        itemsInWishlist: [
+          ...state.itemsInWishlist,
+          ...state.itemsInCart.filter((item) => item.id == action.payload.id),
+        ],
+      };
+
+    case "MOVE_TO_CART_FROM_WISHLIST":
+      return {
+        ...state,
+        itemsInCart: [
+          ...state.itemsInCart,
+          ...state.itemsInWishlist.filter(
+            (item) => item.id === action.payload.id
+          ),
+        ],
+        itemsInWishlist: [...state.itemsInWishlist].filter(
+          (item) => item.id !== action.payload.id
+        ),
       };
     default:
       return state;
@@ -51,11 +98,12 @@ const initialState = {
   categories: [],
   sortByPriceMeter: false,
   filterByCategoryMeter: [],
+  searchByInput: "",
+  itemsInCart: [],
+  itemsInWishlist: [],
 };
 const ProductProvider = ({ children }) => {
   const [state, dispatch] = useReducer(productChooserFunction, initialState);
-
-  // console.log("filterByCategoryMeter", state.filterByCategoryMeter);
 
   return (
     <ProductContext.Provider value={{ state, dispatch }}>

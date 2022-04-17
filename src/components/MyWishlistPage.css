@@ -1,0 +1,15 @@
+
+
+.my-wishlist-page-body-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 26.9rem;
+}
+.my-wishlist-page-body-content-cards{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}

@@ -1,23 +1,48 @@
+import { Link } from "react-router-dom";
+import { useProductProvider } from "./productProvider";
+
 export const MyNavbar = () => {
+  const { state, dispatch } = useProductProvider();
+
   return (
     <div class="nav-container">
-      <p class="nav-name">Company</p>
+      <Link to="/" className="navbar-links">
+        <p class="nav-brand-name">
+          <strong>B</strong>u<strong>K</strong>art
+        </p>
+      </Link>
       <div class="nav-input-container">
-        <input class="nav-input" type="text" placeholder="search here" />
-        <i class="fa-solid fa-magnifying-glass nav-search-icon"></i>
+        <input
+          class="nav-input"
+          type="text"
+          placeholder="search here"
+          onChange={(e) =>
+            dispatch({ type: "SEARCH_BY_INPUT", payload: e.target.value })
+          }
+        />
       </div>
-      <span class="nav-login nav-icon-and-tag">
-        Login
-        <i class="fa-solid fa-user"></i>
-      </span>
-      <span class="nav-wishlist nav-icon-and-tag">
-        Wishlist
-        <i class="fa-solid fa-heart"></i>
-      </span>
-      <span class="nav-cart nav-icon-and-tag">
-        Cart
-        <i class="fa-solid fa-cart-shopping"></i>
-      </span>
+      <Link to="/login-page" className="navbar-links">
+        <div class="nav-login nav-icon-and-tag">
+          <strong>Login</strong>
+        </div>
+      </Link>
+
+      <Link to="/wishlist-page" className="navbar-links">
+        <div class="duck-icon-badge">
+          <i class="fa-solid fa-heart duck-icon-badge-icon"></i>
+          <p class="duck-icon-badge-content nav-badge-content">
+            {state.itemsInWishlist.length}
+          </p>
+        </div>
+      </Link>
+      <Link to="/cart-page" className="navbar-links">
+        <div class="duck-icon-badge">
+          <i class="fa-solid fa-cart-shopping duck-icon-badge-icon"></i>
+          <p class="duck-icon-badge-content nav-badge-content">
+            {state.itemsInCart.length}
+          </p>
+        </div>
+      </Link>
     </div>
   );
 };

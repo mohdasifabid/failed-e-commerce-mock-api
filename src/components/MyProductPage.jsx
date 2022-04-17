@@ -8,7 +8,6 @@ import { useProductProvider } from "./productProvider";
 
 export const MyProductPage = () => {
   const { state, dispatch } = useProductProvider();
-
   useEffect(() => {
     (async function getData() {
       const response = await axios.get("api/products");
@@ -27,9 +26,35 @@ export const MyProductPage = () => {
     return ourData;
   };
 
+  const searchByInputFunction = (ourData, searchMeter) => {
+    if (searchMeter && searchMeter.length > 0) {
+      return ourData.filter((item) =>
+        item.title.toLowerCase().includes(searchMeter.toLowerCase())
+      );
+    }
+    return ourData;
+  };
+
+  const filterByCategoryFunction = (ourData, categoryMeter) => {
+    if (categoryMeter.length > 0) {
+      return ourData.filter((item) => {
+        return categoryMeter.indexOf(item.categoryName) !== -1;
+      });
+    }
+    return ourData;
+  };
   const sortedByPriceArray = sortByPriceFunction(
     state.products,
     state.sortByPriceMeter
+  );
+
+  const searchedByInputArray = searchByInputFunction(
+    sortedByPriceArray,
+    state.searchByInput
+  );
+  const filterByCategoryArray = filterByCategoryFunction(
+    searchedByInputArray,
+    state.filterByCategoryMeter
   );
   return (
     <div>
@@ -37,8 +62,8 @@ export const MyProductPage = () => {
       <div className="my-product-page-body-content">
         <MyFilters />
         <div className="my-product-page-small-cards">
-          {sortedByPriceArray.map((item) => {
-            return <MySmallProductCard item={item} key={item.id} />;
+          {filterByCategoryArray.map((item) => {
+            return <MySmallProductCard item={item} key={item._id} />;
           })}
         </div>
       </div>
