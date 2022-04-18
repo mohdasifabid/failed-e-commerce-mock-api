@@ -1,8 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { useAuthProvider } from "./authProvider";
 import { useProductProvider } from "./productProvider";
+import { useNavigate } from "react-router-dom";
 
 export const MyNavbar = () => {
   const { state, dispatch } = useProductProvider();
+  const { state: authState, dispatch: authDispatch } = useAuthProvider();
+  let navigate = useNavigate();
 
   return (
     <div class="nav-container">
@@ -21,11 +25,25 @@ export const MyNavbar = () => {
           }
         />
       </div>
-      <Link to="/login-page" className="navbar-links">
+      {authState.isLogin ? (
         <div class="nav-login nav-icon-and-tag">
-          <strong>Login</strong>
+          <strong
+            onClick={() => {
+              authDispatch({ type: "LOGIN_STATUS", payload: false });
+              // localStorage.removeItem("encodedToken");
+              navigate("/login-page");
+            }}
+          >
+            Logout
+          </strong>
         </div>
-      </Link>
+      ) : (
+        <Link to="/login-page" className="navbar-links">
+          <div class="nav-login nav-icon-and-tag">
+            <strong>Login</strong>
+          </div>
+        </Link>
+      )}
 
       <Link to="/wishlist-page" className="navbar-links">
         <div class="duck-icon-badge">
