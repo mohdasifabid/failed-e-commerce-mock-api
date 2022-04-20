@@ -49,7 +49,7 @@ export const MyNavbar = () => {
         <div class="duck-icon-badge">
           <i class="fa-solid fa-heart duck-icon-badge-icon"></i>
           <p class="duck-icon-badge-content nav-badge-content">
-            {state.itemsInWishlist.length}
+            {state.wishlist.length}
           </p>
         </div>
       </Link>

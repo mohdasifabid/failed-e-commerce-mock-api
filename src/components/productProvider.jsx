@@ -61,7 +61,7 @@ const productChooserFunction = (state, action) => {
     case "ADD_TO_WISHLIST":
       return {
         ...state,
-        itemsInWishlist: [...state.itemsInWishlist, action.payload],
+        wishlist: [...state.wishlist, action.payload],
       };
     case "ADD_TO_WISHLIST_FROM_CART":
       return {
@@ -69,8 +69,8 @@ const productChooserFunction = (state, action) => {
         itemsInCart: [...state.itemsInCart].filter(
           (item) => item.id !== action.payload.id
         ),
-        itemsInWishlist: [
-          ...state.itemsInWishlist,
+        wishlist: [
+          ...state.wishlist,
           ...state.itemsInCart.filter((item) => item.id == action.payload.id),
         ],
       };
@@ -80,11 +80,9 @@ const productChooserFunction = (state, action) => {
         ...state,
         itemsInCart: [
           ...state.itemsInCart,
-          ...state.itemsInWishlist.filter(
-            (item) => item.id === action.payload.id
-          ),
+          ...state.wishlist.filter((item) => item.id === action.payload.id),
         ],
-        itemsInWishlist: [...state.itemsInWishlist].filter(
+        wishlist: [...state.wishlist].filter(
           (item) => item.id !== action.payload.id
         ),
       };
@@ -100,8 +98,9 @@ const initialState = {
   filterByCategoryMeter: [],
   searchByInput: "",
   itemsInCart: [],
-  itemsInWishlist: [],
+  wishlist: [],
 };
+
 const ProductProvider = ({ children }) => {
   const [state, dispatch] = useReducer(productChooserFunction, initialState);
 

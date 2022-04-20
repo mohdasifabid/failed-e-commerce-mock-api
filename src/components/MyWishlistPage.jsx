@@ -4,13 +4,14 @@ import "./MyWishlistPage.css";
 import { useProductProvider } from "./productProvider";
 export const MyWishlistPage = () => {
   const { state, dispatch } = useProductProvider();
+
   return (
     <div>
       <MyNavbar />
       <div className="my-wishlist-page-body-content">
         <h1>My Wishlist</h1>
         <div className="my-wishlist-page-body-content-cards">
-          {state.itemsInWishlist.map((item) => {
+          {state.wishlist.map((item) => {
             return (
               <div key={item._id} class="duck-product-card">
                 <div class="duck-product-card-top">
@@ -27,12 +28,12 @@ export const MyWishlistPage = () => {
                 <div class="duck-product-card-bottom">
                   <button
                     class="duck-product-card-btn duck-btn duck-btn-solid-l duck-btn-remove-from-cart"
-                    onClick={() =>
+                    onClick={() => {
                       dispatch({
                         type: "MOVE_TO_CART_FROM_WISHLIST",
                         payload: item,
-                      })
-                    }
+                      });
+                    }}
                   >
                     Move to cart
                   </button>

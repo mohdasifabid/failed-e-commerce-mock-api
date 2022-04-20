@@ -1,9 +1,17 @@
 import "./MySmallProductCard.css";
 import { useProductProvider } from "./productProvider";
+import axios from "axios";
+import { useEffect } from "react";
 
 export default function MySmallProductCard({ item }) {
   const { state, dispatch } = useProductProvider();
   const { img, title, price, author, categoryName } = item;
+
+  const getCartReady = async () => {
+    const response = await axios.get("/api/user/cart");
+    console.log(response);
+  };
+
   return (
     <div class="duck-card-product-container">
       <img class="duck-card-product-img" src={img} alt="" />
@@ -15,13 +23,17 @@ export default function MySmallProductCard({ item }) {
       </p>
       <button
         class="duck-card-product-btn btn-add-to-cart"
-        onClick={() => dispatch({ type: "ADD_TO_CART", payload: item })}
+        onClick={() => {
+          dispatch({ type: "ADD_TO_CART", payload: item });
+        }}
       >
         Add to Cart
       </button>
       <button
         class="duck-card-product-btn btn-add-to-wishlist"
-        onClick={() => dispatch({ type: "ADD_TO_WISHLIST", payload: item })}
+        onClick={() => {
+          dispatch({ type: "ADD_TO_WISHLIST", payload: item });
+        }}
       >
         Add to wishlist
       </button>

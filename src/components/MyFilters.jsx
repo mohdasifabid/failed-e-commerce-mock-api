@@ -7,7 +7,6 @@ export const MyFilters = () => {
   useEffect(() => {
     (async function getData() {
       const response = await axios.get("api/categories");
-      console.log(response);
       if (response.status === 200 || response.status === 201) {
         dispatch({ type: "SHOW_CATEGORY", payload: response.data.categories });
       }

@@ -11,13 +11,13 @@ import { PrivateRoute } from "./components/PrivateRoute";
 import { MySignupPage } from "./components/MySignupPage";
 
 function App() { 
-  const {dispatch} = useAuthProvider()
+  const {dispatch:authDispatch} = useAuthProvider()
    useEffect(()=>{
      const token = localStorage.getItem("encodedToken")
      if(token){
-       dispatch({type: "LOGIN_STATUS", payload: true}) 
+      authDispatch({type: "LOGIN_STATUS", payload: true}) 
      } else {
-      dispatch({type: "LOGIN_STATUS", payload: false})  
+      authDispatch({type: "LOGIN_STATUS", payload: false})  
 
      }
    },[])
