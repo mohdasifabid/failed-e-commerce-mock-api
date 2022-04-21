@@ -1,9 +1,39 @@
+import { useEffect } from "react";
 import { MyFooter } from "./MyFooter";
 import { MyNavbar } from "./MyNavbar";
 import "./MyWishlistPage.css";
 import { useProductProvider } from "./productProvider";
+import axios from "axios";
+
 export const MyWishlistPage = () => {
   const { state, dispatch } = useProductProvider();
+
+  useEffect(() => {
+    const getWishlistData = async () => {
+      const token = localStorage.getItem("encodedToken");
+      const response = await axios.get("/api/user/wishlist", {
+        headers: {
+          authorization: token,
+        },
+      });
+      if (response.status === 200) {
+        dispatch({ type: "WISHLIST_DATA", payload: response.data.wishlist });
+      }
+    };
+    getWishlistData();
+  }, []);
+
+  const deleteItemFromWishlistHandler = async (itemId) => {
+    const token = localStorage.getItem("encodedToken");
+    const response = await axios.delete("/api/user/wishlist/:productId", {
+      headers: {
+        authorization: token,
+      },
+      data: itemId,
+    });
+
+    console.log("delete api integration", response);
+  };
 
   return (
     <div>
@@ -17,7 +47,15 @@ export const MyWishlistPage = () => {
                 <div class="duck-product-card-top">
                   <img class="duck-product-card-img" src={item.img} alt="" />
                   <div class="duck-product-card-badge duck-like-badge duck-like-badge-l">
-                    <i class="duck-like-badge-icon duck-like-badge-icon-l fa-solid fa-heart"></i>
+                    {/* onClicking this heart icon it deleting all item's 
+                    from the wishlist instead of the particular item, we want to delete */}
+                    <i
+                      class="duck-like-badge-icon duck-like-badge-icon-l fa-solid fa-heart"
+                      onClick={() => {
+                        console.log(item.title);
+                        deleteItemFromWishlistHandler(item._id);
+                      }}
+                    ></i>
                   </div>
                 </div>
 

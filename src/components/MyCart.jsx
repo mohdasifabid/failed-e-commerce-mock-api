@@ -2,18 +2,48 @@ import { MyFooter } from "./MyFooter";
 import { MyNavbar } from "./MyNavbar";
 import "./MyCart.css";
 import { useProductProvider } from "./productProvider";
-import MySmallProductCard from "./MySmallProductCard";
+import { useEffect } from "react";
+import axios from "axios";
 export const MyCart = () => {
   const { state, dispatch } = useProductProvider();
+  const totalPrice = state.cart.reduce((a, c) => a + Number(c.price), 0);
 
-  const totalPrice = state.itemsInCart.reduce((a, c) => a + Number(c.price), 0);
+  useEffect(() => {
+    const getCartData = async () => {
+      const token = localStorage.getItem("encodedToken");
+      const response = await axios.get("/api/user/cart", {
+        headers: {
+          authorization: token,
+        },
+      });
+      if (response.status === 200) {
+        dispatch({ type: "CART_DATA", payload: response.data.cart });
+      }
+    };
+    getCartData();
+  }, []);
 
+  const deleteItemFromCartHander = async (product) => {
+    const token = localStorage.getItem("encodedToken");
+    const response = await axios.delete(
+      "/api/user/cart/:productId",
+      {
+        headers: {
+          authorization: token,
+        },
+      },
+      {
+        data: product,
+      }
+    );
+    console.log(response);
+  };
   return (
     <div>
       <MyNavbar />
       <div className="my-cart-page-body-content">
         <div className="my-cart-page-body-content-cards">
-          {state.itemsInCart.map((item) => {
+          {state.cart.map((item) => {
             return (
               <div key={item._id} class="duck-product-card">
                 <div class="duck-product-card-top">
@@ -30,9 +60,10 @@ export const MyCart = () => {
                 <div class="duck-product-card-bottom">
                   <button
                     class="duck-product-card-btn duck-btn duck-btn-solid-l duck-btn-remove-from-cart"
-                    onClick={() =>
-                      dispatch({ type: "REMOVE_FROM_CART", payload: item })
-                    }
+                    onClick={() => {
+                      deleteItemFromCartHander(item._id);
+                      // dispatch({ type: "REMOVE_FROM_CART", payload: item });
+                    }}
                   >
                     Remove from cart
                   </button>
@@ -56,7 +87,7 @@ export const MyCart = () => {
         <div class="duck-bill-card">
           <div class="duck-bill-card-title">Price Details</div>
           <div class="duck-bill-card-price-details">
-            {state.itemsInCart.map((item) => {
+            {state.cart.map((item) => {
               return (
                 <div
                   key={item._id}

@@ -50,6 +50,9 @@
   color: white;
   cursor: pointer;
 }
+.duck-card-product-badge-like:active{
+  color: black;
+}
 
 .duck-card-product-btn {
   width: 100%;

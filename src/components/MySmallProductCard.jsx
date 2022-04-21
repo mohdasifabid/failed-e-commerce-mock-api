@@ -1,15 +1,47 @@
 import "./MySmallProductCard.css";
 import { useProductProvider } from "./productProvider";
 import axios from "axios";
-import { useEffect } from "react";
 
 export default function MySmallProductCard({ item }) {
   const { state, dispatch } = useProductProvider();
   const { img, title, price, author, categoryName } = item;
 
-  const getCartReady = async () => {
-    const response = await axios.get("/api/user/cart");
-    console.log(response);
+  const addToWishlistHandler = async () => {
+    const token = localStorage.getItem("encodedToken");
+
+    const response = await axios.post(
+      "/api/user/wishlist",
+      {
+        product: item,
+      },
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
+    if (response.status === 201) {
+      dispatch({ type: "WISHLIST_DATA", payload: response.data.wishlist });
+    }
+  };
+
+  const addToCartHandler = async () => {
+    const token = localStorage.getItem("encodedToken");
+
+    const response = await axios.post(
+      "/api/user/cart",
+      {
+        product: item,
+      },
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
+    if (response.status === 201) {
+      dispatch({ type: "ADD_TO_CART", payload: response.data.cart });
+    }
   };
 
   return (
@@ -23,22 +55,21 @@ export default function MySmallProductCard({ item }) {
       </p>
       <button
         class="duck-card-product-btn btn-add-to-cart"
-        onClick={() => {
-          dispatch({ type: "ADD_TO_CART", payload: item });
-        }}
+        onClick={addToCartHandler}
       >
         Add to Cart
       </button>
       <button
         class="duck-card-product-btn btn-add-to-wishlist"
-        onClick={() => {
-          dispatch({ type: "ADD_TO_WISHLIST", payload: item });
-        }}
+        onClick={addToWishlistHandler}
       >
         Add to wishlist
       </button>
       <div class="duck-card-product-badge-like-container">
-        <i class="fa-solid fa-heart duck-card-product-badge-like"></i>
+        <i
+          class="fa-solid fa-heart duck-card-product-badge-like"
+          onClick={addToWishlistHandler}
+        ></i>
       </div>
     </div>
   );

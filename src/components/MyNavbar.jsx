@@ -57,7 +57,7 @@ export const MyNavbar = () => {
         <div class="duck-icon-badge">
           <i class="fa-solid fa-cart-shopping duck-icon-badge-icon"></i>
           <p class="duck-icon-badge-content nav-badge-content">
-            {state.itemsInCart.length}
+            {state.cart.length}
           </p>
         </div>
       </Link>

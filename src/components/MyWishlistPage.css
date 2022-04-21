@@ -13,3 +13,6 @@
     gap: 1rem;
     align-items: center;
 }
+.duck-like-badge-icon-l:active{
+    color: white;
+} 

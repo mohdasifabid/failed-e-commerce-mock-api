@@ -10,6 +10,16 @@ const productChooserFunction = (state, action) => {
         ...state,
         products: action.payload,
       };
+    case "WISHLIST_DATA":
+      return {
+        ...state,
+        wishlist: action.payload,
+      };
+    case "CART_DATA":
+      return {
+        ...state,
+        cart: action.payload,
+      };
     case "SHOW_CATEGORY":
       return {
         ...state,
@@ -46,40 +56,33 @@ const productChooserFunction = (state, action) => {
     case "ADD_TO_CART":
       return {
         ...state,
-        itemsInCart: [...state.itemsInCart, action.payload],
+        cart: [...state.cart, action.payload],
       };
     case "REMOVE_FROM_CART":
-      const cart = [...state.itemsInCart];
+      const cart = [...state.cart];
       const updatedCartItems = cart.filter(
         (item) => item.id !== action.payload.id
       );
       return {
         ...state,
-        itemsInCart: updatedCartItems,
+        cart: updatedCartItems,
       };
 
-    case "ADD_TO_WISHLIST":
-      return {
-        ...state,
-        wishlist: [...state.wishlist, action.payload],
-      };
     case "ADD_TO_WISHLIST_FROM_CART":
       return {
         ...state,
-        itemsInCart: [...state.itemsInCart].filter(
-          (item) => item.id !== action.payload.id
-        ),
+        cart: [...state.cart].filter((item) => item.id !== action.payload.id),
         wishlist: [
           ...state.wishlist,
-          ...state.itemsInCart.filter((item) => item.id == action.payload.id),
+          ...state.cart.filter((item) => item.id == action.payload.id),
         ],
       };
 
     case "MOVE_TO_CART_FROM_WISHLIST":
       return {
         ...state,
-        itemsInCart: [
-          ...state.itemsInCart,
+        cart: [
+          ...state.cart,
           ...state.wishlist.filter((item) => item.id === action.payload.id),
         ],
         wishlist: [...state.wishlist].filter(
@@ -97,7 +100,7 @@ const initialState = {
   sortByPriceMeter: false,
   filterByCategoryMeter: [],
   searchByInput: "",
-  itemsInCart: [],
+  cart: [],
   wishlist: [],
 };
 
