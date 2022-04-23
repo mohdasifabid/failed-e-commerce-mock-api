@@ -6,9 +6,8 @@ export default function MySmallProductCard({ item }) {
   const { state, dispatch } = useProductProvider();
   const { img, title, price, author, categoryName } = item;
 
-  const addToWishlistHandler = async () => {
+  const addToWishlistHandler = async (item) => {
     const token = localStorage.getItem("encodedToken");
-
     const response = await axios.post(
       "/api/user/wishlist",
       {
@@ -21,18 +20,29 @@ export default function MySmallProductCard({ item }) {
       }
     );
     if (response.status === 201) {
-      dispatch({ type: "WISHLIST_DATA", payload: response.data.wishlist });
+      const getWishlistData = async () => {
+        const token = localStorage.getItem("encodedToken");
+        const response = await axios.get("/api/user/wishlist", {
+          headers: {
+            authorization: token,
+          },
+        });
+        if (response.status === 200) {
+          dispatch({ type: "WISHLIST_DATA", payload: response.data.wishlist });
+        }
+      };
+      getWishlistData();
+
+      // dispatch({ type: "WISHLIST_DATA", payload: response.data.wishlist });
     }
   };
 
-  const addToCartHandler = async () => {
+  const addToCartHandler = async (item) => {
     const token = localStorage.getItem("encodedToken");
-
     const response = await axios.post(
-      "/api/user/cart",
-      {
-        product: item,
-      },
+      `/api/user/cart`,
+
+      { product: item },
       {
         headers: {
           authorization: token,
@@ -40,7 +50,18 @@ export default function MySmallProductCard({ item }) {
       }
     );
     if (response.status === 201) {
-      dispatch({ type: "ADD_TO_CART", payload: response.data.cart });
+      const getCartData = async () => {
+        const token = localStorage.getItem("encodedToken");
+        const response = await axios.get("/api/user/cart", {
+          headers: {
+            authorization: token,
+          },
+        });
+        if (response.status === 200) {
+          dispatch({ type: "CART_DATA", payload: response.data.cart });
+        }
+      };
+      getCartData();
     }
   };
 
@@ -55,20 +76,20 @@ export default function MySmallProductCard({ item }) {
       </p>
       <button
         class="duck-card-product-btn btn-add-to-cart"
-        onClick={addToCartHandler}
+        onClick={() => addToCartHandler(item)}
       >
         Add to Cart
       </button>
       <button
         class="duck-card-product-btn btn-add-to-wishlist"
-        onClick={addToWishlistHandler}
+        onClick={() => addToWishlistHandler(item)}
       >
         Add to wishlist
       </button>
       <div class="duck-card-product-badge-like-container">
         <i
           class="fa-solid fa-heart duck-card-product-badge-like"
-          onClick={addToWishlistHandler}
+          onClick={() => addToWishlistHandler(item)}
         ></i>
       </div>
     </div>

@@ -12,6 +12,7 @@ import { MySignupPage } from "./components/MySignupPage";
 
 function App() { 
   const {dispatch:authDispatch} = useAuthProvider()
+
    useEffect(()=>{
      const token = localStorage.getItem("encodedToken")
      if(token){
@@ -21,6 +22,7 @@ function App() {
 
      }
    },[])
+   
   return (<div>
     <Routes>
     <Route path="/" element={<MyLandingPage/>} />

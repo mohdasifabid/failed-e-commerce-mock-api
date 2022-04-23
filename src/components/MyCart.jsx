@@ -23,21 +23,85 @@ export const MyCart = () => {
     getCartData();
   }, []);
 
-  const deleteItemFromCartHander = async (product) => {
+  const deleteItemFromCartHandler = async (id) => {
     const token = localStorage.getItem("encodedToken");
-    const response = await axios.delete(
-      "/api/user/cart/:productId",
+    const response = await axios.delete(`/api/user/cart/${id}`, {
+      headers: {
+        authorization: token,
+      },
+    });
+    if (response.status === 200) {
+      const getCartData = async () => {
+        const token = localStorage.getItem("encodedToken");
+        const response = await axios.get("/api/user/cart", {
+          headers: {
+            authorization: token,
+          },
+        });
+        if (response.status === 200) {
+          dispatch({ type: "CART_DATA", payload: response.data.cart });
+        }
+      };
+      getCartData();
+    }
+  };
+
+  const moveItemFromCartToWishlist = async (item) => {
+    const token = localStorage.getItem("encodedToken");
+    // *****Step--1 : post the item to cart using post api
+    const response = await axios.post(
+      "/api/user/wishlist",
+      {
+        product: item,
+      },
       {
         headers: {
           authorization: token,
         },
-      },
-      {
-        data: product,
       }
     );
     console.log(response);
+    // *****Step--2 : now delete this item from cart, using #delete api
+    const deleteItem = async (id) => {
+      const token = localStorage.getItem("encodedToken");
+      const response = await axios.delete(`/api/user/cart/${id}`, {
+        headers: {
+          authorization: token,
+        },
+      });
+      return response;
+    };
+    deleteItem(item._id);
+    // By far both post and delete are working but they are updating on their respective place once we visit that.
+    // So, ***** Step--3 : would involves calling of two function with get api to update the cart & wishlist on run time.
+
+    const getCartData = async () => {
+      const token = localStorage.getItem("encodedToken");
+      const response = await axios.get("/api/user/cart", {
+        headers: {
+          authorization: token,
+        },
+      });
+      if (response.status === 200) {
+        dispatch({ type: "CART_DATA", payload: response.data.cart });
+      }
+    };
+    getCartData();
+
+    const getWishlistData = async () => {
+      const token = localStorage.getItem("encodedToken");
+      const response = await axios.get("/api/user/wishlist", {
+        headers: {
+          authorization: token,
+        },
+      });
+      if (response.status === 200) {
+        dispatch({ type: "WISHLIST_DATA", payload: response.data.wishlist });
+      }
+    };
+    getWishlistData();
   };
+
   return (
     <div>
       <MyNavbar />
@@ -49,7 +113,12 @@ export const MyCart = () => {
                 <div class="duck-product-card-top">
                   <img class="duck-product-card-img" src={item.img} alt="" />
                   <div class="duck-product-card-badge duck-like-badge duck-like-badge-l">
-                    <i class="duck-like-badge-icon duck-like-badge-icon-l fa-solid fa-heart"></i>
+                    <i
+                      class="duck-like-badge-icon duck-like-badge-icon-l fa-solid fa-heart"
+                      onClick={() => {
+                        deleteItemFromCartHandler(item._id);
+                      }}
+                    ></i>
                   </div>
                 </div>
 
@@ -61,22 +130,16 @@ export const MyCart = () => {
                   <button
                     class="duck-product-card-btn duck-btn duck-btn-solid-l duck-btn-remove-from-cart"
                     onClick={() => {
-                      deleteItemFromCartHander(item._id);
-                      // dispatch({ type: "REMOVE_FROM_CART", payload: item });
+                      deleteItemFromCartHandler(item._id);
                     }}
                   >
                     Remove from cart
                   </button>
                   <button
                     class="duck-product-card-btn duck-btn duck-btn-solid-l duck-btn-add-to-wishlist"
-                    onClick={() =>
-                      dispatch({
-                        type: "ADD_TO_WISHLIST_FROM_CART",
-                        payload: item,
-                      })
-                    }
+                    onClick={() => moveItemFromCartToWishlist(item)}
                   >
-                    Add to wishlist
+                    Move to wishlist
                   </button>
                 </div>
               </div>

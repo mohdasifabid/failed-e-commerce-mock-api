@@ -53,42 +53,6 @@ const productChooserFunction = (state, action) => {
         searchByInput: action.payload,
       };
 
-    case "ADD_TO_CART":
-      return {
-        ...state,
-        cart: [...state.cart, action.payload],
-      };
-    case "REMOVE_FROM_CART":
-      const cart = [...state.cart];
-      const updatedCartItems = cart.filter(
-        (item) => item.id !== action.payload.id
-      );
-      return {
-        ...state,
-        cart: updatedCartItems,
-      };
-
-    case "ADD_TO_WISHLIST_FROM_CART":
-      return {
-        ...state,
-        cart: [...state.cart].filter((item) => item.id !== action.payload.id),
-        wishlist: [
-          ...state.wishlist,
-          ...state.cart.filter((item) => item.id == action.payload.id),
-        ],
-      };
-
-    case "MOVE_TO_CART_FROM_WISHLIST":
-      return {
-        ...state,
-        cart: [
-          ...state.cart,
-          ...state.wishlist.filter((item) => item.id === action.payload.id),
-        ],
-        wishlist: [...state.wishlist].filter(
-          (item) => item.id !== action.payload.id
-        ),
-      };
     default:
       return state;
   }
