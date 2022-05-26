@@ -19,6 +19,7 @@ export default function MySmallProductCard({ item }) {
         },
       }
     );
+    console.log(response);
     if (response.status === 201) {
       const getWishlistData = async () => {
         const token = localStorage.getItem("encodedToken");
@@ -33,7 +34,7 @@ export default function MySmallProductCard({ item }) {
       };
       getWishlistData();
 
-      // dispatch({ type: "WISHLIST_DATA", payload: response.data.wishlist });
+      dispatch({ type: "WISHLIST_DATA", payload: response.data.wishlist });
     }
   };
 
