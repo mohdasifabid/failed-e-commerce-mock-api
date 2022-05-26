@@ -9,24 +9,40 @@ export const MyNavbar = () => {
   let navigate = useNavigate();
 
   return (
-    <div className="nav-container">
-      <Link to="/" className="navbar-links">
-        <p className="nav-brand-name">
+    <div className="ec-nav-container">
+      <Link to="/" className="ec-nav-links">
+        <p className="ec-brand-name">
           <strong>B</strong>u<strong>K</strong>art
         </p>
       </Link>
-      <div className="nav-input-container">
-        <input
-          className="nav-input"
-          type="text"
-          placeholder="search here"
-          onChange={(e) =>
-            dispatch({ type: "SEARCH_BY_INPUT", payload: e.target.value })
-          }
-        />
-      </div>
+      <input
+        className="ec-nav-input"
+        type="text"
+        placeholder="search here"
+        onChange={(e) =>
+          dispatch({ type: "SEARCH_BY_INPUT", payload: e.target.value })
+        }
+      />
+
+      <Link to="/wishlist-page" className="ec-nav-links">
+        <div className="duck-icon-badge">
+          <i className="fa-solid fa-heart  navbar-icons"></i>
+          <p className="duck-icon-badge-content navbar-badge-content">
+            {state.wishlist.length}
+          </p>
+        </div>
+      </Link>
+      <Link to="/cart-page" className="ec-nav-links">
+        <div className="duck-icon-badge ec-cart">
+          <i className="fa-solid fa-cart-shopping  navbar-icons"></i>
+          <p className="duck-icon-badge-content navbar-badge-content">
+            {state.cart.length}
+          </p>
+        </div>
+      </Link>
+
       {authState.isLogin ? (
-        <div className="nav-login nav-icon-and-tag">
+        <div className="ec-nav-login ">
           <strong
             onClick={() => {
               authDispatch({ type: "LOGIN_STATUS", payload: false });
@@ -38,29 +54,12 @@ export const MyNavbar = () => {
           </strong>
         </div>
       ) : (
-        <Link to="/login-page" className="navbar-links">
-          <div className="nav-login nav-icon-and-tag">
+        <Link to="/login-page" className="ec-nav-links">
+          <div className="ec-nav-login ">
             <strong>Login</strong>
           </div>
         </Link>
       )}
-
-      <Link to="/wishlist-page" className="navbar-links">
-        <div className="duck-icon-badge">
-          <i className="fa-solid fa-heart duck-icon-badge-icon"></i>
-          <p className="duck-icon-badge-content nav-badge-content">
-            {state.wishlist.length}
-          </p>
-        </div>
-      </Link>
-      <Link to="/cart-page" className="navbar-links">
-        <div className="duck-icon-badge">
-          <i className="fa-solid fa-cart-shopping duck-icon-badge-icon"></i>
-          <p className="duck-icon-badge-content nav-badge-content">
-            {state.cart.length}
-          </p>
-        </div>
-      </Link>
     </div>
   );
 };

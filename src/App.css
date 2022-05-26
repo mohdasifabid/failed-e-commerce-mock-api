@@ -44,33 +44,65 @@
 
 
 /* navbar */
-.nav-container{
-  border-bottom: .125rem solid var(--primary-color);
+.ec-nav-container{
+display: flex;
+justify-content: space-between;
+align-items: center;
+border-bottom: 2px solid var(--primary-color);
+background-color: var(--secondary-color);
+
 }
-.navbar-links{
+.ec-nav-links{
   text-decoration: none;
   color: var(--primary-color);
 }
-.nav-brand-name{
-  font-size: large;
-}
-.nav-login{
-  margin-top: 1rem;
-}
-.nav-input{
-  border-radius: 2rem;
-  height: 2rem;
-  margin-top: .7rem;
-  padding-left: .5rem;
+.ec-brand-name{
+  margin-left: 2rem;
+
 }
 
-.nav-badge-content {
-  background-color: white;
-  color: var(--primary-color);
+.ec-nav-input{
+  border: 1.5px solid var(--primary-color);
+  border-radius: 1rem;
+  padding: .125rem .5rem;
+
+}
+.ec-nav-login{
+cursor: pointer;
+margin-right: 2rem;
+
+}
+
+.navbar-badge-content{
+  font-weight: normal;
+  font-size: xx-small;
+  width: .8rem;
+  height: .8rem;
+  position: absolute;
+  left: 1.1rem;
+  top: -.6rem;
+}
+.navbar-icons{
+  font-size: large;
+  position: relative;
+}
+.duck-icon-badge{
+  margin-bottom: .5rem;
 }
 
 .futer-link{
   color: var(--primary-color);
   cursor: pointer;
   font-size: large;
+}
+
+@media (max-width: 580px) {
+   .ec-nav-input{
+     display: none;
+   }
+}
+@media (max-width: 480px) {
+  .duck-icon-badge{
+    display: none;
+  }
 }
