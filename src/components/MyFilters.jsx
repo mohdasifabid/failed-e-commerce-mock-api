@@ -13,16 +13,17 @@ export const MyFilters = () => {
     })();
   }, []);
   return (
-    <div class="filter-container">
-      <div class="filter-header">
-        <p class="title">FILTER</p>
-        <p class="clear">CLEAR ALL</p>
+    <div className="filter-container">
+      <div className="filter-header">
+        <p className="title">FILTER</p>
+        <p className="clear">CLEAR ALL</p>
       </div>
       <hr />
-      <div class="filter-sort">
+      <div className="filter-sort">
         SORT
-        <label for="">
+        <label htmlFor="lowToHighPriceInput">
           <input
+            id="lowToHighPriceInput"
             type="radio"
             name="sort"
             onChange={() =>
@@ -31,8 +32,9 @@ export const MyFilters = () => {
           />
           Low to high price
         </label>
-        <label for="">
+        <label htmlFor="highToLowPriceInput">
           <input
+            id="highToLowPriceInput"
             type="radio"
             name="sort"
             onChange={() =>
@@ -43,11 +45,11 @@ export const MyFilters = () => {
         </label>
       </div>
       <hr />
-      <div class="filter-category">
+      <div className="filter-category">
         Categories
         {state.categories.map((item) => {
           return (
-            <label for={item.id} key={item._id}>
+            <label htmlFor={item.id} key={item._id}>
               <input
                 id={item.id}
                 name={item.id}
@@ -74,11 +76,3 @@ export const MyFilters = () => {
     </div>
   );
 };
-
-/*
-const removalCategory = [...state.sortByCategory];
-      const indexRemoval = removalCategory.indexOf(action.payload);
-      removalCategory.splice(indexRemoval, 1);
-      console.log(removalCategory);
-      return { ...state, sortByCategory: removalCategory };
-*/

@@ -28,23 +28,23 @@ export const MyLoginPage = () => {
     <div>
       <MyNavbar />
       <div className="my-login-page-body">
-        <div class="login-page">
-          <p class="login-title">LOGIN</p>
+        <div className="login-page">
+          <p className="login-title">LOGIN</p>
           <input
             type="email"
-            class="login-email-input login-inputs"
+            className="login-email-input login-inputs"
             placeholder="Enter your email here"
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
-            class="login-password login-inputs"
+            className="login-password login-inputs"
             placeholder="Enter your password here"
             onChange={(e) => setPassword(e.target.value)}
           />
-          {/* <button class="login-buttons" >Login With Something</button> */}
+          {/* <button className="login-buttons" >Login With Something</button> */}
 
-          <button class="login-buttons" onClick={saveEmailPassword}>
+          <button className="login-buttons" onClick={saveEmailPassword}>
             LOGIN
           </button>
           <Link to="/signup-page">

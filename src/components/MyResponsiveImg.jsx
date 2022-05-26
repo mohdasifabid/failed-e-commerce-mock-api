@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 
 export const MyResponsiveImg = () => {
   return (
-    <div class="duck-square-img-container">
+    <div className="duck-square-img-container">
       <img
-        class="duck-square-img duck-responsive-img"
+        className="duck-square-img duck-responsive-img"
         src="https://images.unsplash.com/photo-1519682337058-a94d519337bc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
         alt=""
       />
-      <Link class="duck-primary-btn-s duck-primary-btn" to="/product-page">
+      <Link className="duck-primary-btn-s duck-primary-btn" to="/product-page">
         Shop Now
       </Link>
     </div>

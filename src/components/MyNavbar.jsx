@@ -9,15 +9,15 @@ export const MyNavbar = () => {
   let navigate = useNavigate();
 
   return (
-    <div class="nav-container">
+    <div className="nav-container">
       <Link to="/" className="navbar-links">
-        <p class="nav-brand-name">
+        <p className="nav-brand-name">
           <strong>B</strong>u<strong>K</strong>art
         </p>
       </Link>
-      <div class="nav-input-container">
+      <div className="nav-input-container">
         <input
-          class="nav-input"
+          className="nav-input"
           type="text"
           placeholder="search here"
           onChange={(e) =>
@@ -26,7 +26,7 @@ export const MyNavbar = () => {
         />
       </div>
       {authState.isLogin ? (
-        <div class="nav-login nav-icon-and-tag">
+        <div className="nav-login nav-icon-and-tag">
           <strong
             onClick={() => {
               authDispatch({ type: "LOGIN_STATUS", payload: false });
@@ -39,24 +39,24 @@ export const MyNavbar = () => {
         </div>
       ) : (
         <Link to="/login-page" className="navbar-links">
-          <div class="nav-login nav-icon-and-tag">
+          <div className="nav-login nav-icon-and-tag">
             <strong>Login</strong>
           </div>
         </Link>
       )}
 
       <Link to="/wishlist-page" className="navbar-links">
-        <div class="duck-icon-badge">
-          <i class="fa-solid fa-heart duck-icon-badge-icon"></i>
-          <p class="duck-icon-badge-content nav-badge-content">
+        <div className="duck-icon-badge">
+          <i className="fa-solid fa-heart duck-icon-badge-icon"></i>
+          <p className="duck-icon-badge-content nav-badge-content">
             {state.wishlist.length}
           </p>
         </div>
       </Link>
       <Link to="/cart-page" className="navbar-links">
-        <div class="duck-icon-badge">
-          <i class="fa-solid fa-cart-shopping duck-icon-badge-icon"></i>
-          <p class="duck-icon-badge-content nav-badge-content">
+        <div className="duck-icon-badge">
+          <i className="fa-solid fa-cart-shopping duck-icon-badge-icon"></i>
+          <p className="duck-icon-badge-content nav-badge-content">
             {state.cart.length}
           </p>
         </div>

@@ -11,6 +11,7 @@ export const MySignupPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
+
   const navigate = useNavigate();
   const saveNewUserInfo = async () => {
     const response = await axios.post("/api/auth/signup", {
@@ -19,6 +20,7 @@ export const MySignupPage = () => {
       password: password,
       confirmedPassword: confirmedPassword,
     });
+
     if (response.status === 201) {
       dispatch({ type: "SIGN_UP_STATUS", payload: true });
       localStorage.setItem("encodedToken", response.data.encodedToken);
@@ -30,36 +32,36 @@ export const MySignupPage = () => {
     <div>
       <MyNavbar />
       <div className="my-login-page-body">
-        <div class="login-page">
-          <p class="login-title">Create new account</p>
+        <div className="login-page">
+          <p className="login-title">Create new account</p>
           <input
             type="text"
-            class="login-email-input login-inputs"
+            className="login-email-input login-inputs"
             placeholder="Enter your name here"
             onChange={(e) => setName(e.target.value)}
           />
           <input
             type="email"
-            class="login-email-input login-inputs"
+            className="login-email-input login-inputs"
             placeholder="Enter your email here"
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
-            class="login-password login-inputs"
+            className="login-password login-inputs"
             placeholder="Enter your password here"
             onChange={(e) => setPassword(e.target.value)}
           />
           <input
             type="password"
-            class="login-password login-inputs"
+            className="login-password login-inputs"
             placeholder="Confirm your password here"
             onChange={(e) => setConfirmedPassword(e.target.value)}
           />
 
-          {/* <button class="login-buttons" >Login With Something</button> */}
+          {/* <button className="login-buttons" >Login With Something</button> */}
 
-          <button class="login-buttons" onClick={saveNewUserInfo}>
+          <button className="login-buttons" onClick={saveNewUserInfo}>
             Signup
           </button>
           <Link to="/login-page">

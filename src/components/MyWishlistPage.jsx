@@ -80,24 +80,28 @@ export const MyWishlistPage = () => {
         <div className="my-wishlist-page-body-content-cards">
           {state.wishlist.map((item) => {
             return (
-              <div key={item._id} class="duck-product-card">
-                <div class="duck-product-card-top">
-                  <img class="duck-product-card-img" src={item.img} alt="" />
-                  <div class="duck-product-card-badge duck-like-badge duck-like-badge-l">
+              <div key={item._id} className="duck-product-card">
+                <div className="duck-product-card-top">
+                  <img
+                    className="duck-product-card-img"
+                    src={item.img}
+                    alt=""
+                  />
+                  <div className="duck-product-card-badge duck-like-badge duck-like-badge-l">
                     <i
-                      class="duck-like-badge-icon duck-like-badge-icon-l fa-solid fa-heart"
+                      className="duck-like-badge-icon duck-like-badge-icon-l fa-solid fa-heart"
                       onClick={() => deleteItemFromWishlistHandler(item._id)}
                     ></i>
                   </div>
                 </div>
 
-                <div class="duck-product-card-middle">
-                  <p class="duck-product-card-title">{item.title}</p>
-                  <p class="duck-product-card-price">{item.price}</p>
+                <div className="duck-product-card-middle">
+                  <p className="duck-product-card-title">{item.title}</p>
+                  <p className="duck-product-card-price">{item.price}</p>
                 </div>
-                <div class="duck-product-card-bottom">
+                <div className="duck-product-card-bottom">
                   <button
-                    class="duck-product-card-btn duck-btn duck-btn-solid-l duck-btn-remove-from-cart"
+                    className="duck-product-card-btn duck-btn duck-btn-solid-l duck-btn-remove-from-cart"
                     onClick={() => moveToCartFromWishlist(item)}
                   >
                     Move to cart

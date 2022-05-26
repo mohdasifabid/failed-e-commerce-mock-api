@@ -66,29 +66,29 @@ export default function MySmallProductCard({ item }) {
   };
 
   return (
-    <div class="duck-card-product-container">
-      <img class="duck-card-product-img" src={img} alt="" />
-      <p class="duck-card-product-title">{title}</p>
-      <p class="duck-card-product-by">{author}</p>
-      <p class="duck-card-product-info">{categoryName}</p>
-      <p class="duck-card-product-price">
+    <div className="duck-card-product-container">
+      <img className="duck-card-product-img" src={img} alt="" />
+      <p className="duck-card-product-title">{title}</p>
+      <p className="duck-card-product-by">{author}</p>
+      <p className="duck-card-product-info">{categoryName}</p>
+      <p className="duck-card-product-price">
         <small>INR</small> <strong>{price}</strong>
       </p>
       <button
-        class="duck-card-product-btn btn-add-to-cart"
+        className="duck-card-product-btn btn-add-to-cart"
         onClick={() => addToCartHandler(item)}
       >
         Add to Cart
       </button>
       <button
-        class="duck-card-product-btn btn-add-to-wishlist"
+        className="duck-card-product-btn btn-add-to-wishlist"
         onClick={() => addToWishlistHandler(item)}
       >
         Add to wishlist
       </button>
-      <div class="duck-card-product-badge-like-container">
+      <div className="duck-card-product-badge-like-container">
         <i
-          class="fa-solid fa-heart duck-card-product-badge-like"
+          className="fa-solid fa-heart duck-card-product-badge-like"
           onClick={() => addToWishlistHandler(item)}
         ></i>
       </div>

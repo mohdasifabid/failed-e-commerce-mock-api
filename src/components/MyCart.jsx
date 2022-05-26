@@ -109,12 +109,16 @@ export const MyCart = () => {
         <div className="my-cart-page-body-content-cards">
           {state.cart.map((item) => {
             return (
-              <div key={item._id} class="duck-product-card">
-                <div class="duck-product-card-top">
-                  <img class="duck-product-card-img" src={item.img} alt="" />
-                  <div class="duck-product-card-badge duck-like-badge duck-like-badge-l">
+              <div key={item._id} className="duck-product-card">
+                <div className="duck-product-card-top">
+                  <img
+                    className="duck-product-card-img"
+                    src={item.img}
+                    alt=""
+                  />
+                  <div className="duck-product-card-badge duck-like-badge duck-like-badge-l">
                     <i
-                      class="duck-like-badge-icon duck-like-badge-icon-l fa-solid fa-heart"
+                      className="duck-like-badge-icon duck-like-badge-icon-l fa-solid fa-heart"
                       onClick={() => {
                         deleteItemFromCartHandler(item._id);
                       }}
@@ -122,13 +126,13 @@ export const MyCart = () => {
                   </div>
                 </div>
 
-                <div class="duck-product-card-middle">
-                  <p class="duck-product-card-title">{item.title}</p>
-                  <p class="duck-product-card-price">{item.price}</p>
+                <div className="duck-product-card-middle">
+                  <p className="duck-product-card-title">{item.title}</p>
+                  <p className="duck-product-card-price">{item.price}</p>
                 </div>
-                <div class="duck-product-card-bottom">
+                <div className="duck-product-card-bottom">
                   <button
-                    class="duck-product-card-btn duck-btn duck-btn-solid-l duck-btn-remove-from-cart"
+                    className="duck-product-card-btn duck-btn duck-btn-solid-l duck-btn-remove-from-cart"
                     onClick={() => {
                       deleteItemFromCartHandler(item._id);
                     }}
@@ -136,7 +140,7 @@ export const MyCart = () => {
                     Remove from cart
                   </button>
                   <button
-                    class="duck-product-card-btn duck-btn duck-btn-solid-l duck-btn-add-to-wishlist"
+                    className="duck-product-card-btn duck-btn duck-btn-solid-l duck-btn-add-to-wishlist"
                     onClick={() => moveItemFromCartToWishlist(item)}
                   >
                     Move to wishlist
@@ -147,14 +151,14 @@ export const MyCart = () => {
           })}
         </div>
 
-        <div class="duck-bill-card">
-          <div class="duck-bill-card-title">Price Details</div>
-          <div class="duck-bill-card-price-details">
+        <div className="duck-bill-card">
+          <div className="duck-bill-card-title">Price Details</div>
+          <div className="duck-bill-card-price-details">
             {state.cart.map((item) => {
               return (
                 <div
                   key={item._id}
-                  class="duck-bill-card-price-details-content"
+                  className="duck-bill-card-price-details-content"
                 >
                   <p>{item.title}</p>
                   <p>{item.price}</p>
@@ -162,14 +166,14 @@ export const MyCart = () => {
               );
             })}
           </div>
-          <div class="duck-bill-card-total-amount">
+          <div className="duck-bill-card-total-amount">
             <p>TOTAL AMOUNT</p>
             <p>{totalPrice}</p>
           </div>
-          <div class="duck-bill-card-saving-info">
+          <div className="duck-bill-card-saving-info">
             You will save Rs1999 on this order
           </div>
-          <button class="duck-bill-card-btn duck-btn duck-btn-solid-l">
+          <button className="duck-bill-card-btn duck-btn duck-btn-solid-l">
             Place Order{" "}
           </button>
         </div>
