@@ -20,22 +20,22 @@ export default function MySmallProductCard({ item }) {
       }
     );
     console.log(response);
-    if (response.status === 201) {
-      const getWishlistData = async () => {
-        const token = localStorage.getItem("encodedToken");
-        const response = await axios.get("/api/user/wishlist", {
-          headers: {
-            authorization: token,
-          },
-        });
-        if (response.status === 200) {
-          dispatch({ type: "WISHLIST_DATA", payload: response.data.wishlist });
-        }
-      };
-      getWishlistData();
+    // if (response.status === 201) {
+    //   const getWishlistData = async () => {
+    //     const token = localStorage.getItem("encodedToken");
+    //     const response = await axios.get("/api/user/wishlist", {
+    //       headers: {
+    //         authorization: token,
+    //       },
+    //     });
+    //     if (response.status === 200) {
+    //       dispatch({ type: "WISHLIST_DATA", payload: response.data.wishlist });
+    //     }
+    //   };
+    //   getWishlistData();
 
-      dispatch({ type: "WISHLIST_DATA", payload: response.data.wishlist });
-    }
+    //   dispatch({ type: "WISHLIST_DATA", payload: response.data.wishlist });
+    // }
   };
 
   const addToCartHandler = async (item) => {
