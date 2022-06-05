@@ -4,23 +4,14 @@ import "./MyCart.css";
 import { useProductProvider } from "./productProvider";
 import { useEffect } from "react";
 import axios from "axios";
+import { getCall } from "./ReusableFunctions";
 export const MyCart = () => {
   const { state, dispatch } = useProductProvider();
   const totalPrice = state.cart.reduce((a, c) => a + Number(c.price), 0);
 
-  useEffect(() => {
-    const getCartData = async () => {
-      const token = localStorage.getItem("encodedToken");
-      const response = await axios.get("/api/user/cart", {
-        headers: {
-          authorization: token,
-        },
-      });
-      if (response.status === 200) {
-        dispatch({ type: "CART_DATA", payload: response.data.cart });
-      }
-    };
-    getCartData();
+  useEffect(async () => {
+    const data = await getCall("/api/user/cart");
+    dispatch({ type: "CART_DATA", payload: data.cart });
   }, []);
 
   const deleteItemFromCartHandler = async (id) => {
