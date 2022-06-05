@@ -1,11 +1,10 @@
-import axios from "axios";
 import { useEffect } from "react";
-import { MyFilters } from "./MyFilters";
 import { MyFooter } from "./MyFooter";
 import { MyNavbar } from "./MyNavbar";
+import { MyFilters } from "./MyFilters";
+import { getCall } from "./ReusableFunctions";
 import MySmallProductCard from "./MySmallProductCard";
 import { useProductProvider } from "./productProvider";
-import { getCall } from "./ReusableFunctions";
 
 export const MyProductPage = () => {
   const { state, dispatch } = useProductProvider();
