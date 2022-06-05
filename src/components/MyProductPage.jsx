@@ -56,7 +56,9 @@ export const MyProductPage = () => {
     <div>
       <MyNavbar />
       <div className="my-product-page-body-content">
-        <MyFilters />
+        <div className="my-product-page-filters-container">
+          <MyFilters />
+        </div>
         <div className="my-product-page-small-cards">
           {filterByCategoryArray.map((item) => {
             return <MySmallProductCard item={item} key={item._id} />;
