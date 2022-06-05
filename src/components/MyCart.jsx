@@ -1,12 +1,12 @@
+import "./MyCart.css";
+import { useEffect } from "react";
 import { MyFooter } from "./MyFooter";
 import { MyNavbar } from "./MyNavbar";
-import "./MyCart.css";
 import { useProductProvider } from "./productProvider";
-import { useEffect } from "react";
-import axios from "axios";
-import { deleteCall, getCall } from "./ReusableFunctions";
+import { deleteCall, getCall, postCall } from "./ReusableFunctions";
 export const MyCart = () => {
   const { state, dispatch } = useProductProvider();
+
   const totalPrice = state.cart.reduce((a, c) => a + Number(c.price), 0);
 
   useEffect(async () => {
@@ -20,59 +20,12 @@ export const MyCart = () => {
   };
 
   const moveItemFromCartToWishlist = async (item) => {
-    const token = localStorage.getItem("encodedToken");
-    // *****Step--1 : post the item to cart using post api
-    const response = await axios.post(
-      "/api/user/wishlist",
-      {
-        product: item,
-      },
-      {
-        headers: {
-          authorization: token,
-        },
-      }
-    );
-    console.log(response);
-    // *****Step--2 : now delete this item from cart, using #delete api
-    const deleteItem = async (id) => {
-      const token = localStorage.getItem("encodedToken");
-      const response = await axios.delete(`/api/user/cart/${id}`, {
-        headers: {
-          authorization: token,
-        },
-      });
-      return response;
-    };
-    deleteItem(item._id);
-    // By far both post and delete are working but they are updating on their respective place once we visit that.
-    // So, ***** Step--3 : would involves calling of two function with get api to update the cart & wishlist on run time.
-
-    const getCartData = async () => {
-      const token = localStorage.getItem("encodedToken");
-      const response = await axios.get("/api/user/cart", {
-        headers: {
-          authorization: token,
-        },
-      });
-      if (response.status === 200) {
-        dispatch({ type: "CART_DATA", payload: response.data.cart });
-      }
-    };
-    getCartData();
-
-    const getWishlistData = async () => {
-      const token = localStorage.getItem("encodedToken");
-      const response = await axios.get("/api/user/wishlist", {
-        headers: {
-          authorization: token,
-        },
-      });
-      if (response.status === 200) {
-        dispatch({ type: "WISHLIST_DATA", payload: response.data.wishlist });
-      }
-    };
-    getWishlistData();
+    const wishlistData = await postCall("/api/user/wishlist", {
+      product: item,
+    });
+    dispatch({ type: "WISHLIST_DATA", payload: wishlistData.wishlist });
+    const cartData = await deleteCall(`/api/user/cart/${item._id}`);
+    dispatch({ type: "CART_DATA", payload: cartData.cart });
   };
 
   return (
