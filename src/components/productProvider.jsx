@@ -20,7 +20,7 @@ const productChooserFunction = (state, action) => {
         ...state,
         cart: action.payload,
       };
-    case "SHOW_CATEGORY":
+    case "GET_CATEGORY":
       return {
         ...state,
         categories: action.payload,

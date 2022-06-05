@@ -1,16 +1,12 @@
-import axios from "axios";
 import { useEffect } from "react";
 import { useProductProvider } from "./productProvider";
+import { getCall } from "./ReusableFunctions";
 
 export const MyFilters = () => {
-  const { state, dispatch, sortedByPriceArray } = useProductProvider();
-  useEffect(() => {
-    (async function getData() {
-      const response = await axios.get("api/categories");
-      if (response.status === 200 || response.status === 201) {
-        dispatch({ type: "SHOW_CATEGORY", payload: response.data.categories });
-      }
-    })();
+  const { state, dispatch } = useProductProvider();
+  useEffect(async () => {
+    const data = await getCall("api/categories");
+    dispatch({ type: "GET_CATEGORY", payload: data.categories });
   }, []);
   return (
     <div className="filter-container">
