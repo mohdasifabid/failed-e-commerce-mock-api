@@ -46,7 +46,7 @@ export const MyNavbar = () => {
           <strong
             onClick={() => {
               authDispatch({ type: "LOGIN_STATUS", payload: false });
-              // localStorage.removeItem("encodedToken");
+              localStorage.removeItem("encodedToken");
               navigate("/login-page");
             }}
           >
