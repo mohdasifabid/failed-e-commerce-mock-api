@@ -22,3 +22,14 @@ export const postCall = async (endPoint, requestBody) => {
     return response.data;
   }
 };
+
+export const deleteCall = async (endPoint) => {
+  const response = await axios.delete(endPoint, {
+    headers: {
+      authorization: token,
+    },
+  });
+  if (response.status === 201 || response.status === 200) {
+    return response.data;
+  }
+};
