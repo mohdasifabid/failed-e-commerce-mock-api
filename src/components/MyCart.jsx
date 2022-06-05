@@ -4,7 +4,7 @@ import "./MyCart.css";
 import { useProductProvider } from "./productProvider";
 import { useEffect } from "react";
 import axios from "axios";
-import { getCall } from "./ReusableFunctions";
+import { deleteCall, getCall } from "./ReusableFunctions";
 export const MyCart = () => {
   const { state, dispatch } = useProductProvider();
   const totalPrice = state.cart.reduce((a, c) => a + Number(c.price), 0);
@@ -15,26 +15,8 @@ export const MyCart = () => {
   }, []);
 
   const deleteItemFromCartHandler = async (id) => {
-    const token = localStorage.getItem("encodedToken");
-    const response = await axios.delete(`/api/user/cart/${id}`, {
-      headers: {
-        authorization: token,
-      },
-    });
-    if (response.status === 200) {
-      const getCartData = async () => {
-        const token = localStorage.getItem("encodedToken");
-        const response = await axios.get("/api/user/cart", {
-          headers: {
-            authorization: token,
-          },
-        });
-        if (response.status === 200) {
-          dispatch({ type: "CART_DATA", payload: response.data.cart });
-        }
-      };
-      getCartData();
-    }
+    const data = await deleteCall(`/api/user/cart/${id}`);
+    dispatch({ type: "CART_DATA", payload: data.cart });
   };
 
   const moveItemFromCartToWishlist = async (item) => {
