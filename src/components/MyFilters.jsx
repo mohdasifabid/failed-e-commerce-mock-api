@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { useProductProvider } from "./productProvider";
 import { getCall } from "./ReusableFunctions";
+import { useProductProvider } from "./productProvider";
 
 export const MyFilters = () => {
   const { state, dispatch } = useProductProvider();
@@ -8,6 +8,7 @@ export const MyFilters = () => {
     const data = await getCall("api/categories");
     dispatch({ type: "GET_CATEGORY", payload: data.categories });
   }, []);
+
   return (
     <div className="filter-container">
       <div className="filter-header">
