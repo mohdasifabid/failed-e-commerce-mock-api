@@ -5,16 +5,13 @@ import { MyFooter } from "./MyFooter";
 import { MyNavbar } from "./MyNavbar";
 import MySmallProductCard from "./MySmallProductCard";
 import { useProductProvider } from "./productProvider";
+import { getCall } from "./ReusableFunctions";
 
 export const MyProductPage = () => {
   const { state, dispatch } = useProductProvider();
-  useEffect(() => {
-    (async function getData() {
-      const response = await axios.get("api/products");
-      if (response.status === 200 || response.status === 201) {
-        dispatch({ type: "SHOW_PRODUCT", payload: response.data.products });
-      }
-    })();
+  useEffect(async () => {
+    let data = await getCall("api/products");
+    dispatch({ type: "GET_PRODUCT", payload: data.products });
   }, []);
 
   const sortByPriceFunction = (ourData, sortMeter) => {
