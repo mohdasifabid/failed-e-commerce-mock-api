@@ -1,27 +1,21 @@
-import axios from "axios";
 import { useState } from "react";
 import { MyFooter } from "./MyFooter";
 import { MyNavbar } from "./MyNavbar";
+import { postCall } from "./ReusableFunctions";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuthProvider } from "./authProvider";
 
 export const MyLoginPage = () => {
-  const { state, dispatch } = useAuthProvider();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   let navigate = useNavigate();
 
   const saveEmailPassword = async () => {
-    const response = await axios.post("/api/auth/login", {
+    let data = await postCall("/api/auth/login", {
       email: email,
       password: password,
     });
-
-    if (response.status === 200) {
-      dispatch({ type: "LOGIN_STATUS", payload: true });
-      localStorage.setItem("encodedToken", response.data.encodedToken);
-      navigate("/product-page");
-    }
+    localStorage.setItem("encodedToken", data.encodedToken);
+    navigate("/product-page");
   };
 
   return (
@@ -42,7 +36,6 @@ export const MyLoginPage = () => {
             placeholder="Enter your password here"
             onChange={(e) => setPassword(e.target.value)}
           />
-          {/* <button className="login-buttons" >Login With Something</button> */}
 
           <button className="login-buttons" onClick={saveEmailPassword}>
             LOGIN

@@ -11,7 +11,7 @@ import { PrivateRoute } from "./components/PrivateRoute";
 import { MySignupPage } from "./components/MySignupPage";
 
 function App() { 
-  const {dispatch:authDispatch} = useAuthProvider()
+  const {dispatch:authDispatch, state:authState} = useAuthProvider()
 
    useEffect(()=>{
      const token = localStorage.getItem("encodedToken")
@@ -19,14 +19,17 @@ function App() {
       authDispatch({type: "LOGIN_STATUS", payload: true}) 
      } else {
       authDispatch({type: "LOGIN_STATUS", payload: false})  
-
      }
    },[])
    
   return (<div>
     <Routes>
     <Route path="/" element={<MyLandingPage/>} />
-    <Route path="/login-page" element={<MyLoginPage/>} />
+    
+    {
+    authState.isLogin ? <Route path="/login-page" element={<MyProductPage/>} /> : <Route path="/login-page" element={<MyLoginPage/>} />
+    }
+
     <Route path="/product-page" element={<MyProductPage/>} />
     <Route path="/signup-page" element={<MySignupPage/>} />
 
