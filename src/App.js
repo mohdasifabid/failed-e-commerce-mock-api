@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { useAuthProvider } from "./components/authProvider";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { MySignupPage } from "./components/MySignupPage";
+import { MyAddressPage } from "./components/MyAddressPage";
 
 function App() { 
   const {dispatch:authDispatch, state:authState} = useAuthProvider()
@@ -25,6 +26,7 @@ function App() {
   return (<div>
     <Routes>
     <Route path="/" element={<MyLandingPage/>} />
+    <Route path="/address" element={<MyAddressPage/>} />
     
     {
     authState.isLogin ? <Route path="/login-page" element={<MyProductPage/>} /> : <Route path="/login-page" element={<MyLoginPage/>} />

@@ -1,0 +1,78 @@
+.my-address-page{
+    font-size: small;
+    
+}  
+.delievery-addresses-container{
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    width: 342px;
+}
+.delievery-addresses-container h4{
+    margin-bottom: .25rem;
+}
+.delievery-address-card{
+    border: 1px solid var(--primary-color);
+    width: 341px;
+    padding: .5rem ;
+    margin-bottom: .5rem;
+}
+.delievery-address-card p{
+    margin-top: 0;
+    margin-left: 1.75rem;
+}
+.delievery-address-card label{
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+.address-form{
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+.address-form div{
+    display: flex;
+    gap: 1rem;
+}
+.address-input{
+    width: 326px;
+    padding: .5rem 1rem;
+    border: 1px solid var(--secondary-color);
+    outline: none;
+}
+.address-input:focus{
+    border-color: 1px solid black;
+}
+.address-form div input{
+   padding: .25rem;
+   border: 1px solid var(--secondary-color);
+   outline: none;
+}
+.address-form div input:focus {
+    border: 1px solid var(--primary-color);
+}
+
+.address-form-radio-btns-container{
+   display: flex;
+   margin-bottom: 1rem;
+}
+.address-form-radio-btns-container label{
+    width: 170px;
+    display: flex;
+    align-items: center;
+}
+.address-form-btns-container {
+    width: 360px;
+}
+.address-form-btns-container button {
+    padding: .25rem .5rem;
+    width: 100%;
+    border-radius: 0;
+    border: 1px solid var(--secondary-color);
+    cursor: pointer;
+}
+.address-form-btns-container button:active{
+    border: 1px solid var(--primary-color);
+}
