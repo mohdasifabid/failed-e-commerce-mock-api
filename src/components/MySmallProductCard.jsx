@@ -1,64 +1,19 @@
 import "./MySmallProductCard.css";
 import { useProductProvider } from "./productProvider";
-import axios from "axios";
+import { postCall } from "./ReusableFunctions";
 
 export default function MySmallProductCard({ item }) {
-  const { state, dispatch } = useProductProvider();
+  const { dispatch } = useProductProvider();
   const { img, title, price, author, categoryName } = item;
 
   const addToWishlistHandler = async (item) => {
-    const token = localStorage.getItem("encodedToken");
-    const response = await axios.post(
-      "/api/user/wishlist",
-      { product: item },
-      {
-        headers: {
-          authorization: token,
-        },
-      }
-    );
-    if (response.status === 201) {
-      const getWishlistData = async () => {
-        const token = localStorage.getItem("encodedToken");
-        const response = await axios.get("/api/user/wishlist", {
-          headers: {
-            authorization: token,
-          },
-        });
-        if (response.status === 200) {
-          dispatch({ type: "WISHLIST_DATA", payload: response.data.wishlist });
-        }
-      };
-      getWishlistData();
-    }
+    const data = await postCall("/api/user/wishlist", { product: item });
+    dispatch({ type: "WISHLIST_DATA", payload: data.wishlist });
   };
 
   const addToCartHandler = async (item) => {
-    const token = localStorage.getItem("encodedToken");
-    const response = await axios.post(
-      `/api/user/cart`,
-
-      { product: item },
-      {
-        headers: {
-          authorization: token,
-        },
-      }
-    );
-    if (response.status === 201) {
-      const getCartData = async () => {
-        const token = localStorage.getItem("encodedToken");
-        const response = await axios.get("/api/user/cart", {
-          headers: {
-            authorization: token,
-          },
-        });
-        if (response.status === 200) {
-          dispatch({ type: "CART_DATA", payload: response.data.cart });
-        }
-      };
-      getCartData();
-    }
+    const data = await postCall("/api/user/cart", { product: item });
+    dispatch({ type: "CART_DATA", payload: data.cart });
   };
 
   return (
