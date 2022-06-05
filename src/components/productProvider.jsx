@@ -5,7 +5,7 @@ const useProductProvider = () => useContext(ProductContext);
 
 const productChooserFunction = (state, action) => {
   switch (action.type) {
-    case "SHOW_PRODUCT":
+    case "GET_PRODUCT":
       return {
         ...state,
         products: action.payload,
