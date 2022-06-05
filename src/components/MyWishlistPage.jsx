@@ -1,10 +1,9 @@
+import "./MyWishlistPage.css";
 import { useEffect } from "react";
 import { MyFooter } from "./MyFooter";
 import { MyNavbar } from "./MyNavbar";
-import "./MyWishlistPage.css";
 import { useProductProvider } from "./productProvider";
-import axios from "axios";
-import { deleteCall, getCall } from "./ReusableFunctions";
+import { deleteCall, getCall, postCall } from "./ReusableFunctions";
 
 export const MyWishlistPage = () => {
   const { state, dispatch } = useProductProvider();
@@ -19,43 +18,11 @@ export const MyWishlistPage = () => {
   };
 
   const moveToCartFromWishlist = async (item) => {
-    const token = localStorage.getItem("encodedToken");
-    const response = await axios.post(
-      `/api/user/cart`,
+    const cartData = await postCall(`/api/user/cart`, { product: item });
+    dispatch({ type: "CART_DATA", payload: cartData.cart });
 
-      { product: item },
-      {
-        headers: {
-          authorization: token,
-        },
-      }
-    );
-    deleteItemFromWishlistHandler(item._id);
-
-    const getWishlistData = async () => {
-      const token = localStorage.getItem("encodedToken");
-      const response = await axios.get("/api/user/wishlist", {
-        headers: {
-          authorization: token,
-        },
-      });
-      if (response.status === 200) {
-        dispatch({ type: "WISHLIST_DATA", payload: response.data.wishlist });
-      }
-    };
-    getWishlistData();
-    const getCartData = async () => {
-      const token = localStorage.getItem("encodedToken");
-      const response = await axios.get("/api/user/cart", {
-        headers: {
-          authorization: token,
-        },
-      });
-      if (response.status === 200) {
-        dispatch({ type: "CART_DATA", payload: response.data.cart });
-      }
-    };
-    getCartData();
+    const wishlistData = await deleteCall(`/api/user/wishlist/${item._id}`);
+    dispatch({ type: "WISHLIST_DATA", payload: wishlistData.wishlist });
   };
 
   return (
