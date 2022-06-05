@@ -4,7 +4,7 @@ import { MyNavbar } from "./MyNavbar";
 import "./MyWishlistPage.css";
 import { useProductProvider } from "./productProvider";
 import axios from "axios";
-import { getCall } from "./ReusableFunctions";
+import { deleteCall, getCall } from "./ReusableFunctions";
 
 export const MyWishlistPage = () => {
   const { state, dispatch } = useProductProvider();
@@ -14,15 +14,10 @@ export const MyWishlistPage = () => {
   }, []);
 
   const deleteItemFromWishlistHandler = async (itemId) => {
-    const token = localStorage.getItem("encodedToken");
-    const response = await axios.delete(`/api/user/wishlist/${itemId}`, {
-      headers: {
-        authorization: token,
-      },
-      data: itemId,
-    });
-    return response;
+    const data = await deleteCall(`/api/user/wishlist/${itemId}`);
+    dispatch({ type: "WISHLIST_DATA", payload: data.wishlist });
   };
+
   const moveToCartFromWishlist = async (item) => {
     const token = localStorage.getItem("encodedToken");
     const response = await axios.post(
