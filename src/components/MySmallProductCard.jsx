@@ -10,9 +10,7 @@ export default function MySmallProductCard({ item }) {
     const token = localStorage.getItem("encodedToken");
     const response = await axios.post(
       "/api/user/wishlist",
-      {
-        product: item,
-      },
+      { product: item },
       {
         headers: {
           authorization: token,
