@@ -1,31 +1,26 @@
-import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { MyFooter } from "./MyFooter";
 import { MyNavbar } from "./MyNavbar";
-import axios from "axios";
+import { postCall } from "./ReusableFunctions";
 import { useAuthProvider } from "./authProvider";
+import { Link, useNavigate } from "react-router-dom";
 
 export const MySignupPage = () => {
-  const { state, dispatch } = useAuthProvider();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
-
   const navigate = useNavigate();
+
   const saveNewUserInfo = async () => {
-    const response = await axios.post("/api/auth/signup", {
+    const data = await postCall("/api/auth/signup", {
       name: name,
       email: email,
       password: password,
       confirmedPassword: confirmedPassword,
     });
-
-    if (response.status === 201) {
-      dispatch({ type: "SIGN_UP_STATUS", payload: true });
-      localStorage.setItem("encodedToken", response.data.encodedToken);
-      navigate("/login-page");
-    }
+    localStorage.setItem("encodedToken", data.encodedToken);
+    navigate("/login-page");
   };
 
   return (
@@ -58,8 +53,6 @@ export const MySignupPage = () => {
             placeholder="Confirm your password here"
             onChange={(e) => setConfirmedPassword(e.target.value)}
           />
-
-          {/* <button className="login-buttons" >Login With Something</button> */}
 
           <button className="login-buttons" onClick={saveNewUserInfo}>
             Signup
