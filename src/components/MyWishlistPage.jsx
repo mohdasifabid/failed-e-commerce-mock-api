@@ -4,22 +4,13 @@ import { MyNavbar } from "./MyNavbar";
 import "./MyWishlistPage.css";
 import { useProductProvider } from "./productProvider";
 import axios from "axios";
+import { getCall } from "./ReusableFunctions";
 
 export const MyWishlistPage = () => {
   const { state, dispatch } = useProductProvider();
-  useEffect(() => {
-    const getWishlistData = async () => {
-      const token = localStorage.getItem("encodedToken");
-      const response = await axios.get("/api/user/wishlist", {
-        headers: {
-          authorization: token,
-        },
-      });
-      if (response.status === 200) {
-        dispatch({ type: "WISHLIST_DATA", payload: response.data.wishlist });
-      }
-    };
-    getWishlistData();
+  useEffect(async () => {
+    const data = await getCall("/api/user/wishlist");
+    dispatch({ type: "WISHLIST_DATA", payload: data.wishlist });
   }, []);
 
   const deleteItemFromWishlistHandler = async (itemId) => {
