@@ -54,6 +54,7 @@ export const addNewAddressHandler = function (schema, request) {
       updatedAt: formatDate(),
       _id: uuid(),
     });
+
     this.db.users.update({ _id: userId }, { address: userAddresses });
     return new Response(201, {}, { address: userAddresses });
   } catch (error) {
