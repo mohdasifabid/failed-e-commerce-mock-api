@@ -1,6 +1,6 @@
 import "./MySmallProductCard.css";
-import { useProductProvider } from "./productProvider";
 import { postCall } from "./ReusableFunctions";
+import { useProductProvider } from "./productProvider";
 
 export default function MySmallProductCard({ item }) {
   const { dispatch } = useProductProvider();

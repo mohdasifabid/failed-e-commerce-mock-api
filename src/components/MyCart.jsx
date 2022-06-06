@@ -4,6 +4,7 @@ import { MyFooter } from "./MyFooter";
 import { MyNavbar } from "./MyNavbar";
 import { useProductProvider } from "./productProvider";
 import { deleteCall, getCall, postCall } from "./ReusableFunctions";
+
 export const MyCart = () => {
   const { state, dispatch } = useProductProvider();
 
