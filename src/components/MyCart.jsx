@@ -4,9 +4,11 @@ import { MyFooter } from "./MyFooter";
 import { MyNavbar } from "./MyNavbar";
 import { useProductProvider } from "./productProvider";
 import { deleteCall, getCall, postCall } from "./ReusableFunctions";
+import { useNavigate } from "react-router-dom";
 
 export const MyCart = () => {
   const { state, dispatch } = useProductProvider();
+  const navigate = useNavigate();
 
   const totalPrice = state.cart.reduce((a, c) => a + Number(c.price), 0);
 
@@ -100,8 +102,11 @@ export const MyCart = () => {
           <div className="duck-bill-card-saving-info">
             You will save Rs1999 on this order
           </div>
-          <button className="duck-bill-card-btn duck-btn duck-btn-solid-l">
-            Place Order{" "}
+          <button
+            className="duck-bill-card-btn duck-btn duck-btn-solid-l"
+            onClick={() => navigate("/address")}
+          >
+            Place Order
           </button>
         </div>
       </div>
