@@ -1,6 +1,13 @@
 import "./MyAddressPage.css";
+import { useEffect, useState } from "react";
+import { getCall } from "./ReusableFunctions";
 
 export const MyAddressPage = () => {
+  const [address, setAddress] = useState({});
+  useEffect(async () => {
+    const data = await getCall("/api/user/addresses");
+    setAddress(data);
+  }, []);
   return (
     <div className="my-address-page">
       <div className="delievery-addresses-container">
