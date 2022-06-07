@@ -31,6 +31,22 @@ export const MyCart = () => {
     dispatch({ type: "CART_DATA", payload: cartData.cart });
   };
 
+  const increaseQuantity = async (itemId) => {
+    const data = await postCall(`/api/user/cart/${itemId}`, {
+      action: {
+        type: "increment",
+      },
+    });
+    dispatch({ type: "CART_DATA", payload: data.cart });
+  };
+  const decreaseQuantity = async (itemId) => {
+    const data = await postCall(`/api/user/cart/${itemId}`, {
+      action: {
+        type: "decrement",
+      },
+    });
+    dispatch({ type: "CART_DATA", payload: data.cart });
+  };
   return (
     <div>
       <MyNavbar />
@@ -113,7 +129,7 @@ export const MyCart = () => {
       {/*  */}
       {state.cart.map((item) => {
         return (
-          <div className="ls-card">
+          <div className="ls-card" key={item._id}>
             <div className="ls-card-leftside">
               <img src={item.img} alt="" className="ls-card-img" />
               <div>
@@ -122,9 +138,19 @@ export const MyCart = () => {
                   <small>Price: {item.price}</small>
                 </p>
                 <div className="ls-card-quantity-manager">
-                  <button className="quantity-manager-child">-</button>
-                  <span className="quantity-manager-child">2</span>
-                  <button className="quantity-manager-child">+</button>
+                  <button
+                    className="quantity-manager-child"
+                    onClick={() => decreaseQuantity(item._id)}
+                  >
+                    -
+                  </button>
+                  <span className="quantity-manager-child">{item.qty}</span>
+                  <button
+                    className="quantity-manager-child"
+                    onClick={() => increaseQuantity(item._id)}
+                  >
+                    +
+                  </button>
                 </div>
                 <button
                   className="ls-card-btn"
