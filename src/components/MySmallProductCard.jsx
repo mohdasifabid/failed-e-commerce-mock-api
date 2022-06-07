@@ -7,12 +7,16 @@ export default function MySmallProductCard({ item }) {
   const { dispatch } = useProductProvider();
   const { img, title, price, author, categoryName } = item;
   const [isInCart, setIsInCart] = useState(false);
+  const [isInWishlist, setIsInWishlist] = useState(false);
 
   const addToWishlistHandler = async (item) => {
     const data = await postCall("/api/user/wishlist", { product: item });
     dispatch({ type: "WISHLIST_DATA", payload: data.wishlist });
   };
-
+  const deleteFromWishlistHandler = async (itemId) => {
+    const data = await deleteCall(`/api/user/wishlist/${itemId}`);
+    dispatch({ type: "WISHLIST_DATA", payload: data.wishlist });
+  };
   const addToCartHandler = async (item) => {
     const data = await postCall("/api/user/cart", { product: item });
     dispatch({ type: "CART_DATA", payload: data.cart });
@@ -54,17 +58,46 @@ export default function MySmallProductCard({ item }) {
         </button>
       )}
 
-      <button
-        className="duck-card-product-btn btn-add-to-wishlist"
-        onClick={() => addToWishlistHandler(item)}
-      >
-        Add to wishlist
-      </button>
+      {isInWishlist ? (
+        <button
+          className="duck-card-product-btn btn-add-to-wishlist"
+          onClick={() => {
+            deleteFromWishlistHandler(item._id);
+            setIsInWishlist(false);
+          }}
+        >
+          Remove from wishlist
+        </button>
+      ) : (
+        <button
+          className="duck-card-product-btn btn-add-to-wishlist"
+          onClick={() => {
+            addToWishlistHandler(item);
+            setIsInWishlist(true);
+          }}
+        >
+          Add to wishlist
+        </button>
+      )}
       <div className="duck-card-product-badge-like-container">
-        <i
-          className="fa-solid fa-heart duck-card-product-badge-like"
-          onClick={() => addToWishlistHandler(item)}
-        ></i>
+        {isInWishlist ? (
+          <i
+            style={{ color: "gray" }}
+            className="fa-solid fa-heart duck-card-product-badge-like"
+            onClick={() => {
+              deleteFromWishlistHandler(item._id);
+              setIsInWishlist(false);
+            }}
+          ></i>
+        ) : (
+          <i
+            className="fa-solid fa-heart duck-card-product-badge-like"
+            onClick={() => {
+              addToWishlistHandler(item);
+              setIsInWishlist(true);
+            }}
+          ></i>
+        )}
       </div>
     </div>
   );
