@@ -126,7 +126,12 @@ export const MyCart = () => {
                   <span className="quantity-manager-child">2</span>
                   <button className="quantity-manager-child">+</button>
                 </div>
-                <button className="ls-card-btn">Move To Wishlist</button>
+                <button
+                  className="ls-card-btn"
+                  onClick={() => moveItemFromCartToWishlist(item)}
+                >
+                  Move To Wishlist
+                </button>
               </div>
             </div>
             <div className="ls-card-rightside">
