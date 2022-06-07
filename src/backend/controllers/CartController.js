@@ -14,7 +14,7 @@ import { formatDate, requiresAuth } from "../utils/authUtils";
 export const getCartItemsHandler = function (schema, request) {
   const userId = requiresAuth.call(this, request);
   if (!userId) {
-    return new Response(
+    new Response(
       404,
       {},
       {
@@ -36,7 +36,7 @@ export const addItemToCartHandler = function (schema, request) {
   const userId = requiresAuth.call(this, request);
   try {
     if (!userId) {
-      return new Response(
+      new Response(
         404,
         {},
         {
@@ -74,7 +74,7 @@ export const removeItemFromCartHandler = function (schema, request) {
   const userId = requiresAuth.call(this, request);
   try {
     if (!userId) {
-      return new Response(
+      new Response(
         404,
         {},
         {
@@ -109,7 +109,7 @@ export const updateCartItemHandler = function (schema, request) {
   const userId = requiresAuth.call(this, request);
   try {
     if (!userId) {
-      return new Response(
+      new Response(
         404,
         {},
         {
@@ -136,6 +136,31 @@ export const updateCartItemHandler = function (schema, request) {
     }
     this.db.users.update({ _id: userId }, { cart: userCart });
     return new Response(200, {}, { cart: userCart });
+  } catch (error) {
+    return new Response(
+      500,
+      {},
+      {
+        error,
+      }
+    );
+  }
+};
+
+export const clearCartHandler = function (schema, request) {
+  const user = requiresAuth.call(this, request);
+  try {
+    if (!user) {
+      return new Response(
+        404,
+        {},
+        {
+          errors: ["The email you entered is not Registered. Not Found error"],
+        }
+      );
+    }
+    this.db.users.update({ cart: [] });
+    return new Response(200, {}, { cart: [] });
   } catch (error) {
     return new Response(
       500,

@@ -52,7 +52,11 @@ const productChooserFunction = (state, action) => {
         ...state,
         searchByInput: action.payload,
       };
-
+    case "GET_ADDRESS":
+      return {
+        ...state,
+        addresses: action.payload,
+      };
     default:
       return state;
   }
@@ -66,6 +70,7 @@ const initialState = {
   searchByInput: "",
   cart: [],
   wishlist: [],
+  addresses: [],
 };
 
 const ProductProvider = ({ children }) => {

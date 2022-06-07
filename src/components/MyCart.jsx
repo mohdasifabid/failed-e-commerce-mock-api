@@ -110,6 +110,43 @@ export const MyCart = () => {
           </button>
         </div>
       </div>
+      {/*  */}
+      <div className="ls-card">
+        <div className="ls-card-leftside">
+          <img
+            src="https://picsum.photos/536/354"
+            alt=""
+            className="ls-card-img"
+          />
+          <div>
+            <p className="ls-product-title">Title</p>
+            <p className="ls-product-subtitle">
+              <small>sub-title</small>
+            </p>
+            <div className="ls-card-quantity-manager">
+              <button className="quantity-manager-child">-</button>
+              <span className="quantity-manager-child">2</span>
+              <button className="quantity-manager-child">+</button>
+            </div>
+            <button className="ls-card-btn">Move To Wishlist</button>
+          </div>
+        </div>
+        <div className="ls-card-rightside">
+          <div>
+            <span>Total MRP</span>
+            <span>Total Price</span>
+          </div>
+          <div>
+            <span>Discount</span>
+            <span>Discount</span>
+          </div>
+          <div>
+            <span>Amount to be Paid</span>
+            <span>12123</span>
+          </div>
+          <button className="ls-card-rightside-btn">Place Order</button>
+        </div>
+      </div>
       <MyFooter />
     </div>
   );

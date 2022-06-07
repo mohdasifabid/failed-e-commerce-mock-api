@@ -14,6 +14,7 @@ export const MyLoginPage = () => {
       email: email,
       password: password,
     });
+    console.log(data);
     localStorage.setItem("encodedToken", data.encodedToken);
     navigate("/product-page");
   };

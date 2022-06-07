@@ -1,0 +1,37 @@
+
+.payment-options {
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    width: 342px;
+}
+.payment-option-card {
+    border: 1px solid var(--primary-color);
+    width: 341px;
+    padding: .5rem;
+    margin-bottom: .5rem;
+}
+.payment-option-card div{
+    padding: .5rem 2rem;
+    display: flex;
+    gap: 1rem;
+}
+.payment-option-card div input{
+    padding: .5rem;
+    width: 50px;
+    border: 1px solid var(--secondary-color);
+    outline: none;
+    -webkit-text-security: disc;
+}
+.payment-option-card div input:focus{
+    border-color: 1px solid var(--primary-color);
+}
+.payment-option-card div button{
+    padding: .5rem;
+    width: 150px;
+    border: 1px solid var(--secondary-color);
+    cursor: pointer;
+}
+.payment-option-card div button:active{
+    border: 1px solid var(--primary-color);
+}

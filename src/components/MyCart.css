@@ -71,3 +71,88 @@ justify-content: center;
   .duck-product-card-btn{
 cursor: pointer;
   }
+
+
+  /*  */
+  .ls-card{
+    width: 680px;
+    display: flex;
+    font-size: small;
+    border: 2px solid var(--primary-color);
+  }
+  .ls-card-img{
+    height: 100%;
+    width: 120px;
+  }
+  .ls-card-leftside{
+    display: flex;
+    padding: 1rem;
+    gap: 1rem;
+    align-items: center;
+    border-right: 2px solid var(--secondary-color);
+  }
+  .ls-product-title{
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+  .ls-product-subtitle{
+    margin-top: 0;
+    margin-bottom: .5rem;
+  }
+  .ls-card-quantity-manager{
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    gap: .75rem;
+}
+.quantity-manager-child{
+   padding: .25rem .5rem;
+   font-size: small;
+   border: 1px solid var(--secondary-color);
+}
+.ls-card-quantity-manager button{
+   border: 1.7px solid var(--secondary-color);
+   cursor: pointer;
+}
+.ls-card-btn{
+  border: 1px solid var(--secondary-color);
+  padding: .25rem .5rem;
+  margin: .75rem .25rem -.5rem .25rem;
+  cursor: pointer;
+}
+.ls-card-rightside{
+  width: 340px;
+  padding: 1rem;
+  
+}
+.ls-card-rightside div{
+  display: flex;
+  justify-content: space-between;
+  padding: .4rem .75rem;
+}
+.ls-card-rightside-btn{
+  width: 95%;
+  margin-left: 8.5px;
+  padding: .25rem .5rem;
+  border: 1px solid var(--secondary-color);
+  cursor: pointer;
+
+}
+.ls-card-rightside-btn:active{
+  border: 1px solid var(--primary-color);
+}
+
+@media (max-width: 580px){
+  .ls-card{
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .ls-card-leftside{
+    border-right: none;
+    border-bottom: 2px solid var(--secondary-color);
+    padding: 1rem 0;
+  }
+}

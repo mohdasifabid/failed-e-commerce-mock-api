@@ -1,8 +1,16 @@
 .my-address-page {
     font-size: small;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
 }
-
+.address-box-container{
+border: 1px solid var(--primary-color);
+padding: 0 0 1.5rem 0;
+margin-top: 1.5rem ;
+}
 .delievery-addresses-container {
     padding: 0 1rem;
     display: flex;
@@ -15,8 +23,8 @@
 }
 
 .delievery-address-card {
-    border: 1px solid var(--primary-color);
-    width: 341px;
+    border: 1px solid var(--secondary-color);
+    /* width: 341px; */
     padding: .5rem;
     margin-bottom: .5rem;
 }
@@ -38,14 +46,16 @@
     flex-direction: column;
     gap: .5rem;
 }
-
+.address-form p{
+    margin: 0;
+}
 .address-form div {
     display: flex;
     gap: 1rem;
 }
 
 .address-input {
-    width: 326px;
+    /* width: 326px; */
     padding: .5rem 1rem;
     border: 1px solid var(--secondary-color);
     outline: none;
@@ -71,13 +81,13 @@
 }
 
 .address-form-radio-btns-container label {
-    width: 170px;
+    /* width: 170px; */
     display: flex;
     align-items: center;
 }
 
 .address-form-btns-container {
-    width: 360px;
+    /* width: 360px; */
 }
 
 .address-form-btns-container button {
