@@ -10,7 +10,10 @@ export const MyCart = () => {
   const { state, dispatch } = useProductProvider();
   const navigate = useNavigate();
 
-  const totalPrice = state.cart.reduce((a, c) => a + Number(c.price), 0);
+  const totalPrice = state.cart.reduce((a, c) => {
+    let priceOfAnItem = c.price * c.qty;
+    return a + Number(priceOfAnItem);
+  }, 0);
 
   useEffect(async () => {
     const data = await getCall("/api/user/cart");
@@ -162,16 +165,14 @@ export const MyCart = () => {
             </div>
             <div className="ls-card-rightside">
               <div>
-                <span>Total MRP</span>
-                <span>Total Price</span>
-              </div>
-              <div>
-                <span>Discount</span>
-                <span>Discount</span>
+                <span>{item.title}</span>
+                <span>
+                  {item.qty} * {item.price}
+                </span>
               </div>
               <div>
                 <span>Amount to be Paid</span>
-                <span>12123</span>
+                <span>{totalPrice}</span>
               </div>
               <button className="ls-card-rightside-btn">Place Order</button>
             </div>
