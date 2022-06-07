@@ -116,3 +116,38 @@ margin-right: 2rem;
     display: none;
   }
 }
+
+/* orders */
+
+.orders-container{
+  display: flex;
+  font-size: x-small;
+  border: 1px solid var(--secondary-color);
+  width: fit-content;
+}
+.orders-rightside{
+  display: flex;
+  padding: .5rem;
+  border: 1px solid var(--secondary-color);
+  height: fit-content;
+  width: fit-content;
+  margin: .6rem .25rem 0 0;
+ 
+}
+.orders-rightside p{
+  margin: 0 0 .125rem .5rem;
+}
+.orders-rightside-img{
+  width: 80px;
+  height: 60px;
+}
+.orders-rightside-info{
+  padding: .25rem;
+
+}
+.orders-leftside{
+  padding: .5rem;
+}
+.orders-leftside p{
+ margin: 0 .5rem .125rem .5rem;
+}
