@@ -1,10 +1,12 @@
 import "./MySmallProductCard.css";
-import { postCall } from "./ReusableFunctions";
+import { deleteCall, postCall } from "./ReusableFunctions";
 import { useProductProvider } from "./productProvider";
+import { useState } from "react";
 
 export default function MySmallProductCard({ item }) {
   const { dispatch } = useProductProvider();
   const { img, title, price, author, categoryName } = item;
+  const [isInCart, setIsInCart] = useState(false);
 
   const addToWishlistHandler = async (item) => {
     const data = await postCall("/api/user/wishlist", { product: item });
@@ -13,6 +15,11 @@ export default function MySmallProductCard({ item }) {
 
   const addToCartHandler = async (item) => {
     const data = await postCall("/api/user/cart", { product: item });
+    dispatch({ type: "CART_DATA", payload: data.cart });
+  };
+
+  const deleteFromCartHandler = async (itemId) => {
+    const data = await deleteCall(`/api/user/cart/${itemId}`);
     dispatch({ type: "CART_DATA", payload: data.cart });
   };
 
@@ -25,12 +32,28 @@ export default function MySmallProductCard({ item }) {
       <p className="duck-card-product-price">
         <small>INR</small> <strong>{price}</strong>
       </p>
-      <button
-        className="duck-card-product-btn btn-add-to-cart"
-        onClick={() => addToCartHandler(item)}
-      >
-        Add to Cart
-      </button>
+      {isInCart ? (
+        <button
+          className="duck-card-product-btn btn-add-to-cart"
+          onClick={() => {
+            deleteFromCartHandler(item._id);
+            setIsInCart(false);
+          }}
+        >
+          Remove from Cart
+        </button>
+      ) : (
+        <button
+          className="duck-card-product-btn btn-add-to-cart"
+          onClick={() => {
+            addToCartHandler(item);
+            setIsInCart(true);
+          }}
+        >
+          Add to Cart
+        </button>
+      )}
+
       <button
         className="duck-card-product-btn btn-add-to-wishlist"
         onClick={() => addToWishlistHandler(item)}
