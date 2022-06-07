@@ -54,51 +54,42 @@ export const MyCart = () => {
     <div>
       <MyNavbar />
       <div className="my-cart-page-body-content">
-        <div className="my-cart-page-body-content-cards">
+        <div className="ls-card">
           {state.cart.map((item) => {
             return (
-              <div key={item._id} className="duck-product-card">
-                <div className="duck-product-card-top">
-                  <img
-                    className="duck-product-card-img"
-                    src={item.img}
-                    alt=""
-                  />
-                  <div className="duck-product-card-badge duck-like-badge duck-like-badge-l">
-                    <i
-                      className="duck-like-badge-icon duck-like-badge-icon-l fa-solid fa-heart"
-                      onClick={() => {
-                        deleteItemFromCartHandler(item._id);
-                      }}
-                    ></i>
+              <div className="ls-card-leftside">
+                <img src={item.img} alt="" className="ls-card-img" />
+                <div>
+                  <p className="ls-product-title">{item.title}</p>
+                  <p className="ls-product-subtitle">
+                    <small>Price: {item.price}</small>
+                  </p>
+                  <div className="ls-card-quantity-manager">
+                    <button
+                      className="quantity-manager-child"
+                      onClick={() => decreaseQuantity(item._id)}
+                    >
+                      -
+                    </button>
+                    <span className="quantity-manager-child">{item.qty}</span>
+                    <button
+                      className="quantity-manager-child"
+                      onClick={() => increaseQuantity(item._id)}
+                    >
+                      +
+                    </button>
                   </div>
-                </div>
-
-                <div className="duck-product-card-middle">
-                  <p className="duck-product-card-title">{item.title}</p>
-                  <p className="duck-product-card-price">{item.price}</p>
-                </div>
-                <div className="duck-product-card-bottom">
                   <button
-                    className="duck-product-card-btn duck-btn duck-btn-solid-l duck-btn-remove-from-cart"
-                    onClick={() => {
-                      deleteItemFromCartHandler(item._id);
-                    }}
-                  >
-                    Remove from cart
-                  </button>
-                  <button
-                    className="duck-product-card-btn duck-btn duck-btn-solid-l duck-btn-add-to-wishlist"
+                    className="ls-card-btn"
                     onClick={() => moveItemFromCartToWishlist(item)}
                   >
-                    Move to wishlist
+                    Move To Wishlist
                   </button>
                 </div>
               </div>
             );
           })}
         </div>
-
         <div className="duck-bill-card">
           <div className="duck-bill-card-title">Price Details</div>
           <div className="duck-bill-card-price-details">
@@ -109,7 +100,9 @@ export const MyCart = () => {
                   className="duck-bill-card-price-details-content"
                 >
                   <p>{item.title}</p>
-                  <p>{item.price}</p>
+                  <p>
+                    {item.qty} x {item.price}
+                  </p>
                 </div>
               );
             })}
@@ -117,9 +110,6 @@ export const MyCart = () => {
           <div className="duck-bill-card-total-amount">
             <p>TOTAL AMOUNT</p>
             <p>{totalPrice}</p>
-          </div>
-          <div className="duck-bill-card-saving-info">
-            You will save Rs1999 on this order
           </div>
           <button
             className="duck-bill-card-btn duck-btn duck-btn-solid-l"
@@ -129,56 +119,6 @@ export const MyCart = () => {
           </button>
         </div>
       </div>
-      {/*  */}
-      {state.cart.map((item) => {
-        return (
-          <div className="ls-card" key={item._id}>
-            <div className="ls-card-leftside">
-              <img src={item.img} alt="" className="ls-card-img" />
-              <div>
-                <p className="ls-product-title">{item.title}</p>
-                <p className="ls-product-subtitle">
-                  <small>Price: {item.price}</small>
-                </p>
-                <div className="ls-card-quantity-manager">
-                  <button
-                    className="quantity-manager-child"
-                    onClick={() => decreaseQuantity(item._id)}
-                  >
-                    -
-                  </button>
-                  <span className="quantity-manager-child">{item.qty}</span>
-                  <button
-                    className="quantity-manager-child"
-                    onClick={() => increaseQuantity(item._id)}
-                  >
-                    +
-                  </button>
-                </div>
-                <button
-                  className="ls-card-btn"
-                  onClick={() => moveItemFromCartToWishlist(item)}
-                >
-                  Move To Wishlist
-                </button>
-              </div>
-            </div>
-            <div className="ls-card-rightside">
-              <div>
-                <span>{item.title}</span>
-                <span>
-                  {item.qty} * {item.price}
-                </span>
-              </div>
-              <div>
-                <span>Amount to be Paid</span>
-                <span>{totalPrice}</span>
-              </div>
-              <button className="ls-card-rightside-btn">Place Order</button>
-            </div>
-          </div>
-        );
-      })}
       <MyFooter />
     </div>
   );

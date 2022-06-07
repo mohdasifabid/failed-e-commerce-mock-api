@@ -1,9 +1,14 @@
+.my-cart-page-body-content{
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
 .duck-bill-card {
-    width: 40%;
-    height: 40%;
+    height: fit-content;
     border-radius: 0.225rem;
+   
     border: .125rem solid var(--secondary-color);
-    padding: 1rem 0.5rem 0.5rem 1.5rem;
+    padding: .5rem 0rem 1rem 1rem;
   }
   
   .duck-bill-card-title {
@@ -37,60 +42,40 @@
     padding: .7rem;
   }
   .duck-bill-card-btn {
-    width: 50%;
-    font-size: smaller;
+    width: 85%;
+    font-weight:bold ;
+    padding: .5rem .5rem;
+    border: 1px solid gray;
+    cursor: pointer;
+    margin-top: 1rem;
   }
   .duck-bill-card-btn:hover {
-color: var(--secondary-color);
-background-color: var(--primary-color);
+    color: var(--secondary-color);
+    background-color: var(--primary-color);
   }
-
-  .my-cart-page-body-content{
-    min-height: 22.5rem;
-   display: flex;
-  margin: 2rem 1rem;
-justify-content: center;
-  }
-  .my-cart-page-body-content-cards{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-  }
-  /*  */
-  .duck-btn-add-to-wishlist{
-    background-color: var(--secondary-color);
-    border: .1rem solid var(--primary-color);
-    
-  }
-  .duck-btn-remove-from-cart{
-    border: .1rem solid var(--primary-color);
-
-    background-color: gray;
-  }
-
-  .duck-product-card-btn{
-cursor: pointer;
-  }
-
-
   /*  */
   .ls-card{
-    width: 680px;
-    display: flex;
+    width: 300px;
     font-size: small;
-    border: 2px solid var(--primary-color);
+    border: 1px solid var(--primary-color);
+    height: fit-content;
   }
   .ls-card-img{
-    height: 100px;
+    height: 110px;
     width: 120px;
   }
   .ls-card-leftside{
     display: flex;
     padding: 1rem;
     gap: 1rem;
-    align-items: center;
-    border-right: 2px solid var(--secondary-color);
+    justify-content: center;
+    border-bottom: 1px solid var(--secondary-color);
   }
+  .ls-card-leftside-child{
+   display: flex;
+   gap: 1rem;
+  }
+ 
   .ls-product-title{
     margin-bottom: 0;
     margin-top: 0;
@@ -123,14 +108,7 @@ cursor: pointer;
   margin: .75rem .25rem -.5rem .25rem;
   cursor: pointer;
 }
-.ls-card-rightside{
-  width: 340px;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  
-}
+
 .ls-card-rightside div{
   display: flex;
   justify-content: space-between;
@@ -150,15 +128,13 @@ cursor: pointer;
 
 @media (max-width: 580px){
   .ls-card{
-    width: fit-content;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    height: fit-content;
   }
   .ls-card-leftside{
     border-right: none;
-    border-bottom: 2px solid var(--secondary-color);
-    padding: 1rem 0;
+    border-bottom: 1px solid var(--secondary-color);
+    padding: 1rem .5rem;
   }
 }
