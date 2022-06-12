@@ -3,10 +3,12 @@ import { MyFooter } from "./MyFooter";
 import { MyNavbar } from "./MyNavbar";
 import { postCall } from "./ReusableFunctions";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuthProvider } from "./authProvider";
 
 export const MyLoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { dispatch: authDispatch } = useAuthProvider();
   let navigate = useNavigate();
 
   const saveEmailPassword = async () => {
@@ -14,7 +16,7 @@ export const MyLoginPage = () => {
       email: email,
       password: password,
     });
-    console.log(data);
+    authDispatch({ type: "LOGIN_STATUS", payload: true });
     localStorage.setItem("encodedToken", data.encodedToken);
     navigate("/product-page");
   };
