@@ -1,16 +1,15 @@
 import { useState } from "react";
-import { MyFooter } from "./MyFooter";
-import { MyNavbar } from "./MyNavbar";
 import { postCall } from "./ReusableFunctions";
 import { useAuthProvider } from "./authProvider";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const MySignupPage = () => {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { dispatch: authDispatch } = useAuthProvider();
   const [confirmedPassword, setConfirmedPassword] = useState("");
-  const navigate = useNavigate();
 
   const saveNewUserInfo = async () => {
     const data = await postCall("/api/auth/signup", {
@@ -19,52 +18,50 @@ export const MySignupPage = () => {
       password: password,
       confirmedPassword: confirmedPassword,
     });
+    authDispatch({ type: "SIGN_UP_STATUS", payload: true });
     localStorage.setItem("encodedToken", data.encodedToken);
     navigate("/login-page");
   };
 
   return (
-    <div>
-      <MyNavbar />
-      <div className="my-login-page-body">
-        <div className="login-page">
-          <p className="login-title">Create new account</p>
-          <input
-            type="text"
-            className="login-email-input login-inputs"
-            placeholder="Enter your name here"
-            onChange={(e) => setName(e.target.value)}
-          />
-          <input
-            type="email"
-            className="login-email-input login-inputs"
-            placeholder="Enter your email here"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            className="login-password login-inputs"
-            placeholder="Enter your password here"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <input
-            type="password"
-            className="login-password login-inputs"
-            placeholder="Confirm your password here"
-            onChange={(e) => setConfirmedPassword(e.target.value)}
-          />
+    <div className="my-login-page-body">
+      <div className="login-page">
+        <p className="login-title">Create new account</p>
+        <input
+          type="text"
+          className="login-email-input login-inputs"
+          placeholder="Enter your name here"
+          onChange={(e) => setName(e.target.value)}
+        />
+        <input
+          type="email"
+          className="login-email-input login-inputs"
+          placeholder="Enter your email here"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          className="login-password login-inputs"
+          placeholder="Enter your password here"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <input
+          type="password"
+          className="login-password login-inputs"
+          placeholder="Confirm your password here"
+          onChange={(e) => setConfirmedPassword(e.target.value)}
+        />
 
-          <button className="login-buttons" onClick={saveNewUserInfo}>
-            Signup
-          </button>
-          <Link to="/login-page">
-            <p style={{ textAlign: "center", cursor: "pointer" }}>
-              Already a user? <strong>Login here</strong>
-            </p>
-          </Link>
-        </div>
+        <button className="login-buttons" onClick={saveNewUserInfo}>
+          Signup
+        </button>
+        <p
+          style={{ textAlign: "center", cursor: "pointer" }}
+          onClick={() => navigate("/login-page")}
+        >
+          Already a user? <span>Login here</span>
+        </p>
       </div>
-      <MyFooter />
     </div>
   );
 };

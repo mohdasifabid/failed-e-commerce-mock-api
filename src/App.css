@@ -55,15 +55,42 @@
 
 .my-login-page-body{
   display: flex;
-  min-height: 27rem;
-
   justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 .login-page{
-  width: 70%;
+  width: 25%;
+  border: 2px solid var(--secondary-color);
+  padding: 1.5rem 3rem;
 }
 
-
+.login-buttons{
+  cursor: pointer;
+  border: none;
+}
+.login-buttons:hover{
+  background-color: var(--primary-color);
+  color: #fff;
+}
+.login-inputs{
+  outline: none;
+  padding: 0 .5rem;
+  border: 1px solid var(--secondary-color);
+}
+.login-inputs:focus{
+  border: 1px solid var(--primary-color);
+}
+.login-page p span{
+  color: blue;
+  text-decoration: underline;
+}
+.login-page p{
+  margin-top: 0;
+}
+.login-title{
+  margin-bottom: 0;
+}
 /* navbar */
 .ec-nav-container{
 display: flex;
