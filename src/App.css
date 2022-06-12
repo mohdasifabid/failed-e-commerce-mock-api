@@ -155,8 +155,13 @@ margin-right: 2rem;
   .duck-icon-badge{
     display: none;
   }
+  
 }
-
+@media(max-width: 600px){
+  .login-page{
+    width: 50%;
+  }
+}
 /* orders */
 
 .orders-container{
