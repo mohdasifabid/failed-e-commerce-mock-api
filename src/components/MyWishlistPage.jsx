@@ -26,9 +26,11 @@ export const MyWishlistPage = () => {
   };
 
   return (
-    <div>
-      <MyNavbar />
-      <div className="my-wishlist-page-body-content">
+    <div className="body-container">
+      <div className="top">
+        <MyNavbar />
+      </div>
+      <div className="my-wishlist-page-body-content middle">
         <h1>My Wishlist</h1>
         <div className="my-wishlist-page-body-content-cards">
           {state.wishlist.map((item) => {
@@ -68,7 +70,9 @@ export const MyWishlistPage = () => {
           })}
         </div>
       </div>
-      <MyFooter />
+      <div>
+        <MyFooter />
+      </div>
     </div>
   );
 };

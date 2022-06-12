@@ -53,9 +53,11 @@ export const MyProductPage = () => {
     state.filterByCategoryMeter
   );
   return (
-    <div>
-      <MyNavbar />
-      <div className="my-product-page-body-content">
+    <div className="body-container">
+      <div className="top">
+        <MyNavbar />
+      </div>
+      <div className="my-product-page-body-content middle">
         <div className="my-product-page-filters-container">
           <MyFilters />
         </div>
@@ -65,7 +67,9 @@ export const MyProductPage = () => {
           })}
         </div>
       </div>
-      <MyFooter />
+      <div className="bottom">
+        <MyFooter />
+      </div>
     </div>
   );
 };

@@ -51,9 +51,11 @@ export const MyCart = () => {
     dispatch({ type: "CART_DATA", payload: data.cart });
   };
   return (
-    <div>
-      <MyNavbar />
-      <div className="my-cart-page-body-content">
+    <div className="body-container">
+      <div className="top">
+        <MyNavbar />
+      </div>
+      <div className="my-cart-page-body-content middle">
         <div className="ls-card">
           {state.cart.map((item) => {
             return (
@@ -129,7 +131,9 @@ export const MyCart = () => {
           </button>
         </div>
       </div>
-      <MyFooter />
+      <div className="bottom">
+        <MyFooter />
+      </div>
     </div>
   );
 };

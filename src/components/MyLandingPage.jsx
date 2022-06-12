@@ -9,9 +9,11 @@ export const MyLandingPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <MyNavbar />
-      <div className="landing-page-main-container">
+    <div className="body-container">
+      <div className="top">
+        <MyNavbar />
+      </div>
+      <div className="landing-page-main-container middle">
         <MyResponsiveImg />
         <div className="landing-page-products-sample">
           <div
@@ -45,7 +47,9 @@ export const MyLandingPage = () => {
         </div>
       </div>
 
-      <MyFooter />
+      <div className="bottom">
+        <MyFooter />
+      </div>
     </div>
   );
 };

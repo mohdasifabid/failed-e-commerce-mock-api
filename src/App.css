@@ -98,9 +98,7 @@ justify-content: space-between;
 align-items: center;
 border-bottom: 2px solid var(--primary-color);
 background-color: var(--secondary-color);
-position: sticky;
-top: 0;
-z-index: 1000;
+
 }
 .ec-nav-links{
   text-decoration: none;
@@ -195,4 +193,24 @@ margin-right: 2rem;
 }
 .orders-leftside p{
  margin: 0 .5rem .125rem .5rem;
+}
+
+
+/* using flex grow */
+.body-container{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.top{
+flex-basis: 65px;
+position: sticky;
+top: 0;
+z-index: 1000;
+}
+.bottom{
+  flex-basis: 120px;
+}
+.middle{
+  flex-grow: 1;
 }

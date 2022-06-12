@@ -1,9 +1,9 @@
 .my-address-page {
-    font-size: small;
-    display: flex;
+    font-size: small; 
+    display: flex; 
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    margin: 0 0 1rem 0;
 
 }
 .address-box-container{
