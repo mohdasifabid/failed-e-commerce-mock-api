@@ -35,6 +35,19 @@ export default function MySmallProductCard({ item }) {
   };
   const inCart = state.cart.some((prod) => prod._id === item._id);
   const inWishlist = state.wishlist.some((prod) => prod._id === item._id);
+  const cartButtonHandler = (item) => {
+    if (!authState.isLogin) {
+      return navigate("/login-page");
+    }
+    if (!inCart) {
+      addToCartHandler(item) && setCartButtonContent("Remove from Cart");
+    }
+    if (inCart) {
+      return (
+        deleteFromCartHandler(item._id) && setCartButtonContent("Add to Cart")
+      );
+    }
+  };
   const wishlistButttonHandler = (item) => {
     if (!authState.isLogin) {
       return navigate("/login-page");
@@ -59,20 +72,7 @@ export default function MySmallProductCard({ item }) {
       </p>
       <button
         className="duck-card-product-btn btn-add-to-cart"
-        onClick={() => {
-          if (!authState.isLogin) {
-            return navigate("/login-page");
-          }
-          if (!inCart) {
-            addToCartHandler(item) && setCartButtonContent("Remove from Cart");
-          }
-          if (inCart) {
-            return (
-              deleteFromCartHandler(item._id) &&
-              setCartButtonContent("Add to Cart")
-            );
-          }
-        }}
+        onClick={() => cartButtonHandler(item)}
       >
         {cartButtonContent}
       </button>
