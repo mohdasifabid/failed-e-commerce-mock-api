@@ -2,8 +2,6 @@
 
 .my-product-page-body-content {
   display: flex;
-  /* grid-template-columns: 20% 80%;
-  margin: 2rem 1rem; */
 }
 .my-product-page-small-cards {
   display: flex;
@@ -13,9 +11,6 @@
   align-items: center;
   padding: 2.5rem 0;
 }
-/* .my-product-page-filters-container{
-  padding: 1rem;
-} */
 .filter-container{
   padding: 0 1rem 2rem 2rem;
   position: sticky;
@@ -24,20 +19,38 @@
   border-right: 1px solid var(--secondary-color);
 }
 /* landing page */
+.landing-page-main-contaienr{
+  width: 100vw;
+  display: flex;
+
+}
 .landing-page-products-sample{
-  width: 100%;
+  width: 98%;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 2%;
-  margin: 1rem 0;
+  margin: 1rem 1%;
+  gap: 4%;
   
 }
 .landing-page-products-sample-img{
-  width:30%;
+  width:20%;
+}
+.landing-page-products-sample-img:hover{
+  cursor: pointer;
+  transition-property:inherit;
+  box-shadow: 10px 8px 1px 1px var(--secondary-color);
 }
 
-
+.landing-page-cat-card{
+  background-image: url("https://images.unsplash.com/photo-1547127796-06bb04e4b315?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZGFyayUyMGJhY2tncm91bmR8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60");
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: x-large;
+  min-height: 10rem;
+}
 /* login page  */
 
 .my-login-page-body{
@@ -106,12 +119,12 @@ margin-right: 2rem;
   font-size: large;
 }
 
-@media (max-width: 580px) {
+@media (max-width: 520px) {
    .ec-nav-input{
      display: none;
    }
 }
-@media (max-width: 480px) {
+@media (max-width: 520px) {
   .duck-icon-badge{
     display: none;
   }
