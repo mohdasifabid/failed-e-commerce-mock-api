@@ -1,13 +1,11 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthProvider } from "./authProvider";
 import { useProductProvider } from "./productProvider";
-import { useNavigate } from "react-router-dom";
 
 export const MyNavbar = () => {
   const { state, dispatch } = useProductProvider();
   const { state: authState, dispatch: authDispatch } = useAuthProvider();
   let navigate = useNavigate();
-
   return (
     <div className="ec-nav-container">
       <Link to="/" className="ec-nav-links">
@@ -16,12 +14,14 @@ export const MyNavbar = () => {
         </p>
       </Link>
       <input
+        value={state.searchByInput}
         className="ec-nav-input"
         type="text"
         placeholder="search here"
-        onChange={(e) =>
-          dispatch({ type: "SEARCH_BY_INPUT", payload: e.target.value })
-        }
+        onChange={(e) => {
+          dispatch({ type: "SEARCH_BY_INPUT", payload: e.target.value });
+          e.target.value.length > 0 && navigate("/product-page");
+        }}
       />
 
       <Link to="/wishlist-page" className="ec-nav-links">
