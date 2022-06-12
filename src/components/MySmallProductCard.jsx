@@ -13,6 +13,8 @@ export default function MySmallProductCard({ item }) {
   const [isInCart, setIsInCart] = useState(false);
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [cartButtonContent, setCartButtonContent] = useState("Add to Cart");
+  const [wishlistButtonContent, setWishlistButtonContent] =
+    useState("Add to Wishlist");
 
   const addToWishlistHandler = async (item) => {
     const data = await postCall("/api/user/wishlist", { product: item });
@@ -32,6 +34,20 @@ export default function MySmallProductCard({ item }) {
     dispatch({ type: "CART_DATA", payload: data.cart });
   };
   const inCart = state.cart.some((prod) => prod._id === item._id);
+  const inWishlist = state.wishlist.some((prod) => prod._id === item._id);
+  const wishlistButttonHandler = (item) => {
+    if (!authState.isLogin) {
+      return navigate("/login-page");
+    }
+    if (!inWishlist) {
+      addToWishlistHandler(item) &&
+        setWishlistButtonContent("Remove from Wishlist");
+    }
+    if (inWishlist) {
+      deleteFromWishlistHandler(item._id) &&
+        setWishlistButtonContent("Add to Wishlist");
+    }
+  };
   return (
     <div className="duck-card-product-container">
       <img className="duck-card-product-img" src={img} alt="" />
@@ -61,27 +77,13 @@ export default function MySmallProductCard({ item }) {
         {cartButtonContent}
       </button>
 
-      {isInWishlist ? (
-        <button
-          className="duck-card-product-btn btn-add-to-wishlist"
-          onClick={() => {
-            deleteFromWishlistHandler(item._id);
-            setIsInWishlist(false);
-          }}
-        >
-          Remove from wishlist
-        </button>
-      ) : (
-        <button
-          className="duck-card-product-btn btn-add-to-wishlist"
-          onClick={() => {
-            addToWishlistHandler(item);
-            setIsInWishlist(true);
-          }}
-        >
-          Add to wishlist
-        </button>
-      )}
+      <button
+        className="duck-card-product-btn btn-add-to-wishlist"
+        onClick={() => wishlistButttonHandler(item)}
+      >
+        {wishlistButtonContent}
+      </button>
+
       <div className="duck-card-product-badge-like-container">
         {isInWishlist ? (
           <i
