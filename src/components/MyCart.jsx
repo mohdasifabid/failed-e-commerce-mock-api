@@ -62,7 +62,14 @@ export const MyCart = () => {
                 <div>
                   <p className="ls-product-title">{item.title}</p>
                   <p className="ls-product-subtitle">
-                    <small>Price: {item.price}</small>
+                    <small>
+                      Price:
+                      <small>
+                        {" "}
+                        <i class="fa-solid fa-indian-rupee-sign"></i>{" "}
+                      </small>
+                      {item.price}
+                    </small>
                   </p>
                   <div className="ls-card-quantity-manager">
                     <button
@@ -109,7 +116,10 @@ export const MyCart = () => {
           </div>
           <div className="duck-bill-card-total-amount">
             <p>TOTAL AMOUNT</p>
-            <p>{totalPrice}</p>
+            <p>
+              <i class="fa-solid fa-indian-rupee-sign"></i>
+              {totalPrice}
+            </p>
           </div>
           <button
             className="duck-bill-card-btn duck-btn duck-btn-solid-l"

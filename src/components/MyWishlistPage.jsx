@@ -50,11 +50,14 @@ export const MyWishlistPage = () => {
 
                 <div className="duck-product-card-middle">
                   <p className="duck-product-card-title">{item.title}</p>
-                  <p className="duck-product-card-price">{item.price}</p>
+                  <p className="duck-product-card-price">
+                    <i class="fa-solid fa-indian-rupee-sign"></i>
+                    {item.price}
+                  </p>
                 </div>
                 <div className="duck-product-card-bottom">
                   <button
-                    className="duck-product-card-btn duck-btn duck-btn-solid-l duck-btn-remove-from-cart"
+                    className="duck-card-product-btn btn-add-to-wishlist"
                     onClick={() => moveToCartFromWishlist(item)}
                   >
                     Move to cart
