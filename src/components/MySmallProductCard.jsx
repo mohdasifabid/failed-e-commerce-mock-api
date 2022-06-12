@@ -2,12 +2,17 @@ import "./MySmallProductCard.css";
 import { deleteCall, postCall } from "./ReusableFunctions";
 import { useProductProvider } from "./productProvider";
 import { useState } from "react";
+import { useAuthProvider } from "./authProvider";
+import { useNavigate } from "react-router-dom";
 
 export default function MySmallProductCard({ item }) {
-  const { dispatch } = useProductProvider();
+  const { state, dispatch } = useProductProvider();
+  const { state: authState } = useAuthProvider();
+  const navigate = useNavigate();
   const { img, title, price, author, categoryName } = item;
   const [isInCart, setIsInCart] = useState(false);
   const [isInWishlist, setIsInWishlist] = useState(false);
+  const [cartButtonContent, setCartButtonContent] = useState("Add to Cart");
 
   const addToWishlistHandler = async (item) => {
     const data = await postCall("/api/user/wishlist", { product: item });
@@ -26,7 +31,7 @@ export default function MySmallProductCard({ item }) {
     const data = await deleteCall(`/api/user/cart/${itemId}`);
     dispatch({ type: "CART_DATA", payload: data.cart });
   };
-
+  const inCart = state.cart.some((prod) => prod._id === item._id);
   return (
     <div className="duck-card-product-container">
       <img className="duck-card-product-img" src={img} alt="" />
@@ -36,27 +41,25 @@ export default function MySmallProductCard({ item }) {
       <p className="duck-card-product-price">
         <small>INR</small> <strong>{price}</strong>
       </p>
-      {isInCart ? (
-        <button
-          className="duck-card-product-btn btn-add-to-cart"
-          onClick={() => {
-            deleteFromCartHandler(item._id);
-            setIsInCart(false);
-          }}
-        >
-          Remove from Cart
-        </button>
-      ) : (
-        <button
-          className="duck-card-product-btn btn-add-to-cart"
-          onClick={() => {
-            addToCartHandler(item);
-            setIsInCart(true);
-          }}
-        >
-          Add to Cart
-        </button>
-      )}
+      <button
+        className="duck-card-product-btn btn-add-to-cart"
+        onClick={() => {
+          if (!authState.isLogin) {
+            return navigate("/login-page");
+          }
+          if (!inCart) {
+            addToCartHandler(item) && setCartButtonContent("Remove from Cart");
+          }
+          if (inCart) {
+            return (
+              deleteFromCartHandler(item._id) &&
+              setCartButtonContent("Add to Cart")
+            );
+          }
+        }}
+      >
+        {cartButtonContent}
+      </button>
 
       {isInWishlist ? (
         <button
