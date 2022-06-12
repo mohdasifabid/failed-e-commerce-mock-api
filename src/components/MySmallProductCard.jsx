@@ -15,6 +15,7 @@ export default function MySmallProductCard({ item }) {
   const [cartButtonContent, setCartButtonContent] = useState("Add to Cart");
   const [wishlistButtonContent, setWishlistButtonContent] =
     useState("Add to Wishlist");
+  const [wishlistIconColor, setWishlistIconColor] = useState({});
 
   const addToWishlistHandler = async (item) => {
     const data = await postCall("/api/user/wishlist", { product: item });
@@ -53,12 +54,14 @@ export default function MySmallProductCard({ item }) {
       return navigate("/login-page");
     }
     if (!inWishlist) {
-      addToWishlistHandler(item) &&
-        setWishlistButtonContent("Remove from Wishlist");
+      addToWishlistHandler(item);
+      setWishlistButtonContent("Remove from Wishlist");
+      setWishlistIconColor("gray");
     }
     if (inWishlist) {
-      deleteFromWishlistHandler(item._id) &&
-        setWishlistButtonContent("Add to Wishlist");
+      deleteFromWishlistHandler(item._id);
+      setWishlistButtonContent("Add to Wishlist");
+      setWishlistIconColor("rgb(229,231,235)");
     }
   };
   return (
@@ -85,24 +88,11 @@ export default function MySmallProductCard({ item }) {
       </button>
 
       <div className="duck-card-product-badge-like-container">
-        {isInWishlist ? (
-          <i
-            style={{ color: "gray" }}
-            className="fa-solid fa-heart duck-card-product-badge-like"
-            onClick={() => {
-              deleteFromWishlistHandler(item._id);
-              setIsInWishlist(false);
-            }}
-          ></i>
-        ) : (
-          <i
-            className="fa-solid fa-heart duck-card-product-badge-like"
-            onClick={() => {
-              addToWishlistHandler(item);
-              setIsInWishlist(true);
-            }}
-          ></i>
-        )}
+        <i
+          style={{ color: wishlistIconColor }}
+          className="fa-solid fa-heart duck-card-product-badge-like"
+          onClick={() => wishlistButttonHandler(item)}
+        ></i>
       </div>
     </div>
   );
