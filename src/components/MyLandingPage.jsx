@@ -13,8 +13,10 @@ export const MyLandingPage = () => {
       <div className="top">
         <MyNavbar />
       </div>
-      <div className="landing-page-main-container middle">
-        <MyResponsiveImg />
+      <div className="landing-page-main-container">
+        <div className="landing-page-products-sample">
+          <MyResponsiveImg />
+        </div>
         <div className="landing-page-products-sample">
           <div
             className="landing-page-products-sample-img landing-page-cat-card"

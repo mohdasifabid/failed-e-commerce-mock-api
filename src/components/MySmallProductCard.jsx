@@ -87,18 +87,18 @@ export default function MySmallProductCard({ item }) {
           Add to Wishlist
         </button>
       )}
+
       {inWishlist ? (
         <div
           className="duck-card-product-badge-like-container"
           onClick={() => {
             authState.isLogin
-              ? (deleteFromWishlistHandler(item._id),
-                setWishlistIconColor("rgb(229,231,235)"))
+              ? deleteFromWishlistHandler(item._id)
               : navigate("/login-page");
           }}
         >
           <i
-            style={{ color: wishlistIconColor }}
+            style={{ color: "gray" }}
             className="fa-solid fa-heart duck-card-product-badge-like"
           ></i>
         </div>
@@ -107,12 +107,12 @@ export default function MySmallProductCard({ item }) {
           className="duck-card-product-badge-like-container"
           onClick={() => {
             authState.isLogin
-              ? (addToWishlistHandler(item), setWishlistIconColor("gray"))
+              ? addToWishlistHandler(item)
               : navigate("/login-page");
           }}
         >
           <i
-            style={{ color: wishlistIconColor }}
+            style={{ color: "rgb(229,231,235)" }}
             className="fa-solid fa-heart duck-card-product-badge-like"
           ></i>
         </div>
