@@ -46,7 +46,11 @@ const productChooserFunction = (state, action) => {
         ...state,
         filterByCategoryMeter: [...state.filterByCategoryMeter, action.payload],
       };
-
+    case "RESET_CATEGORY_FILTER":
+      return {
+        ...state,
+        filterByCategoryMeter: action.payload,
+      };
     case "SEARCH_BY_INPUT":
       return {
         ...state,

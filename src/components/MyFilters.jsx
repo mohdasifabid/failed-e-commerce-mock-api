@@ -13,13 +13,22 @@ export const MyFilters = () => {
     <div className="filter-container">
       <div className="filter-header">
         <p className="title">FILTER</p>
-        <p className="clear">CLEAR ALL</p>
+        <p
+          className="clear"
+          onClick={() => {
+            dispatch({ type: "SORT_BY_PRICE", payload: false });
+            dispatch({ type: "RESET_CATEGORY_FILTER", payload: [] });
+          }}
+        >
+          CLEAR ALL
+        </p>
       </div>
       <hr />
       <div className="filter-sort">
         SORT
         <label htmlFor="lowToHighPriceInput">
           <input
+            value={"lowToHigh"}
             id="lowToHighPriceInput"
             type="radio"
             name="sort"
@@ -31,6 +40,7 @@ export const MyFilters = () => {
         </label>
         <label htmlFor="highToLowPriceInput">
           <input
+            value={"highToLow"}
             id="highToLowPriceInput"
             type="radio"
             name="sort"
@@ -48,6 +58,7 @@ export const MyFilters = () => {
           return (
             <label htmlFor={item.id} key={item._id}>
               <input
+                value={item.categoryName}
                 id={item.id}
                 name={item.id}
                 type="checkbox"
