@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { loginStatus } from "./authActionType";
 import { useAuthProvider } from "./authProvider";
 import { searchByInput } from "./productActionType";
 import { useProductProvider } from "./productProvider";
@@ -46,7 +47,7 @@ export const MyNavbar = () => {
         <div className="ec-nav-login ">
           <strong
             onClick={() => {
-              authDispatch({ type: "LOGIN_STATUS", payload: false });
+              authDispatch({ type: loginStatus, payload: false });
               localStorage.removeItem("encodedToken");
               navigate("/login-page");
             }}

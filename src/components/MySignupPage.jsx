@@ -2,6 +2,7 @@ import { useState } from "react";
 import { postCall } from "./ReusableFunctions";
 import { useAuthProvider } from "./authProvider";
 import { useNavigate } from "react-router-dom";
+import { signupStatus } from "./authActionType";
 
 export const MySignupPage = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ export const MySignupPage = () => {
       password: password,
       confirmedPassword: confirmedPassword,
     });
-    authDispatch({ type: "SIGN_UP_STATUS", payload: true });
+    authDispatch({ type: signupStatus, payload: true });
     localStorage.setItem("encodedToken", data.encodedToken);
     navigate("/login-page");
   };

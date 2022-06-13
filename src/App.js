@@ -12,7 +12,7 @@ import { MySignupPage } from "./components/MySignupPage";
 import { MyAddressPage } from "./components/MyAddressPage";
 import { MyPaymentPage } from "./components/MyPaymentPage";
 import { Orders } from "./components/Orders";
-import { MyNavbar } from "./components/MyNavbar";
+import { loginStatus } from "./components/authActionType";
 
 function App() {
   const { dispatch: authDispatch, state: authState } = useAuthProvider();
@@ -20,9 +20,9 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("encodedToken");
     if (token) {
-      authDispatch({ type: "LOGIN_STATUS", payload: true });
+      authDispatch({ type: loginStatus, payload: true });
     } else {
-      authDispatch({ type: "LOGIN_STATUS", payload: false });
+      authDispatch({ type: loginStatus, payload: false });
     }
   }, []);
 
