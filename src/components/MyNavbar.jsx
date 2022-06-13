@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthProvider } from "./authProvider";
+import { searchByInput } from "./productActionType";
 import { useProductProvider } from "./productProvider";
 
 export const MyNavbar = () => {
@@ -14,12 +15,12 @@ export const MyNavbar = () => {
         </p>
       </Link>
       <input
-        value={state.searchByInput}
+        value={state.inputSearch}
         className="ec-nav-input"
         type="text"
         placeholder="search here"
         onChange={(e) => {
-          dispatch({ type: "SEARCH_BY_INPUT", payload: e.target.value });
+          dispatch({ type: searchByInput, payload: e.target.value });
           e.target.value.length > 0 && navigate("/product-page");
         }}
       />

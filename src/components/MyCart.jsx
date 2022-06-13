@@ -5,6 +5,7 @@ import { MyNavbar } from "./MyNavbar";
 import { useProductProvider } from "./productProvider";
 import { deleteCall, getCall, postCall } from "./ReusableFunctions";
 import { useNavigate } from "react-router-dom";
+import { cartData } from "./productActionType";
 
 export const MyCart = () => {
   const { state, dispatch } = useProductProvider();
@@ -17,21 +18,21 @@ export const MyCart = () => {
 
   useEffect(async () => {
     const data = await getCall("/api/user/cart");
-    dispatch({ type: "CART_DATA", payload: data.cart });
+    dispatch({ type: cartData, payload: data.cart });
   }, []);
 
   const deleteItemFromCartHandler = async (id) => {
     const data = await deleteCall(`/api/user/cart/${id}`);
-    dispatch({ type: "CART_DATA", payload: data.cart });
+    dispatch({ type: cartData, payload: data.cart });
   };
 
   const moveItemFromCartToWishlist = async (item) => {
     const wishlistData = await postCall("/api/user/wishlist", {
       product: item,
     });
-    dispatch({ type: "WISHLIST_DATA", payload: wishlistData.wishlist });
+    dispatch({ type: wishlistData, payload: wishlistData.wishlist });
     const cartData = await deleteCall(`/api/user/cart/${item._id}`);
-    dispatch({ type: "CART_DATA", payload: cartData.cart });
+    dispatch({ type: cartData, payload: cartData.cart });
   };
 
   const increaseQuantity = async (itemId) => {
@@ -40,7 +41,7 @@ export const MyCart = () => {
         type: "increment",
       },
     });
-    dispatch({ type: "CART_DATA", payload: data.cart });
+    dispatch({ type: cartData, payload: data.cart });
   };
   const decreaseQuantity = async (itemId) => {
     const data = await postCall(`/api/user/cart/${itemId}`, {
@@ -48,7 +49,7 @@ export const MyCart = () => {
         type: "decrement",
       },
     });
-    dispatch({ type: "CART_DATA", payload: data.cart });
+    dispatch({ type: cartData, payload: data.cart });
   };
   return (
     <div className="body-container">

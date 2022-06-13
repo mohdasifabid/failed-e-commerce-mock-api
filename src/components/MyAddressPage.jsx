@@ -4,6 +4,7 @@ import { getCall, postCall } from "./ReusableFunctions";
 import { useProductProvider } from "./productProvider";
 import { MyNavbar } from "./MyNavbar";
 import { MyFooter } from "./MyFooter";
+import { getAddress } from "./productActionType";
 
 export const MyAddressPage = () => {
   const { state, dispatch } = useProductProvider();
@@ -11,12 +12,12 @@ export const MyAddressPage = () => {
   useEffect(async () => {
     const data = await getCall("/api/user/address");
     setAddresses(data);
-    dispatch({ type: "GET_ADDRESS", payload: data.address });
+    dispatch({ type: getAddress, payload: data.address });
   }, []);
 
   const addNewAddressHandler = async () => {
     const data = await postCall("/api/user/address", { address: newAddress });
-    dispatch({ type: "GET_ADDRESS", payload: data.address });
+    dispatch({ type: getAddress, payload: data.address });
   };
   return (
     <div className="body-container">

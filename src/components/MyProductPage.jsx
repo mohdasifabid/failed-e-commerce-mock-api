@@ -5,12 +5,13 @@ import { MyFilters } from "./MyFilters";
 import { getCall } from "./ReusableFunctions";
 import MySmallProductCard from "./MySmallProductCard";
 import { useProductProvider } from "./productProvider";
+import { getProduct } from "./productActionType";
 
 export const MyProductPage = () => {
   const { state, dispatch } = useProductProvider();
   useEffect(async () => {
     let data = await getCall("api/products");
-    dispatch({ type: "GET_PRODUCT", payload: data.products });
+    dispatch({ type: getProduct, payload: data.products });
   }, []);
 
   const sortByPriceFunction = (ourData, sortMeter) => {
@@ -22,7 +23,7 @@ export const MyProductPage = () => {
     return ourData;
   };
 
-  const searchByInputFunction = (ourData, searchMeter) => {
+  const inputSearchFunction = (ourData, searchMeter) => {
     if (searchMeter && searchMeter.length > 0) {
       return ourData.filter((item) =>
         item.title.toLowerCase().includes(searchMeter.toLowerCase())
@@ -44,9 +45,9 @@ export const MyProductPage = () => {
     state.sortByPriceMeter
   );
 
-  const searchedByInputArray = searchByInputFunction(
+  const searchedByInputArray = inputSearchFunction(
     sortedByPriceArray,
-    state.searchByInput
+    state.inputSearch
   );
   const filterByCategoryArray = filterByCategoryFunction(
     searchedByInputArray,

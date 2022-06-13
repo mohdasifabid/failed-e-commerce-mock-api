@@ -4,25 +4,26 @@ import { MyFooter } from "./MyFooter";
 import { MyNavbar } from "./MyNavbar";
 import { useProductProvider } from "./productProvider";
 import { deleteCall, getCall, postCall } from "./ReusableFunctions";
+import { wishlistData } from "./productActionType";
 
 export const MyWishlistPage = () => {
   const { state, dispatch } = useProductProvider();
   useEffect(async () => {
     const data = await getCall("/api/user/wishlist");
-    dispatch({ type: "WISHLIST_DATA", payload: data.wishlist });
+    dispatch({ type: wishlistData, payload: data.wishlist });
   }, []);
 
   const deleteItemFromWishlistHandler = async (itemId) => {
     const data = await deleteCall(`/api/user/wishlist/${itemId}`);
-    dispatch({ type: "WISHLIST_DATA", payload: data.wishlist });
+    dispatch({ type: wishlistData, payload: data.wishlist });
   };
 
   const moveToCartFromWishlist = async (item) => {
     const cartData = await postCall(`/api/user/cart`, { product: item });
-    dispatch({ type: "CART_DATA", payload: cartData.cart });
+    dispatch({ type: cartData, payload: cartData.cart });
 
     const wishlistData = await deleteCall(`/api/user/wishlist/${item._id}`);
-    dispatch({ type: "WISHLIST_DATA", payload: wishlistData.wishlist });
+    dispatch({ type: wishlistData, payload: wishlistData.wishlist });
   };
 
   return (

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthProvider } from "./authProvider";
 import { useProductProvider } from "./productProvider";
 import { deleteCall, postCall } from "./ReusableFunctions";
+import { cartData, wishlistData } from "./productActionType";
 
 export default function MySmallProductCard({ item }) {
   const { state, dispatch } = useProductProvider();
@@ -14,20 +15,20 @@ export default function MySmallProductCard({ item }) {
 
   const addToWishlistHandler = async (item) => {
     const data = await postCall("/api/user/wishlist", { product: item });
-    dispatch({ type: "WISHLIST_DATA", payload: data.wishlist });
+    dispatch({ type: wishlistData, payload: data.wishlist });
   };
   const deleteFromWishlistHandler = async (itemId) => {
     const data = await deleteCall(`/api/user/wishlist/${itemId}`);
-    dispatch({ type: "WISHLIST_DATA", payload: data.wishlist });
+    dispatch({ type: wishlistData, payload: data.wishlist });
   };
   const addToCartHandler = async (item) => {
     const data = await postCall("/api/user/cart", { product: item });
-    dispatch({ type: "CART_DATA", payload: data.cart });
+    dispatch({ type: cartData, payload: data.cart });
   };
 
   const deleteFromCartHandler = async (itemId) => {
     const data = await deleteCall(`/api/user/cart/${itemId}`);
-    dispatch({ type: "CART_DATA", payload: data.cart });
+    dispatch({ type: cartData, payload: data.cart });
   };
   const inCart = state.cart.some((prod) => prod._id === item._id);
 
