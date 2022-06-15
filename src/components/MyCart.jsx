@@ -1,11 +1,10 @@
 import "./MyCart.css";
 import { useEffect } from "react";
-import { MyFooter } from "./MyFooter";
-import { MyNavbar } from "./MyNavbar";
 import { useProductProvider } from "./productProvider";
 import { deleteCall, getCall, postCall } from "./ReusableFunctions";
 import { useNavigate } from "react-router-dom";
 import { cartData } from "./productActionType";
+import { Layout } from "./Layout";
 
 export const MyCart = () => {
   const { state, dispatch } = useProductProvider();
@@ -52,10 +51,7 @@ export const MyCart = () => {
     dispatch({ type: cartData, payload: data.cart });
   };
   return (
-    <div className="body-container">
-      <div className="top">
-        <MyNavbar />
-      </div>
+    <Layout>
       <div className="my-cart-page-body-content middle">
         <div className="ls-card">
           {state.cart.map((item) => {
@@ -132,9 +128,6 @@ export const MyCart = () => {
           </button>
         </div>
       </div>
-      <div className="bottom">
-        <MyFooter />
-      </div>
-    </div>
+    </Layout>
   );
 };

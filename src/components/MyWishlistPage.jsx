@@ -1,10 +1,9 @@
 import "./MyWishlistPage.css";
 import { useEffect } from "react";
-import { MyFooter } from "./MyFooter";
-import { MyNavbar } from "./MyNavbar";
 import { useProductProvider } from "./productProvider";
 import { deleteCall, getCall, postCall } from "./ReusableFunctions";
 import { wishlistData } from "./productActionType";
+import { Layout } from "./Layout";
 
 export const MyWishlistPage = () => {
   const { state, dispatch } = useProductProvider();
@@ -27,10 +26,7 @@ export const MyWishlistPage = () => {
   };
 
   return (
-    <div className="body-container">
-      <div className="top">
-        <MyNavbar />
-      </div>
+    <Layout>
       <div className="my-wishlist-page-body-content middle">
         <h1>My Wishlist</h1>
         <div className="my-wishlist-page-body-content-cards">
@@ -71,9 +67,6 @@ export const MyWishlistPage = () => {
           })}
         </div>
       </div>
-      <div>
-        <MyFooter />
-      </div>
-    </div>
+    </Layout>
   );
 };

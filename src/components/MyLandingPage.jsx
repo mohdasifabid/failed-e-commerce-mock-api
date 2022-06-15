@@ -3,16 +3,14 @@ import { MyFooter } from "./MyFooter.jsx";
 import { MyResponsiveImg } from "./MyResponsiveImg.jsx";
 import { useProductProvider } from "./productProvider.jsx";
 import { useNavigate } from "react-router-dom";
+import { Layout } from "./Layout.jsx";
 
 export const MyLandingPage = () => {
   const { state } = useProductProvider();
   const navigate = useNavigate();
 
   return (
-    <div className="body-container">
-      <div className="top">
-        <MyNavbar />
-      </div>
+    <Layout>
       <div className="landing-page-main-container">
         <div className="landing-page-products-sample">
           <MyResponsiveImg />
@@ -48,10 +46,6 @@ export const MyLandingPage = () => {
           </div>
         </div>
       </div>
-
-      <div className="bottom">
-        <MyFooter />
-      </div>
-    </div>
+    </Layout>
   );
 };

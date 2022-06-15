@@ -13,6 +13,7 @@ import { MyAddressPage } from "./components/MyAddressPage";
 import { MyPaymentPage } from "./components/MyPaymentPage";
 import { Orders } from "./components/Orders";
 import { loginStatus } from "./components/authActionType";
+import { Layout } from "./components/Layout";
 
 function App() {
   const { dispatch: authDispatch, state: authState } = useAuthProvider();
@@ -33,6 +34,7 @@ function App() {
         <Route path="/address" element={<MyAddressPage />} />
         <Route path="/payment" element={<MyPaymentPage />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/layout" element={<Layout />} />
         {authState.isLogin ? (
           <Route path="/login-page" element={<Navigate to="/" />} />
         ) : (

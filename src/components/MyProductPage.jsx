@@ -1,11 +1,10 @@
 import { useEffect } from "react";
-import { MyFooter } from "./MyFooter";
-import { MyNavbar } from "./MyNavbar";
 import { MyFilters } from "./MyFilters";
 import { getCall } from "./ReusableFunctions";
 import MySmallProductCard from "./MySmallProductCard";
 import { useProductProvider } from "./productProvider";
 import { getProduct } from "./productActionType";
+import { Layout } from "./Layout";
 
 export const MyProductPage = () => {
   const { state, dispatch } = useProductProvider();
@@ -54,10 +53,7 @@ export const MyProductPage = () => {
     state.filterByCategoryMeter
   );
   return (
-    <div className="body-container">
-      <div className="top">
-        <MyNavbar />
-      </div>
+    <Layout>
       <div className="my-product-page-body-content middle">
         <div className="my-product-page-filters-container">
           <MyFilters />
@@ -68,9 +64,6 @@ export const MyProductPage = () => {
           })}
         </div>
       </div>
-      <div className="bottom">
-        <MyFooter />
-      </div>
-    </div>
+    </Layout>
   );
 };

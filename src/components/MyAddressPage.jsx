@@ -2,9 +2,8 @@ import "./MyAddressPage.css";
 import { useEffect, useState } from "react";
 import { getCall, postCall } from "./ReusableFunctions";
 import { useProductProvider } from "./productProvider";
-import { MyNavbar } from "./MyNavbar";
-import { MyFooter } from "./MyFooter";
 import { getAddress } from "./productActionType";
+import { Layout } from "./Layout";
 
 export const MyAddressPage = () => {
   const { state, dispatch } = useProductProvider();
@@ -20,10 +19,7 @@ export const MyAddressPage = () => {
     dispatch({ type: getAddress, payload: data.address });
   };
   return (
-    <div className="body-container">
-      <div className="top">
-        <MyNavbar />
-      </div>
+    <Layout>
       <div className="middle my-address-page">
         <div className="address-box-container ">
           <div className="delievery-addresses-container">
@@ -123,9 +119,6 @@ export const MyAddressPage = () => {
           </div>
         </div>
       </div>
-      <div className="bottom">
-        <MyFooter />
-      </div>
-    </div>
+    </Layout>
   );
 };
