@@ -1,9 +1,9 @@
 import "./MyWishlistPage.css";
+import { Layout } from "./Layout";
 import { useEffect } from "react";
+import { wishlistData } from "./productActionType";
 import { useProductProvider } from "./productProvider";
 import { deleteCall, getCall, postCall } from "./ReusableFunctions";
-import { wishlistData } from "./productActionType";
-import { Layout } from "./Layout";
 
 export const MyWishlistPage = () => {
   const { state, dispatch } = useProductProvider();
@@ -27,9 +27,9 @@ export const MyWishlistPage = () => {
 
   return (
     <Layout>
-      <div className="my-wishlist-page-body-content middle">
+      <div className="ec-wishlist-container">
         <h1>My Wishlist</h1>
-        <div className="my-wishlist-page-body-content-cards">
+        <div className="ec-wishlist-cards-container">
           {state.wishlist.map((item) => {
             return (
               <div key={item._id} className="duck-product-card">
@@ -41,7 +41,7 @@ export const MyWishlistPage = () => {
                   />
                   <div className="duck-product-card-badge duck-like-badge duck-like-badge-l">
                     <i
-                      className="duck-like-badge-icon duck-like-badge-icon-l fa-solid fa-heart"
+                      className="ec-wishlist-card-like-icon duck-like-badge-icon fa-solid fa-heart"
                       onClick={() => deleteItemFromWishlistHandler(item._id)}
                     ></i>
                   </div>
