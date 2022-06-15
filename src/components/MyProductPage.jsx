@@ -9,7 +9,7 @@ import { useProductProvider } from "./productProvider";
 export const MyProductPage = () => {
   const { state, dispatch } = useProductProvider();
   useEffect(async () => {
-    let data = await getCall("api/products");
+    const data = await getCall("api/products");
     dispatch({ type: getProduct, payload: data.products });
   }, []);
 
@@ -52,6 +52,7 @@ export const MyProductPage = () => {
     searchedByInputArray,
     state.filterByCategoryMeter
   );
+
   return (
     <Layout>
       <div className="ec-product-page-container">
