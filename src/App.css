@@ -12,8 +12,13 @@
   align-items: center;
   padding: 2.5rem 0;
 }
+.ec-product-page-filters-container{
+  width: 150px;
+  padding: 0 1rem;
+  border-right: 2px solid var(--secondary-color);
+  }
 /* filters-page */
-.filter-container{
+.ec-filters-container{
   width: inherit;
   position: sticky;
   top: 5rem;
@@ -21,11 +26,7 @@
 }
 /* landing page */
 
-.ec-product-page-filters-container{
-width: 150px;
-padding: 0 1rem;
-border-right: 2px solid var(--secondary-color);
-}
+
 .ec-landing-page-img-container{
   width: 98%;
   display: flex;

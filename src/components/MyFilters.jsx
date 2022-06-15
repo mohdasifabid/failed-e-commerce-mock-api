@@ -17,7 +17,7 @@ export const MyFilters = () => {
   }, []);
 
   return (
-    <div className="filter-container">
+    <div className="ec-filters-container">
       <div className="filter-header">
         <p className="title">FILTER</p>
         <p
