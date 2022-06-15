@@ -22,7 +22,7 @@ export const MyNavbar = () => {
         placeholder="search here"
         onChange={(e) => {
           dispatch({ type: searchByInput, payload: e.target.value });
-          e.target.value.length > 0 && navigate("/product");
+          e.target.value.length > 0 && navigate("/products");
         }}
       />
 

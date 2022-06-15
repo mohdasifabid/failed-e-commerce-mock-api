@@ -17,7 +17,7 @@ export const MyLoginPage = () => {
     });
     authDispatch({ type: loginStatus, payload: true });
     localStorage.setItem("encodedToken", data.encodedToken);
-    navigate("/product");
+    navigate("/products");
   };
 
   const guestLoginHandler = async () => {
@@ -27,7 +27,7 @@ export const MyLoginPage = () => {
     });
     authDispatch({ type: loginStatus, payload: true });
     localStorage.setItem("encodedToken", data.encodedToken);
-    navigate("/product");
+    navigate("/products");
   };
   return (
     <div className="my-login-page-body">

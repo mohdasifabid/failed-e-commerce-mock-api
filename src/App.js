@@ -40,7 +40,7 @@ function App() {
         ) : (
           <Route path="/login" element={<MyLoginPage />} />
         )}
-        <Route path="/product" element={<MyProductPage />} />
+        <Route path="/products" element={<MyProductPage />} />
         <Route path="/signup" element={<MySignupPage />} />
         <Route path="/wishlist" element={<PrivateRoute />}>
           <Route path="/wishlist" element={<MyWishlistPage />} />
