@@ -1,10 +1,10 @@
 import { useEffect } from "react";
+import { Layout } from "./Layout";
 import { MyFilters } from "./MyFilters";
 import { getCall } from "./ReusableFunctions";
+import { getProduct } from "./productActionType";
 import MySmallProductCard from "./MySmallProductCard";
 import { useProductProvider } from "./productProvider";
-import { getProduct } from "./productActionType";
-import { Layout } from "./Layout";
 
 export const MyProductPage = () => {
   const { state, dispatch } = useProductProvider();
@@ -54,11 +54,11 @@ export const MyProductPage = () => {
   );
   return (
     <Layout>
-      <div className="my-product-page-body-content middle">
-        <div className="my-product-page-filters-container">
+      <div className="ec-product-page-container">
+        <div className="ec-product-page-filters-container">
           <MyFilters />
         </div>
-        <div className="my-product-page-small-cards">
+        <div className="ec-product-page-cards-container">
           {filterByCategoryArray.map((item) => {
             return <MySmallProductCard item={item} key={item._id} />;
           })}

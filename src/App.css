@@ -1,9 +1,10 @@
 @import url(https://book-art.netlify.app/style.css);
 
-.my-product-page-body-content {
+/* product page */
+.ec-product-page-container {
   display: flex;
 }
-.my-product-page-small-cards {
+.ec-product-page-cards-container {
   display: flex;
   gap: 2rem 1rem;
   flex-wrap: wrap;
@@ -11,15 +12,20 @@
   align-items: center;
   padding: 2.5rem 0;
 }
+/* filters-page */
 .filter-container{
-  padding: 0 1rem 2rem 2rem;
+  width: inherit;
   position: sticky;
   top: 5rem;
   font-size: small;
-  border-right: 1px solid var(--secondary-color);
 }
 /* landing page */
 
+.ec-product-page-filters-container{
+width: 150px;
+padding: 0 1rem;
+border-right: 2px solid var(--secondary-color);
+}
 .ec-landing-page-img-container{
   width: 98%;
   display: flex;
