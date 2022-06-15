@@ -1,16 +1,16 @@
 import "./MyAddressPage.css";
-import { useEffect, useState } from "react";
-import { getCall, postCall } from "./ReusableFunctions";
-import { useProductProvider } from "./productProvider";
-import { getAddress } from "./productActionType";
 import { Layout } from "./Layout";
+import { useEffect, useState } from "react";
+import { getAddress } from "./productActionType";
+import { useProductProvider } from "./productProvider";
+import { getCall, postCall } from "./ReusableFunctions";
 
 export const MyAddressPage = () => {
-  const { state, dispatch } = useProductProvider();
+  const { dispatch } = useProductProvider();
   const [newAddress, setNewAddress] = useState({});
   useEffect(async () => {
     const data = await getCall("/api/user/address");
-    setAddresses(data);
+    setNewAddress(data);
     dispatch({ type: getAddress, payload: data.address });
   }, []);
 
@@ -18,13 +18,14 @@ export const MyAddressPage = () => {
     const data = await postCall("/api/user/address", { address: newAddress });
     dispatch({ type: getAddress, payload: data.address });
   };
+
   return (
     <Layout>
-      <div className="middle my-address-page">
-        <div className="address-box-container ">
-          <div className="delievery-addresses-container">
+      <div className="ec-address-page-container">
+        <div className="ec-address-container ">
+          <div className="ec-delievery-addresses">
             <p> Delievery Addresses</p>
-            <div className="delievery-address-card">
+            <div className="ec-delievery-address-card">
               <label htmlFor="">
                 <input type="radio" />
                 <strong>Home</strong> <span>99876543210</span>
@@ -32,7 +33,7 @@ export const MyAddressPage = () => {
               <p>Plot No. A, B Colony, C City, D State-120034</p>
             </div>
           </div>
-          <div className="address-form">
+          <div className="ec-address-form">
             <p>Add New Address</p>
             <div>
               <input
@@ -67,7 +68,7 @@ export const MyAddressPage = () => {
               />
             </div>
             <textarea
-              className="address-input"
+              className="ec-address-input"
               type="text"
               placeholder="Address (Area and Street)"
               onChange={(e) =>
@@ -90,7 +91,7 @@ export const MyAddressPage = () => {
                 }
               />
             </div>
-            <div className="address-form-radio-btns-container">
+            <div className="ec-address-form-radio-buttons-container">
               <label htmlFor="">
                 <input
                   type="radio"
@@ -112,7 +113,7 @@ export const MyAddressPage = () => {
                 <span> Work ( 10am-5pm)</span>
               </label>
             </div>
-            <div className="address-form-btns-container">
+            <div className="ec-address-form-buttons-container">
               <button onClick={addNewAddressHandler}>Save And Order</button>
               <button>Cancel</button>
             </div>
