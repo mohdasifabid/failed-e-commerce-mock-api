@@ -20,15 +20,15 @@ export const MyFilters = () => {
     <div className="ec-filters-container">
       <div className="filter-header">
         <p className="title">FILTER</p>
-        <p
-          className="clear"
+        <button
+          className="ec-filter-clear"
           onClick={() => {
             dispatch({ type: sortByPrice, payload: false });
             dispatch({ type: resetCategoryFilter, payload: [] });
           }}
         >
           CLEAR ALL
-        </p>
+        </button>
       </div>
       <hr />
       <div className="filter-sort">

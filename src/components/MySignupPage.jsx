@@ -56,12 +56,12 @@ export const MySignupPage = () => {
         <button className="login-buttons" onClick={saveNewUserInfo}>
           Signup
         </button>
-        <p
+        <a
           style={{ textAlign: "center", cursor: "pointer" }}
           onClick={() => navigate("/login")}
         >
           Already a user? <span>Login here</span>
-        </p>
+        </a>
       </div>
     </div>
   );

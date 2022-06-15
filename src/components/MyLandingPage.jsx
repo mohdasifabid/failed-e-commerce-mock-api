@@ -11,34 +11,34 @@ export const MyLandingPage = () => {
         <MyResponsiveImg />
       </div>
       <div className="ec-landing-page-img-container">
-        <div
+        <a
           className="ec-landing-page-category-img-card"
           alt=""
           onClick={() => navigate("/products")}
         >
           Fiction
-        </div>
-        <div
+        </a>
+        <a
           className="ec-landing-page-category-img-card"
           alt=""
           onClick={() => navigate("/products")}
         >
           Science
-        </div>
-        <div
+        </a>
+        <a
           className="ec-landing-page-category-img-card"
           alt=""
           onClick={() => navigate("/products")}
         >
           Horror
-        </div>
-        <div
+        </a>
+        <a
           className="ec-landing-page-category-img-card"
           alt=""
           onClick={() => navigate("/products")}
         >
           &++
-        </div>
+        </a>
       </div>
     </Layout>
   );

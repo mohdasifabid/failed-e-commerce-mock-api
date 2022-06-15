@@ -90,7 +90,7 @@ export default function MySmallProductCard({ item }) {
       )}
 
       {inWishlist ? (
-        <div
+        <a
           className="duck-card-product-badge-like-container"
           onClick={() => {
             authState.isLogin
@@ -102,9 +102,9 @@ export default function MySmallProductCard({ item }) {
             style={{ color: "gray" }}
             className="fa-solid fa-heart duck-card-product-badge-like"
           ></i>
-        </div>
+        </a>
       ) : (
-        <div
+        <a
           className="duck-card-product-badge-like-container"
           onClick={() => {
             authState.isLogin ? addToWishlistHandler(item) : navigate("/login");
@@ -114,7 +114,7 @@ export default function MySmallProductCard({ item }) {
             style={{ color: "rgb(229,231,235)" }}
             className="fa-solid fa-heart duck-card-product-badge-like"
           ></i>
-        </div>
+        </a>
       )}
     </div>
   );

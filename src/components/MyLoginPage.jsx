@@ -52,12 +52,12 @@ export const MyLoginPage = () => {
         <button className="login-buttons" onClick={guestLoginHandler}>
           LOGIN AS GUEST
         </button>
-        <p
+        <a
           style={{ textAlign: "center", cursor: "pointer" }}
           onClick={() => navigate("/signup")}
         >
           Not a user? <span>Create account</span>
-        </p>
+        </a>
       </div>
     </div>
   );

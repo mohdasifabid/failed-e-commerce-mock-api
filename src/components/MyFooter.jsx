@@ -1,7 +1,7 @@
 export const MyFooter = () => {
   return (
     <div className="futer-container">
-      <div className="futer-text-content">Made with pressure by Asif</div>
+      <div className="futer-text-content">By Mohd Asif</div>
       <div className="futer-links">
         <a href="https://github.com/mohdasifabid/duck-ui">
           <i className="fa-brands fa-github futer-link"></i>
@@ -14,7 +14,7 @@ export const MyFooter = () => {
         </a>
       </div>
       <div className="futer-copyright">
-        <i className="fa-solid fa-copyright"></i> 2022 Company Designs
+        <i className="fa-solid fa-copyright"></i> 2022 BuKart
       </div>
     </div>
   );

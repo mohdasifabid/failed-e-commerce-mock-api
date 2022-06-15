@@ -10,11 +10,9 @@ export const MyNavbar = () => {
   let navigate = useNavigate();
   return (
     <div className="ec-nav-container">
-      <Link to="/" className="ec-nav-links">
-        <p className="ec-brand-name">
-          <strong>B</strong>u<strong>K</strong>art
-        </p>
-      </Link>
+      <a className="ec-brand-name" onClick={() => navigate("/")}>
+        <strong>B</strong>u<strong>K</strong>art
+      </a>
       <input
         value={state.inputSearch}
         className="ec-nav-input"
@@ -26,22 +24,18 @@ export const MyNavbar = () => {
         }}
       />
 
-      <Link to="/wishlist" className="ec-nav-links">
-        <div className="duck-icon-badge">
-          <i className="fa-solid fa-heart  navbar-icons"></i>
-          <p className="duck-icon-badge-content navbar-badge-content">
-            {state.wishlist.length}
-          </p>
-        </div>
-      </Link>
-      <Link to="/cart" className="ec-nav-links">
-        <div className="duck-icon-badge ec-cart">
-          <i className="fa-solid fa-cart-shopping  navbar-icons"></i>
-          <p className="duck-icon-badge-content navbar-badge-content">
-            {state.cart.length}
-          </p>
-        </div>
-      </Link>
+      <a className="duck-icon-badge" onClick={() => navigate("/wishlist")}>
+        <i className="fa-solid fa-heart  navbar-icons"></i>
+        <p className="duck-icon-badge-content navbar-badge-content">
+          {state.wishlist.length}
+        </p>
+      </a>
+      <a className="duck-icon-badge ec-cart" onClick={() => navigate("/cart")}>
+        <i className="fa-solid fa-cart-shopping  navbar-icons"></i>
+        <p className="duck-icon-badge-content navbar-badge-content">
+          {state.cart.length}
+        </p>
+      </a>
 
       {authState.isLogin ? (
         <div className="ec-nav-login ">
@@ -56,11 +50,9 @@ export const MyNavbar = () => {
           </strong>
         </div>
       ) : (
-        <Link to="/login" className="ec-nav-links">
-          <div className="ec-nav-login ">
-            <strong>Login</strong>
-          </div>
-        </Link>
+        <a className="ec-nav-login" onClick={() => navigate("/login")}>
+          <strong>Login</strong>
+        </a>
       )}
     </div>
   );

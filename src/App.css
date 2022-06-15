@@ -12,17 +12,27 @@
   align-items: center;
   padding: 2.5rem 0;
 }
+/* filters-page */
+
 .ec-product-page-filters-container{
   width: 150px;
   padding: 0 1rem;
   border-right: 2px solid var(--secondary-color);
   }
-/* filters-page */
 .ec-filters-container{
   width: inherit;
   position: sticky;
   top: 5rem;
   font-size: small;
+}
+.ec-filter-clear{
+  border: none;
+  background-color: #fff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.ec-filter-clear:active{
+  font-weight: bold;
 }
 /* landing page */
 
@@ -82,7 +92,7 @@
 .login-inputs:focus{
   border: 1px solid var(--primary-color);
 }
-.login-page p span{
+.login-page a span{
   color: blue;
   text-decoration: underline;
 }
@@ -107,6 +117,7 @@ background-color: var(--secondary-color);
 }
 .ec-brand-name{
   margin-left: 2rem;
+  cursor: pointer;
 
 }
 
@@ -137,6 +148,7 @@ margin-right: 2rem;
 }
 .duck-icon-badge{
   margin-bottom: .5rem;
+  cursor: pointer;
 }
 
 .futer-link{
