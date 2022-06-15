@@ -22,11 +22,11 @@ export const MyNavbar = () => {
         placeholder="search here"
         onChange={(e) => {
           dispatch({ type: searchByInput, payload: e.target.value });
-          e.target.value.length > 0 && navigate("/product-page");
+          e.target.value.length > 0 && navigate("/product");
         }}
       />
 
-      <Link to="/wishlist-page" className="ec-nav-links">
+      <Link to="/wishlist" className="ec-nav-links">
         <div className="duck-icon-badge">
           <i className="fa-solid fa-heart  navbar-icons"></i>
           <p className="duck-icon-badge-content navbar-badge-content">
@@ -34,7 +34,7 @@ export const MyNavbar = () => {
           </p>
         </div>
       </Link>
-      <Link to="/cart-page" className="ec-nav-links">
+      <Link to="/cart" className="ec-nav-links">
         <div className="duck-icon-badge ec-cart">
           <i className="fa-solid fa-cart-shopping  navbar-icons"></i>
           <p className="duck-icon-badge-content navbar-badge-content">
@@ -49,14 +49,14 @@ export const MyNavbar = () => {
             onClick={() => {
               authDispatch({ type: loginStatus, payload: false });
               localStorage.removeItem("encodedToken");
-              navigate("/login-page");
+              navigate("/login");
             }}
           >
             Logout
           </strong>
         </div>
       ) : (
-        <Link to="/login-page" className="ec-nav-links">
+        <Link to="/login" className="ec-nav-links">
           <div className="ec-nav-login ">
             <strong>Login</strong>
           </div>

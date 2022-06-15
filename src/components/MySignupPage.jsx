@@ -21,7 +21,7 @@ export const MySignupPage = () => {
     });
     authDispatch({ type: signupStatus, payload: true });
     localStorage.setItem("encodedToken", data.encodedToken);
-    navigate("/login-page");
+    navigate("/login");
   };
 
   return (
@@ -58,7 +58,7 @@ export const MySignupPage = () => {
         </button>
         <p
           style={{ textAlign: "center", cursor: "pointer" }}
-          onClick={() => navigate("/login-page")}
+          onClick={() => navigate("/login")}
         >
           Already a user? <span>Login here</span>
         </p>

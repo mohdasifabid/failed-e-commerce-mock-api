@@ -49,7 +49,7 @@ export default function MySmallProductCard({ item }) {
           onClick={() =>
             authState.isLogin
               ? deleteFromCartHandler(item._id)
-              : navigate("/login-page")
+              : navigate("/login")
           }
         >
           Remove from Cart
@@ -58,7 +58,7 @@ export default function MySmallProductCard({ item }) {
         <button
           className="duck-card-product-btn btn-add-to-cart"
           onClick={() =>
-            authState.isLogin ? addToCartHandler(item) : navigate("/login-page")
+            authState.isLogin ? addToCartHandler(item) : navigate("/login")
           }
         >
           Add to Cart
@@ -71,7 +71,7 @@ export default function MySmallProductCard({ item }) {
             authState.isLogin
               ? (deleteFromWishlistHandler(item._id),
                 setWishlistIconColor("rgb(229,231,235)"))
-              : navigate("/login-page");
+              : navigate("/login");
           }}
         >
           Remove from Wishlist
@@ -82,7 +82,7 @@ export default function MySmallProductCard({ item }) {
           onClick={() => {
             authState.isLogin
               ? (addToWishlistHandler(item), setWishlistIconColor("gray"))
-              : navigate("/login-page");
+              : navigate("/login");
           }}
         >
           Add to Wishlist
@@ -95,7 +95,7 @@ export default function MySmallProductCard({ item }) {
           onClick={() => {
             authState.isLogin
               ? deleteFromWishlistHandler(item._id)
-              : navigate("/login-page");
+              : navigate("/login");
           }}
         >
           <i
@@ -107,9 +107,7 @@ export default function MySmallProductCard({ item }) {
         <div
           className="duck-card-product-badge-like-container"
           onClick={() => {
-            authState.isLogin
-              ? addToWishlistHandler(item)
-              : navigate("/login-page");
+            authState.isLogin ? addToWishlistHandler(item) : navigate("/login");
           }}
         >
           <i

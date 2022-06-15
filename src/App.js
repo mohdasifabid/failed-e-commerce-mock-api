@@ -36,17 +36,17 @@ function App() {
         <Route path="/orders" element={<Orders />} />
         <Route path="/layout" element={<Layout />} />
         {authState.isLogin ? (
-          <Route path="/login-page" element={<Navigate to="/" />} />
+          <Route path="/login" element={<Navigate to="/" />} />
         ) : (
-          <Route path="/login-page" element={<MyLoginPage />} />
+          <Route path="/login" element={<MyLoginPage />} />
         )}
-        <Route path="/product-page" element={<MyProductPage />} />
-        <Route path="/signup-page" element={<MySignupPage />} />
-        <Route path="/wishlist-page" element={<PrivateRoute />}>
-          <Route path="/wishlist-page" element={<MyWishlistPage />} />
+        <Route path="/product" element={<MyProductPage />} />
+        <Route path="/signup" element={<MySignupPage />} />
+        <Route path="/wishlist" element={<PrivateRoute />}>
+          <Route path="/wishlist" element={<MyWishlistPage />} />
         </Route>
-        <Route path="/cart-page" element={<PrivateRoute />}>
-          <Route path="/cart-page" element={<MyCart />} />
+        <Route path="/cart" element={<PrivateRoute />}>
+          <Route path="/cart" element={<MyCart />} />
         </Route>
       </Routes>
     </div>

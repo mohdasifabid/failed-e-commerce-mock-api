@@ -19,28 +19,28 @@ export const MyLandingPage = () => {
           <div
             className="landing-page-products-sample-img landing-page-cat-card"
             alt=""
-            onClick={() => navigate("/product-page")}
+            onClick={() => navigate("/product")}
           >
             Fiction
           </div>
           <div
             className="landing-page-products-sample-img landing-page-cat-card"
             alt=""
-            onClick={() => navigate("/product-page")}
+            onClick={() => navigate("/product")}
           >
             Science
           </div>
           <div
             className="landing-page-products-sample-img landing-page-cat-card"
             alt=""
-            onClick={() => navigate("/product-page")}
+            onClick={() => navigate("/product")}
           >
             Horror
           </div>
           <div
             className="landing-page-products-sample-img landing-page-cat-card"
             alt=""
-            onClick={() => navigate("/product-page")}
+            onClick={() => navigate("/product")}
           >
             &++
           </div>

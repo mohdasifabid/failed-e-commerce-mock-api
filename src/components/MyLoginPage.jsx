@@ -17,7 +17,7 @@ export const MyLoginPage = () => {
     });
     authDispatch({ type: loginStatus, payload: true });
     localStorage.setItem("encodedToken", data.encodedToken);
-    navigate("/product-page");
+    navigate("/product");
   };
 
   const guestLoginHandler = async () => {
@@ -27,7 +27,7 @@ export const MyLoginPage = () => {
     });
     authDispatch({ type: loginStatus, payload: true });
     localStorage.setItem("encodedToken", data.encodedToken);
-    navigate("/product-page");
+    navigate("/product");
   };
   return (
     <div className="my-login-page-body">
@@ -54,7 +54,7 @@ export const MyLoginPage = () => {
         </button>
         <p
           style={{ textAlign: "center", cursor: "pointer" }}
-          onClick={() => navigate("/signup-page")}
+          onClick={() => navigate("/signup")}
         >
           Not a user? <span>Create account</span>
         </p>
