@@ -1,49 +1,43 @@
-import { MyNavbar } from "./MyNavbar.jsx";
-import { MyFooter } from "./MyFooter.jsx";
 import { MyResponsiveImg } from "./MyResponsiveImg.jsx";
-import { useProductProvider } from "./productProvider.jsx";
 import { useNavigate } from "react-router-dom";
 import { Layout } from "./Layout.jsx";
 
 export const MyLandingPage = () => {
-  const { state } = useProductProvider();
   const navigate = useNavigate();
 
   return (
     <Layout>
-      <div className="landing-page-main-container">
-        <div className="landing-page-products-sample">
-          <MyResponsiveImg />
+      <div className="ec-landing-page-img-container">
+        <MyResponsiveImg />
+      </div>
+      <div className="ec-landing-page-img-container">
+        <div
+          className="ec-landing-page-category-img-card"
+          alt=""
+          onClick={() => navigate("/product")}
+        >
+          Fiction
         </div>
-        <div className="landing-page-products-sample">
-          <div
-            className="landing-page-products-sample-img landing-page-cat-card"
-            alt=""
-            onClick={() => navigate("/product")}
-          >
-            Fiction
-          </div>
-          <div
-            className="landing-page-products-sample-img landing-page-cat-card"
-            alt=""
-            onClick={() => navigate("/product")}
-          >
-            Science
-          </div>
-          <div
-            className="landing-page-products-sample-img landing-page-cat-card"
-            alt=""
-            onClick={() => navigate("/product")}
-          >
-            Horror
-          </div>
-          <div
-            className="landing-page-products-sample-img landing-page-cat-card"
-            alt=""
-            onClick={() => navigate("/product")}
-          >
-            &++
-          </div>
+        <div
+          className="ec-landing-page-category-img-card"
+          alt=""
+          onClick={() => navigate("/product")}
+        >
+          Science
+        </div>
+        <div
+          className="ec-landing-page-category-img-card"
+          alt=""
+          onClick={() => navigate("/product")}
+        >
+          Horror
+        </div>
+        <div
+          className="ec-landing-page-category-img-card"
+          alt=""
+          onClick={() => navigate("/product")}
+        >
+          &++
         </div>
       </div>
     </Layout>

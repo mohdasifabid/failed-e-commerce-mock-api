@@ -19,12 +19,8 @@
   border-right: 1px solid var(--secondary-color);
 }
 /* landing page */
-.landing-page-main-contaienr{
-  width: 100vw;
-  display: flex;
 
-}
-.landing-page-products-sample{
+.ec-landing-page-img-container{
   width: 98%;
   display: flex;
   justify-content: center;
@@ -33,16 +29,8 @@
   gap: 4%;
   
 }
-.landing-page-products-sample-img{
-  width:20%;
-}
-.landing-page-products-sample-img:hover{
-  cursor: pointer;
-  transition-property:inherit;
-  box-shadow: 10px 8px 1px 1px var(--secondary-color);
-}
-
-.landing-page-cat-card{
+.ec-landing-page-category-img-card{
+  width:21%;
   background-image: url("https://images.unsplash.com/photo-1547127796-06bb04e4b315?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZGFyayUyMGJhY2tncm91bmR8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60");
   color: #fff;
   display: flex;
@@ -50,6 +38,12 @@
   align-items: center;
   font-size: x-large;
   min-height: 10rem;
+
+}
+.ec-landing-page-category-img-card:hover{
+  cursor: pointer;
+  transition-property:inherit;
+  box-shadow: 10px 8px 1px 1px var(--secondary-color);
 }
 /* login page  */
 
