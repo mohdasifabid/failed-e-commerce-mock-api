@@ -1,47 +1,46 @@
-.my-cart-page-body-content{
+.ec-cart-page-container{
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 1rem;
 }
-.duck-bill-card {
-    height: fit-content;
-    border-radius: 0.225rem;
-   
-    border: .125rem solid var(--secondary-color);
-    padding: .5rem 0rem 1rem 1rem;
-  }
+.ec-bill-card {
+  height: fit-content;
+  border-radius: 0.225rem;
+  border: .125rem solid var(--secondary-color);
+  padding: .5rem 0rem 1rem 1rem;
+}
   
-  .duck-bill-card-title {
-    width: 85%;
-    font-weight: bold;
-    margin-bottom: 01rem;
-  }
-  .duck-bill-card-price-details {
-    width: 85%;
-    border-bottom: 0.125rem solid var(--primary-color);
-    border-top: 0.125rem solid var(--primary-color);
-  }
+.ec-bill-card-title {
+  width: 85%;
+  font-weight: bold;
+  margin-bottom: 01rem;
+}
+.ec-bill-card-price-details {
+  width: 85%;
+  border-bottom: 0.125rem solid var(--primary-color);
+  border-top: 0.125rem solid var(--primary-color);
+}
   
-  .duck-bill-card-price-details-content {
-    width: 85%;
-    display: flex;
-    justify-content: space-between;
-    font-size: smaller;
-  }
-  .duck-bill-card-total-amount {
-    width: 85%;
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-    font-size: smaller;
-    border-bottom: 0.125rem solid var(--primary-color);
-  }
+.ec-bill-card-price-details-content {
+  width: 85%;
+  display: flex;
+  justify-content: space-between;
+  font-size: smaller;
+}
+.ec-bill-card-total-amount {
+  width: 85%;
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: smaller;
+  border-bottom: 0.125rem solid var(--primary-color);
+}
   
-  .duck-bill-card-saving-info {
+  .ec-bill-card-saving-info {
     font-size: smaller;
     padding: .7rem;
   }
-  .duck-bill-card-btn {
+  .ec-bill-card-btn {
     width: 85%;
     font-weight:bold ;
     padding: .5rem .5rem;
@@ -49,72 +48,72 @@
     cursor: pointer;
     margin-top: 1rem;
   }
-  .duck-bill-card-btn:hover {
+  .ec-bill-card-btn:hover {
     color: var(--secondary-color);
     background-color: var(--primary-color);
   }
   /*  */
-  .ls-card{
+  .ec-ls-card{
     width: 300px;
     font-size: small;
     border: 1px solid var(--primary-color);
     height: fit-content;
   }
-  .ls-card-img{
+  .ec-ls-card-img{
     height: 110px;
     width: 120px;
   }
-  .ls-card-leftside{
+  .ec-ls-card-leftside{
     display: flex;
     padding: 1rem;
     gap: 1rem;
     justify-content: center;
     border-bottom: 1px solid var(--secondary-color);
   }
-  .ls-card-leftside-child{
+  .ec-ls-card-leftside-child{
    display: flex;
    gap: 1rem;
   }
  
-  .ls-product-title{
+  .ec-ls-product-title{
     margin-bottom: 0;
     margin-top: 0;
     text-align: center;
   }
-  .ls-product-subtitle{
+  .ec-ls-product-subtitle{
     margin-top: 0;
     margin-bottom: .5rem;
     text-align: center;
 
   }
-  .ls-card-quantity-manager{
+  .ec-ls-card-quantity-manager{
     display: flex;
     align-items: center;
     justify-content: center; 
     gap: .75rem;
 }
-.quantity-manager-child{
+.ec-quantity-manager-child{
    padding: .25rem .5rem;
    font-size: small;
    border: 1px solid var(--secondary-color);
 }
-.ls-card-quantity-manager button{
+.ec-ls-card-quantity-manager button{
    border: 1.7px solid var(--secondary-color);
    cursor: pointer;
 }
-.ls-card-btn{
+.ec-ls-card-btn{
   border: 1px solid var(--secondary-color);
   padding: .25rem .5rem;
   margin: .75rem .25rem -.5rem .25rem;
   cursor: pointer;
 }
 
-.ls-card-rightside div{
+.ec-card-rightside div{
   display: flex;
   justify-content: space-between;
   padding: .4rem .75rem;
 }
-.ls-card-rightside-btn{
+.ec-ls-card-rightside-btn{
   width: 95%;
   margin-left: 8.5px;
   padding: .25rem .5rem;
@@ -122,17 +121,17 @@
   cursor: pointer;
 
 }
-.ls-card-rightside-btn:active{
+.ec-ls-card-rightside-btn:active{
   border: 1px solid var(--primary-color);
 }
 
 @media (max-width: 580px){
-  .ls-card{
+  .ec-ls-card{
     display: flex;
     flex-direction: column;
     height: fit-content;
   }
-  .ls-card-leftside{
+  .ec-ls-card-leftside{
     border-right: none;
     border-bottom: 1px solid var(--secondary-color);
     padding: 1rem .5rem;

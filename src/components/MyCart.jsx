@@ -1,29 +1,19 @@
 import "./MyCart.css";
+import { Layout } from "./Layout";
 import { useEffect } from "react";
+import { cartData } from "./productActionType";
+import { useNavigate } from "react-router-dom";
 import { useProductProvider } from "./productProvider";
 import { deleteCall, getCall, postCall } from "./ReusableFunctions";
-import { useNavigate } from "react-router-dom";
-import { cartData } from "./productActionType";
-import { Layout } from "./Layout";
 
 export const MyCart = () => {
   const { state, dispatch } = useProductProvider();
   const navigate = useNavigate();
 
-  const totalPrice = state.cart.reduce((a, c) => {
-    let priceOfAnItem = c.price * c.qty;
-    return a + Number(priceOfAnItem);
-  }, 0);
-
   useEffect(async () => {
     const data = await getCall("/api/user/cart");
     dispatch({ type: cartData, payload: data.cart });
   }, []);
-
-  const deleteItemFromCartHandler = async (id) => {
-    const data = await deleteCall(`/api/user/cart/${id}`);
-    dispatch({ type: cartData, payload: data.cart });
-  };
 
   const moveItemFromCartToWishlist = async (item) => {
     const wishlistData = await postCall("/api/user/wishlist", {
@@ -34,7 +24,7 @@ export const MyCart = () => {
     dispatch({ type: cartData, payload: cartData.cart });
   };
 
-  const increaseQuantity = async (itemId) => {
+  const increaseQuantityHandler = async (itemId) => {
     const data = await postCall(`/api/user/cart/${itemId}`, {
       action: {
         type: "increment",
@@ -42,7 +32,8 @@ export const MyCart = () => {
     });
     dispatch({ type: cartData, payload: data.cart });
   };
-  const decreaseQuantity = async (itemId) => {
+
+  const decreaseQuantityHandler = async (itemId) => {
     const data = await postCall(`/api/user/cart/${itemId}`, {
       action: {
         type: "decrement",
@@ -50,17 +41,23 @@ export const MyCart = () => {
     });
     dispatch({ type: cartData, payload: data.cart });
   };
+
+  const totalPrice = state.cart.reduce((a, c) => {
+    const priceOfAnItem = c.price * c.qty;
+    return a + Number(priceOfAnItem);
+  }, 0);
+
   return (
     <Layout>
-      <div className="my-cart-page-body-content middle">
-        <div className="ls-card">
+      <div className="ec-cart-page-container">
+        <div className="ec-ls-card">
           {state.cart.map((item) => {
             return (
-              <div className="ls-card-leftside">
-                <img src={item.img} alt="" className="ls-card-img" />
+              <div className="ec-ls-card-leftside">
+                <img src={item.img} alt="" className="ec-ls-card-img" />
                 <div>
-                  <p className="ls-product-title">{item.title}</p>
-                  <p className="ls-product-subtitle">
+                  <p className="ec-ls-product-title">{item.title}</p>
+                  <p className="ec-ls-product-subtitle">
                     <small>
                       Price:
                       <small>
@@ -70,23 +67,25 @@ export const MyCart = () => {
                       {item.price}
                     </small>
                   </p>
-                  <div className="ls-card-quantity-manager">
+                  <div className="ec-ls-card-quantity-manager">
                     <button
-                      className="quantity-manager-child"
-                      onClick={() => decreaseQuantity(item._id)}
+                      className="ec-quantity-manager-child"
+                      onClick={() => decreaseQuantityHandler(item._id)}
                     >
                       -
                     </button>
-                    <span className="quantity-manager-child">{item.qty}</span>
+                    <span className="ec-quantity-manager-child">
+                      {item.qty}
+                    </span>
                     <button
-                      className="quantity-manager-child"
-                      onClick={() => increaseQuantity(item._id)}
+                      className="ec-quantity-manager-child"
+                      onClick={() => increaseQuantityHandler(item._id)}
                     >
                       +
                     </button>
                   </div>
                   <button
-                    className="ls-card-btn"
+                    className="ec-ls-card-btn"
                     onClick={() => moveItemFromCartToWishlist(item)}
                   >
                     Move To Wishlist
@@ -96,14 +95,14 @@ export const MyCart = () => {
             );
           })}
         </div>
-        <div className="duck-bill-card">
-          <div className="duck-bill-card-title">Price Details</div>
-          <div className="duck-bill-card-price-details">
+        <div className="ec-bill-card">
+          <div className="ec-bill-card-title">Price Details</div>
+          <div className="ec-bill-card-price-details">
             {state.cart.map((item) => {
               return (
                 <div
                   key={item._id}
-                  className="duck-bill-card-price-details-content"
+                  className="ec-bill-card-price-details-content"
                 >
                   <p>{item.title}</p>
                   <p>
@@ -113,7 +112,7 @@ export const MyCart = () => {
               );
             })}
           </div>
-          <div className="duck-bill-card-total-amount">
+          <div className="ec-bill-card-total-amount">
             <p>TOTAL AMOUNT</p>
             <p>
               <i class="fa-solid fa-indian-rupee-sign"></i>
@@ -121,7 +120,7 @@ export const MyCart = () => {
             </p>
           </div>
           <button
-            className="duck-bill-card-btn duck-btn duck-btn-solid-l"
+            className="ec-bill-card-btn duck-btn duck-btn-solid-l"
             onClick={() => navigate("/address")}
           >
             Place Order
