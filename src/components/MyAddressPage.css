@@ -4,10 +4,11 @@
     flex-direction: column;
     align-items: center;
     margin: 0 0 1rem 0;
+    z-index: 1000;
 }
 
 .ec-address-container{
-   border: 1px solid var(--primary-color);
+   border: 2px solid var(--secondary-color);
    padding: 0 0 1.5rem 0;
    margin-top: 1.5rem ;
 }
@@ -37,7 +38,7 @@
 }
 
 .ec-address-form {
-    padding: 0 1rem;
+    padding: 2rem 1.5rem 1rem 1.5rem;
     display: flex;
     flex-direction: column;
     gap: .5rem;
@@ -87,7 +88,34 @@
     border: 1px solid var(--secondary-color);
     cursor: pointer;
 }
-
+.ec-address-form-buttons-container button:hover{
+    background-color: var(--primary-color);
+    color: #fff;
+}
 .ec-address-form-buttons-container button:active {
     border: 1px solid var(--primary-color);
+}
+
+
+.ec-address-edit-new-link a{
+    display:inline;
+    margin-right: 1rem;
+    padding: .125rem .25rem;
+    border: 1px solid var(--secondary-color);
+    width: fit-content;
+    cursor: pointer;
+}
+.ec-address-edit-new-link a:hover{
+    color: #fff;
+    background-color: var(--primary-color);
+}
+
+.add-address-btn{
+    border: none;
+    padding: .5rem 0;
+    cursor: pointer;
+}
+.add-address-btn:hover{
+    color: #fff;
+    background-color: var(--primary-color);
 }

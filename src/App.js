@@ -14,6 +14,8 @@ import { MyPaymentPage } from "./components/MyPaymentPage";
 import { Orders } from "./components/Orders";
 import { loginStatus } from "./components/authActionType";
 import { Layout } from "./components/Layout";
+import { EditAddress } from "./components/EditAddress";
+import { CartCard } from "./components/CartCard";
 
 function App() {
   const { dispatch: authDispatch, state: authState } = useAuthProvider();
@@ -30,6 +32,8 @@ function App() {
   return (
     <div>
       <Routes>
+        <Route path="/cart-card" element={<CartCard />} />
+        <Route path="/editAddress/:id" element={<EditAddress />} />
         <Route path="/" element={<MyLandingPage />} />
         <Route path="/address" element={<MyAddressPage />} />
         <Route path="/payment" element={<MyPaymentPage />} />

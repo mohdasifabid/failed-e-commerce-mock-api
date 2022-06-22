@@ -41,7 +41,7 @@
     padding: .7rem;
   }
   .ec-bill-card-btn {
-    width: 85%;
+    /* width: 85%; */
     font-weight:bold ;
     padding: .5rem .5rem;
     border: 1px solid gray;
@@ -54,7 +54,7 @@
   }
   /*  */
   .ec-ls-card{
-    width: 300px;
+    /* width: 300px; */
     font-size: small;
     border: 1px solid var(--primary-color);
     height: fit-content;

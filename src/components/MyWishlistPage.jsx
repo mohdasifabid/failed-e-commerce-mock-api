@@ -50,7 +50,7 @@ export const MyWishlistPage = () => {
                 <div className="duck-product-card-middle">
                   <p className="duck-product-card-title">{item.title}</p>
                   <p className="duck-product-card-price">
-                    <i class="fa-solid fa-indian-rupee-sign"></i>
+                    <i className="fa-solid fa-indian-rupee-sign"></i>
                     {item.price}
                   </p>
                 </div>

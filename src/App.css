@@ -223,3 +223,10 @@ z-index: 1000;
 .middle{
   flex-grow: 1;
 }
+
+/* cart card */
+.ec-card-container{
+  display: flex;
+}
+
+

@@ -53,7 +53,7 @@ export const MyCart = () => {
         <div className="ec-ls-card">
           {state.cart.map((item) => {
             return (
-              <div className="ec-ls-card-leftside">
+              <div className="ec-ls-card-leftside" key={item._id}>
                 <img src={item.img} alt="" className="ec-ls-card-img" />
                 <div>
                   <p className="ec-ls-product-title">{item.title}</p>
@@ -62,7 +62,7 @@ export const MyCart = () => {
                       Price:
                       <small>
                         {" "}
-                        <i class="fa-solid fa-indian-rupee-sign"></i>{" "}
+                        <i className="fa-solid fa-indian-rupee-sign"></i>{" "}
                       </small>
                       {item.price}
                     </small>
@@ -115,7 +115,7 @@ export const MyCart = () => {
           <div className="ec-bill-card-total-amount">
             <p>TOTAL AMOUNT</p>
             <p>
-              <i class="fa-solid fa-indian-rupee-sign"></i>
+              <i className="fa-solid fa-indian-rupee-sign"></i>
               {totalPrice}
             </p>
           </div>
