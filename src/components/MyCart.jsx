@@ -1,7 +1,7 @@
 import "./MyCart.css";
 import { Layout } from "./Layout";
 import { useEffect } from "react";
-import { cartData } from "./productActionType";
+import { cartData, wishlistData } from "./productActionType";
 import { useNavigate } from "react-router-dom";
 import { useProductProvider } from "./productProvider";
 import { deleteCall, getCall, postCall } from "./ReusableFunctions";
@@ -16,12 +16,12 @@ export const MyCart = () => {
   }, []);
 
   const moveItemFromCartToWishlist = async (item) => {
-    const wishlistData = await postCall("/api/user/wishlist", {
+    const wishlistResponse = await postCall("/api/user/wishlist", {
       product: item,
     });
-    dispatch({ type: wishlistData, payload: wishlistData.wishlist });
-    const cartData = await deleteCall(`/api/user/cart/${item._id}`);
-    dispatch({ type: cartData, payload: cartData.cart });
+    dispatch({ type: wishlistData, payload: wishlistResponse.wishlist });
+    const cartResponse = await deleteCall(`/api/user/cart/${item._id}`);
+    dispatch({ type: cartData, payload: cartResponse.cart });
   };
 
   const increaseQuantityHandler = async (itemId) => {
