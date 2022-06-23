@@ -137,3 +137,8 @@
     padding: 1rem .5rem;
   }
 }
+
+.ec-ls-card-btns:hover{
+  background-color: var(--primary-color);
+  color: #fff;
+}

@@ -70,9 +70,9 @@ export const MyCart = () => {
                       {item.price}
                     </small>
                   </p>
-                  <div className="ec-ls-card-quantity-manager">
+                  <div className="ec-ls-card-quantity-manager ">
                     <button
-                      className="ec-quantity-manager-child"
+                      className="ec-quantity-manager-child ec-ls-card-btns"
                       onClick={() => decreaseQuantityHandler(item._id)}
                     >
                       -
@@ -81,14 +81,14 @@ export const MyCart = () => {
                       {item.qty}
                     </span>
                     <button
-                      className="ec-quantity-manager-child"
+                      className="ec-quantity-manager-child ec-ls-card-btns"
                       onClick={() => increaseQuantityHandler(item._id)}
                     >
                       +
                     </button>
                   </div>
                   <button
-                    className="ec-ls-card-btn"
+                    className="ec-ls-card-btn ec-ls-card-btns"
                     onClick={() => moveItemFromCartToWishlist(item)}
                   >
                     Move To Wishlist
