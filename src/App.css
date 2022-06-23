@@ -107,7 +107,7 @@
 display: flex;
 justify-content: space-between;
 align-items: center;
-border-bottom: 2px solid var(--primary-color);
+border-bottom: 1px solid var(--primary-color);
 background-color: var(--secondary-color);
 
 }
@@ -122,10 +122,13 @@ background-color: var(--secondary-color);
 }
 
 .ec-nav-input{
-  border: 1.5px solid var(--primary-color);
+  border: 1.5px solid var(--secondary-color);
   border-radius: 1rem;
-  padding: .125rem .5rem;
-
+  padding: .25rem .75rem;
+  outline: none;
+}
+.ec-nav-input:focus{
+  border: 1px solid var(--primary-color);
 }
 .ec-nav-login{
 cursor: pointer;
