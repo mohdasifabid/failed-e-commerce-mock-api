@@ -49,7 +49,10 @@ export const MyCart = () => {
 
   return (
     <Layout>
-      <div className="ec-cart-page-container">
+      <div
+        className="ec-cart-page-container"
+        style={state.cart.length > 0 ? {} : { display: "none" }}
+      >
         <div className="ec-ls-card">
           {state.cart.map((item) => {
             return (
