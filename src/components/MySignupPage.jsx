@@ -2,7 +2,7 @@ import { useState } from "react";
 import { postCall } from "./ReusableFunctions";
 import { useAuthProvider } from "./authProvider";
 import { useNavigate } from "react-router-dom";
-import { signupStatus } from "./authActionType";
+import { loginStatus, signupStatus } from "./authActionType";
 
 export const MySignupPage = () => {
   const navigate = useNavigate();
@@ -14,13 +14,15 @@ export const MySignupPage = () => {
 
   const saveNewUserInfo = async () => {
     const data = await postCall("/api/auth/signup", {
-      name: name,
+      firstName: name,
+      lastName: "",
       email: email,
       password: password,
       confirmedPassword: confirmedPassword,
     });
     authDispatch({ type: signupStatus, payload: true });
     localStorage.setItem("encodedToken", data.encodedToken);
+    localStorage.setItem("currentUser", JSON.stringify(data.createdUser));
     navigate("/login");
   };
 

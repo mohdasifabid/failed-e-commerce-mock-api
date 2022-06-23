@@ -8,6 +8,7 @@ export const MyNavbar = () => {
   const { state, dispatch } = useProductProvider();
   const { state: authState, dispatch: authDispatch } = useAuthProvider();
   let navigate = useNavigate();
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   return (
     <div className="ec-nav-container">
       <a className="ec-brand-name" onClick={() => navigate("/")}>
@@ -38,21 +39,22 @@ export const MyNavbar = () => {
       </a>
 
       {authState.isLogin ? (
-        <div className="ec-nav-login ">
-          <strong
-            onClick={() => {
-              authDispatch({ type: loginStatus, payload: false });
-              localStorage.removeItem("encodedToken");
-              navigate("/login");
-            }}
-          >
-            Logout
-          </strong>
+        <div
+          className="ec-nav-login "
+          onClick={() => {
+            authDispatch({ type: loginStatus, payload: false });
+            localStorage.removeItem("encodedToken");
+            navigate("/login");
+          }}
+        >
+          <i className="fa-solid fa-user"></i>
+          <span> {currentUser.firstName + " " + currentUser.lastName} </span>
         </div>
       ) : (
-        <a className="ec-nav-login" onClick={() => navigate("/login")}>
-          <strong>Login</strong>
-        </a>
+        <i
+          className="fa-regular fa-user ec-nav-login"
+          onClick={() => navigate("/login")}
+        ></i>
       )}
     </div>
   );
