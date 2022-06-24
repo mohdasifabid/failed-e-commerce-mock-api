@@ -52,6 +52,7 @@ export const addItemToOrdersHandler = function (schema, request) {
       updatedAt: formatDate(),
     });
     this.db.users.update({ _id: userId }, { orders: userOrders });
+    this.db.users.update({ _id: userId }, { cart: [] });
     return new Response(201, {}, { orders: userOrders });
   } catch (error) {
     return new Response(

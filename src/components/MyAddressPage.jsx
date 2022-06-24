@@ -10,9 +10,7 @@ export const MyAddressPage = () => {
   const { state, dispatch } = useProductProvider();
   const [newAddress, setNewAddress] = useState({});
   const [displayModal, setDisplayModal] = useState(false);
-  const [inputValue] = useState("");
   const navigate = useNavigate();
-
   useEffect(async () => {
     const data = await getCall("/api/user/address");
     dispatch({ type: getAddress, payload: data.address });
@@ -28,7 +26,14 @@ export const MyAddressPage = () => {
     dispatch({ type: getAddress, payload: data.address });
     setDisplayModal(false);
   };
-
+  const postOrderHandler = async (e) => {
+    let address = state.addresses.find((add) => add._id === e.target.value);
+    let cartItems = state.cart;
+    const data = await postCall("/api/user/orders", {
+      order: { cart: cartItems, address: address, id: uuid() },
+    });
+    navigate("/orders");
+  };
   return (
     <Layout>
       <div className="ec-address-page-container">
@@ -56,7 +61,7 @@ export const MyAddressPage = () => {
                     type="radio"
                     name="address"
                     value={user._id}
-                    // onChange={(e) =>}
+                    onChange={(e) => postOrderHandler(e)}
                   />
                   <p>{user.name}</p>
                   <p>
