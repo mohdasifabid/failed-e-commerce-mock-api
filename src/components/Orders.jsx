@@ -8,7 +8,6 @@ export const Orders = () => {
   useEffect(async () => {
     const data = await getCall("/api/user/orders");
     setOrders(data.orders);
-    console.log(data.orders);
   }, []);
 
   return (

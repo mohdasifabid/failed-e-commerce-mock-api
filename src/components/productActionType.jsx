@@ -8,3 +8,4 @@ export const addCategoryFilter = "ADD_CATEGORY_FILTER";
 export const resetCategoryFilter = "RESET_CATEGORY_FILTER";
 export const searchByInput = "SEARCH_BY_INPUT";
 export const getAddress = "GET_ADDRESS";
+export const getSelectedAddress = "GET_SELECTED_ADDRESS";

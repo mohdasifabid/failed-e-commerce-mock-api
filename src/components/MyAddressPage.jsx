@@ -2,7 +2,7 @@ import "./MyAddressPage.css";
 import { Layout } from "./Layout";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAddress } from "./productActionType";
+import { getAddress, getSelectedAddress } from "./productActionType";
 import { useProductProvider } from "./productProvider";
 import { deleteCall, getCall, postCall } from "./ReusableFunctions";
 
@@ -26,13 +26,11 @@ export const MyAddressPage = () => {
     dispatch({ type: getAddress, payload: data.address });
     setDisplayModal(false);
   };
-  const postOrderHandler = async (e) => {
+
+  const selectedAddressHandler = (e) => {
     let address = state.addresses.find((add) => add._id === e.target.value);
-    let cartItems = state.cart;
-    const data = await postCall("/api/user/orders", {
-      order: { cart: cartItems, address: address, id: uuid() },
-    });
-    navigate("/orders");
+    dispatch({ type: getSelectedAddress, payload: address });
+    navigate("/cart");
   };
   return (
     <Layout>
@@ -61,7 +59,7 @@ export const MyAddressPage = () => {
                     type="radio"
                     name="address"
                     value={user._id}
-                    onChange={(e) => postOrderHandler(e)}
+                    onChange={(e) => selectedAddressHandler(e)}
                   />
                   <p>{user.name}</p>
                   <p>

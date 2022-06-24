@@ -9,7 +9,7 @@ import { deleteCall, getCall, postCall } from "./ReusableFunctions";
 export const MyCart = () => {
   const { state, dispatch } = useProductProvider();
   const navigate = useNavigate();
-
+  const { name, street, city, zipCode } = state.selectedAddress;
   useEffect(async () => {
     const data = await getCall("/api/user/cart");
     dispatch({ type: cartData, payload: data.cart });
@@ -47,6 +47,13 @@ export const MyCart = () => {
     return a + Number(priceOfAnItem);
   }, 0);
 
+  const postOrderHandler = async () => {
+    let cartItems = state.cart;
+    const data = await postCall("/api/user/orders", {
+      order: { cart: cartItems, address: state.selectedAddress },
+    });
+    navigate("/orders");
+  };
   return (
     <Layout>
       <div
@@ -54,6 +61,14 @@ export const MyCart = () => {
         style={state.cart.length > 0 ? {} : { display: "none" }}
       >
         <div className="ec-ls-card">
+          {Object.keys(state.selectedAddress).length === 0 && (
+            <button
+              className="ec-bill-card-btn duck-btn duck-btn-solid-l ec-bill-card-btn-left"
+              onClick={() => navigate("/address")}
+            >
+              Select address
+            </button>
+          )}
           {state.cart.map((item) => {
             return (
               <div className="ec-ls-card-leftside" key={item._id}>
@@ -64,8 +79,7 @@ export const MyCart = () => {
                     <small>
                       Price:
                       <small>
-                        {" "}
-                        <i className="fa-solid fa-indian-rupee-sign"></i>{" "}
+                        <i className="fa-solid fa-indian-rupee-sign"></i>
                       </small>
                       {item.price}
                     </small>
@@ -97,37 +111,67 @@ export const MyCart = () => {
               </div>
             );
           })}
-        </div>
-        <div className="ec-bill-card">
-          <div className="ec-bill-card-title">Price Details</div>
-          <div className="ec-bill-card-price-details">
-            {state.cart.map((item) => {
-              return (
-                <div
-                  key={item._id}
-                  className="ec-bill-card-price-details-content"
-                >
-                  <p>{item.title}</p>
-                  <p>
-                    {item.qty} x {item.price}
-                  </p>
-                </div>
-              );
-            })}
+          <div className="ec-bill-card">
+            {Object.keys(state.selectedAddress).length !== 0 && (
+              <>
+                <p>
+                  Address: <strong>{name}</strong>
+                </p>
+                <p>{street},</p>
+                <p>{city}</p>
+                <p>
+                  {state.selectedAddress.state},{zipCode}
+                </p>
+              </>
+            )}
+            <div className="ec-bill-card-title">Payment Details</div>
+            <div className="ec-bill-card-price-details">
+              {state.cart.map((item) => {
+                return (
+                  <div
+                    key={item._id}
+                    className="ec-bill-card-price-details-content"
+                  >
+                    <p>{item.title}</p>
+                    <p>
+                      {item.qty} x {item.price}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="ec-bill-card-total-amount">
+              <p>TOTAL AMOUNT</p>
+              <p>
+                <i className="fa-solid fa-indian-rupee-sign"></i>
+                {totalPrice}
+              </p>
+            </div>
+            {Object.keys(state.selectedAddress).length !== 0 && (
+              <button
+                className="ec-bill-card-btn duck-btn duck-btn-solid-l ec-bill-card-change-address"
+                onClick={() => navigate("/address")}
+              >
+                Change address
+              </button>
+            )}
+            {Object.keys(state.selectedAddress).length !== 0 ? (
+              <button
+                className="ec-bill-card-btn duck-btn duck-btn-solid-l"
+                onClick={postOrderHandler}
+              >
+                Place Order
+              </button>
+            ) : (
+              <button
+                disabled
+                className="ec-bill-card-btn duck-btn duck-btn-solid-l"
+                onClick={postOrderHandler}
+              >
+                Place Order
+              </button>
+            )}
           </div>
-          <div className="ec-bill-card-total-amount">
-            <p>TOTAL AMOUNT</p>
-            <p>
-              <i className="fa-solid fa-indian-rupee-sign"></i>
-              {totalPrice}
-            </p>
-          </div>
-          <button
-            className="ec-bill-card-btn duck-btn duck-btn-solid-l"
-            onClick={() => navigate("/address")}
-          >
-            Place Order
-          </button>
         </div>
       </div>
     </Layout>

@@ -57,7 +57,7 @@
     /* width: 300px; */
     font-size: small;
     border: 1px solid var(--primary-color);
-    height: fit-content;
+    /* height: fit-content; */
   }
   .ec-ls-card-img{
     height: 110px;
@@ -107,7 +107,9 @@
   margin: .75rem .25rem -.5rem .25rem;
   cursor: pointer;
 }
-
+.ec-bill-card-btn-left{
+  margin-left: 1rem;
+}
 .ec-card-rightside div{
   display: flex;
   justify-content: space-between;
@@ -123,6 +125,9 @@
 }
 .ec-ls-card-rightside-btn:active{
   border: 1px solid var(--primary-color);
+}
+.ec-bill-card-change-address{
+  margin-right: 1rem;
 }
 
 @media (max-width: 580px){

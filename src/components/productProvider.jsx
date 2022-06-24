@@ -5,6 +5,7 @@ import {
   getAddress,
   getCategory,
   getProduct,
+  getSelectedAddress,
   removeCategoryFilter,
   resetCategoryFilter,
   searchByInput,
@@ -73,6 +74,11 @@ const productChooserFunction = (state, action) => {
         ...state,
         addresses: action.payload,
       };
+    case getSelectedAddress:
+      return {
+        ...state,
+        selectedAddress: action.payload,
+      };
     default:
       return state;
   }
@@ -87,6 +93,7 @@ const initialState = {
   cart: [],
   wishlist: [],
   addresses: [],
+  selectedAddress: {},
 };
 
 const ProductProvider = ({ children }) => {
