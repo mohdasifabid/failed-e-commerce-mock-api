@@ -45,7 +45,7 @@ export const MyAddressPage = () => {
             className="ec-delievery-addresses"
             style={displayModal ? { display: "none" } : {}}
           >
-            <p> Delievery Addresses</p>
+            <h3> Delievery Addresses</h3>
             {state.addresses.length > 0 ? null : (
               <button
                 onClick={() => setDisplayModal(true)}
@@ -76,26 +76,28 @@ export const MyAddressPage = () => {
                       className="ec-editAddress-link"
                       onClick={() => navigate(`/editAddress/${user._id}`)}
                     >
-                      Edit Address
+                      <i className="fa-solid fa-pen-to-square address-icons"></i>
                     </a>
-                    <a
-                      className="ec-addNewAddress-link"
-                      onClick={() => {
-                        setDisplayModal(true);
-                      }}
-                    >
-                      Add New Address
-                    </a>
+
                     <a
                       className="ec-delete-link"
                       onClick={() => deleteAddressHandler(user._id)}
                     >
-                      Delete
+                      <i className="fa-solid fa-trash address-icons"></i>
                     </a>
                   </span>
                 </div>
               );
             })}
+            <a
+              style={state.addresses.length === 0 ? { display: "none" } : {}}
+              className="ec-addNewAddress-link"
+              onClick={() => {
+                setDisplayModal(true);
+              }}
+            >
+              Add new address
+            </a>
           </div>
 
           <div
