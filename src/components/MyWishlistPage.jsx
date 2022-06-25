@@ -28,7 +28,7 @@ export const MyWishlistPage = () => {
   return (
     <Layout>
       <div className="ec-wishlist-container">
-        <h1>My Wishlist</h1>
+        <h3>My Wishlist</h3>
         <div className="ec-wishlist-cards-container">
           {state.wishlist.map((item) => {
             return (
