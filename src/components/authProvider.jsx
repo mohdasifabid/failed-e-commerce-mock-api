@@ -1,6 +1,5 @@
 import { createContext, useContext, useReducer } from "react";
 import * as actions from "./authActionType";
-// import { loginStatus, signupStatus } from "./authActionType";
 
 const AuthContext = createContext();
 const useAuthProvider = () => useContext(AuthContext);
