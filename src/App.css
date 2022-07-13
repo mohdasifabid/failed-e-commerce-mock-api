@@ -153,11 +153,18 @@ margin-right: 2rem;
   margin-bottom: .5rem;
   cursor: pointer;
 }
-
+.futer-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--secondary-color);
+  padding: .5rem 0;
+}
 .futer-link{
   color: var(--primary-color);
   cursor: pointer;
   font-size: large;
+  margin: .25rem .5rem;
 }
 
 @media (max-width: 520px) {
