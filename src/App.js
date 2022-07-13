@@ -12,7 +12,7 @@ import { MySignupPage } from "./components/MySignupPage";
 import { MyAddressPage } from "./components/MyAddressPage";
 import { MyPaymentPage } from "./components/MyPaymentPage";
 import { Orders } from "./components/Orders";
-import { loginStatus } from "./components/authActionType";
+import { LOGIN_STATUS } from "./components/authActionType";
 import { Layout } from "./components/Layout";
 import { EditAddress } from "./components/EditAddress";
 import { CartCard } from "./components/CartCard";
@@ -23,9 +23,9 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("encodedToken");
     if (token) {
-      authDispatch({ type: loginStatus, payload: true });
+      authDispatch({ type: LOGIN_STATUS, payload: true });
     } else {
-      authDispatch({ type: loginStatus, payload: false });
+      authDispatch({ type: LOGIN_STATUS, payload: false });
     }
   }, []);
 

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { loginStatus } from "./authActionType";
+import { LOGIN_STATUS } from "./authActionType";
 import { useAuthProvider } from "./authProvider";
 import { searchByInput } from "./productActionType";
 import { useProductProvider } from "./productProvider";
@@ -43,7 +43,7 @@ export const MyNavbar = () => {
         <a
           className="duck-icon-badge ec-cart"
           onClick={() => {
-            authDispatch({ type: loginStatus, payload: false });
+            authDispatch({ type: LOGIN_STATUS, payload: false });
             localStorage.removeItem("encodedToken");
             navigate("/login");
           }}

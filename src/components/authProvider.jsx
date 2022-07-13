@@ -6,12 +6,12 @@ const useAuthProvider = () => useContext(AuthContext);
 
 const authReducer = (state, action) => {
   switch (action.type) {
-    case actions.loginStatus:
+    case actions.LOGIN_STATUS:
       return {
         ...state,
         isLogin: action.payload,
       };
-    case actions.signupStatus:
+    case actions.SIGN_UP_STATUS:
       return {
         ...state,
         isSignup: action.payload,
