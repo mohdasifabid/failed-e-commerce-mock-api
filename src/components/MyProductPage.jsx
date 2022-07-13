@@ -13,7 +13,7 @@ export const MyProductPage = () => {
     dispatch({ type: GET_PRODUCT, payload: data.products });
   }, []);
 
-  const SORT_BY_PRICEFunction = (ourData, sortMeter) => {
+  const sortByPriceFunction = (ourData, sortMeter) => {
     if (sortMeter === "lowToHigh") {
       return ourData.sort((a, b) => Number(a.price) - Number(b.price));
     } else if (sortMeter === "highToLow") {
@@ -39,7 +39,7 @@ export const MyProductPage = () => {
     }
     return ourData;
   };
-  const sortedByPriceArray = SORT_BY_PRICEFunction(
+  const sortedByPriceArray = sortByPriceFunction(
     state.products,
     state.sortByPriceMeter
   );
