@@ -28,7 +28,6 @@ export const MyLoginPage = () => {
     });
     authDispatch({ type: loginStatus, payload: true });
     localStorage.setItem("encodedToken", data.encodedToken);
-    localStorage.setItem("currentUser", JSON.stringify(data.foundUser));
     navigate("/products");
   };
   return (

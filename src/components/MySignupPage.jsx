@@ -22,7 +22,6 @@ export const MySignupPage = () => {
     });
     authDispatch({ type: signupStatus, payload: true });
     localStorage.setItem("encodedToken", data.encodedToken);
-    localStorage.setItem("currentUser", JSON.stringify(data.createdUser));
     navigate("/login");
   };
 
