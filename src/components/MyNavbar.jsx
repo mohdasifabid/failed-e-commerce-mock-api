@@ -1,64 +1,60 @@
 import { Link, useNavigate } from "react-router-dom";
+import { loginStatus } from "./authActionType";
 import { useAuthProvider } from "./authProvider";
+import { searchByInput } from "./productActionType";
 import { useProductProvider } from "./productProvider";
 
 export const MyNavbar = () => {
   const { state, dispatch } = useProductProvider();
   const { state: authState, dispatch: authDispatch } = useAuthProvider();
   let navigate = useNavigate();
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   return (
     <div className="ec-nav-container">
-      <Link to="/" className="ec-nav-links">
-        <p className="ec-brand-name">
-          <strong>B</strong>u<strong>K</strong>art
-        </p>
-      </Link>
+      <a className="ec-brand-name" onClick={() => navigate("/")}>
+        <strong>B</strong>u<strong>K</strong>art
+      </a>
       <input
-        value={state.searchByInput}
+        value={state.inputSearch}
         className="ec-nav-input"
         type="text"
         placeholder="search here"
         onChange={(e) => {
-          dispatch({ type: "SEARCH_BY_INPUT", payload: e.target.value });
-          e.target.value.length > 0 && navigate("/product-page");
+          dispatch({ type: searchByInput, payload: e.target.value });
+          e.target.value.length > 0 && navigate("/products");
         }}
       />
 
-      <Link to="/wishlist-page" className="ec-nav-links">
-        <div className="duck-icon-badge">
-          <i className="fa-solid fa-heart  navbar-icons"></i>
-          <p className="duck-icon-badge-content navbar-badge-content">
-            {state.wishlist.length}
-          </p>
-        </div>
-      </Link>
-      <Link to="/cart-page" className="ec-nav-links">
-        <div className="duck-icon-badge ec-cart">
-          <i className="fa-solid fa-cart-shopping  navbar-icons"></i>
-          <p className="duck-icon-badge-content navbar-badge-content">
-            {state.cart.length}
-          </p>
-        </div>
-      </Link>
+      <a className="duck-icon-badge" onClick={() => navigate("/wishlist")}>
+        <i className="fa-solid fa-heart  navbar-icons"></i>
+        <p className="duck-icon-badge-content navbar-badge-content">
+          {state.wishlist.length}
+        </p>
+      </a>
+      <a className="duck-icon-badge ec-cart" onClick={() => navigate("/cart")}>
+        <i className="fa-solid fa-cart-shopping  navbar-icons"></i>
+        <p className="duck-icon-badge-content navbar-badge-content">
+          {state.cart.length}
+        </p>
+      </a>
 
       {authState.isLogin ? (
-        <div className="ec-nav-login ">
-          <strong
-            onClick={() => {
-              authDispatch({ type: "LOGIN_STATUS", payload: false });
-              localStorage.removeItem("encodedToken");
-              navigate("/login-page");
-            }}
-          >
-            Logout
-          </strong>
+        <div
+          className="ec-nav-login "
+          onClick={() => {
+            authDispatch({ type: loginStatus, payload: false });
+            localStorage.removeItem("encodedToken");
+            navigate("/login");
+          }}
+        >
+          <i className="fa-solid fa-user"></i>
+          <span> {currentUser.firstName + " " + currentUser.lastName} </span>
         </div>
       ) : (
-        <Link to="/login-page" className="ec-nav-links">
-          <div className="ec-nav-login ">
-            <strong>Login</strong>
-          </div>
-        </Link>
+        <i
+          className="fa-regular fa-user ec-nav-login"
+          onClick={() => navigate("/login")}
+        ></i>
       )}
     </div>
   );

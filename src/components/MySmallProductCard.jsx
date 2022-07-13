@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthProvider } from "./authProvider";
 import { useProductProvider } from "./productProvider";
 import { deleteCall, postCall } from "./ReusableFunctions";
+import { cartData, wishlistData } from "./productActionType";
 
 export default function MySmallProductCard({ item }) {
   const { state, dispatch } = useProductProvider();
@@ -14,20 +15,20 @@ export default function MySmallProductCard({ item }) {
 
   const addToWishlistHandler = async (item) => {
     const data = await postCall("/api/user/wishlist", { product: item });
-    dispatch({ type: "WISHLIST_DATA", payload: data.wishlist });
+    dispatch({ type: wishlistData, payload: data.wishlist });
   };
   const deleteFromWishlistHandler = async (itemId) => {
     const data = await deleteCall(`/api/user/wishlist/${itemId}`);
-    dispatch({ type: "WISHLIST_DATA", payload: data.wishlist });
+    dispatch({ type: wishlistData, payload: data.wishlist });
   };
   const addToCartHandler = async (item) => {
     const data = await postCall("/api/user/cart", { product: item });
-    dispatch({ type: "CART_DATA", payload: data.cart });
+    dispatch({ type: cartData, payload: data.cart });
   };
 
   const deleteFromCartHandler = async (itemId) => {
     const data = await deleteCall(`/api/user/cart/${itemId}`);
-    dispatch({ type: "CART_DATA", payload: data.cart });
+    dispatch({ type: cartData, payload: data.cart });
   };
   const inCart = state.cart.some((prod) => prod._id === item._id);
 
@@ -48,7 +49,7 @@ export default function MySmallProductCard({ item }) {
           onClick={() =>
             authState.isLogin
               ? deleteFromCartHandler(item._id)
-              : navigate("/login-page")
+              : navigate("/login")
           }
         >
           Remove from Cart
@@ -57,7 +58,7 @@ export default function MySmallProductCard({ item }) {
         <button
           className="duck-card-product-btn btn-add-to-cart"
           onClick={() =>
-            authState.isLogin ? addToCartHandler(item) : navigate("/login-page")
+            authState.isLogin ? addToCartHandler(item) : navigate("/login")
           }
         >
           Add to Cart
@@ -70,7 +71,7 @@ export default function MySmallProductCard({ item }) {
             authState.isLogin
               ? (deleteFromWishlistHandler(item._id),
                 setWishlistIconColor("rgb(229,231,235)"))
-              : navigate("/login-page");
+              : navigate("/login");
           }}
         >
           Remove from Wishlist
@@ -81,41 +82,39 @@ export default function MySmallProductCard({ item }) {
           onClick={() => {
             authState.isLogin
               ? (addToWishlistHandler(item), setWishlistIconColor("gray"))
-              : navigate("/login-page");
+              : navigate("/login");
           }}
         >
           Add to Wishlist
         </button>
       )}
+
       {inWishlist ? (
-        <div
+        <a
           className="duck-card-product-badge-like-container"
           onClick={() => {
             authState.isLogin
-              ? (deleteFromWishlistHandler(item._id),
-                setWishlistIconColor("rgb(229,231,235)"))
-              : navigate("/login-page");
+              ? deleteFromWishlistHandler(item._id)
+              : navigate("/login");
           }}
         >
           <i
-            style={{ color: wishlistIconColor }}
+            style={{ color: "gray" }}
             className="fa-solid fa-heart duck-card-product-badge-like"
           ></i>
-        </div>
+        </a>
       ) : (
-        <div
+        <a
           className="duck-card-product-badge-like-container"
           onClick={() => {
-            authState.isLogin
-              ? (addToWishlistHandler(item), setWishlistIconColor("gray"))
-              : navigate("/login-page");
+            authState.isLogin ? addToWishlistHandler(item) : navigate("/login");
           }}
         >
           <i
-            style={{ color: wishlistIconColor }}
+            style={{ color: "rgb(229,231,235)" }}
             className="fa-solid fa-heart duck-card-product-badge-like"
           ></i>
-        </div>
+        </a>
       )}
     </div>
   );

@@ -1,27 +1,34 @@
 import { useEffect } from "react";
 import { getCall } from "./ReusableFunctions";
 import { useProductProvider } from "./productProvider";
+import {
+  addCategoryFilter,
+  getCategory,
+  removeCategoryFilter,
+  resetCategoryFilter,
+  sortByPrice,
+} from "./productActionType";
 
 export const MyFilters = () => {
   const { state, dispatch } = useProductProvider();
   useEffect(async () => {
     const data = await getCall("api/categories");
-    dispatch({ type: "GET_CATEGORY", payload: data.categories });
+    dispatch({ type: getCategory, payload: data.categories });
   }, []);
 
   return (
-    <div className="filter-container">
+    <div className="ec-filters-container">
       <div className="filter-header">
         <p className="title">FILTER</p>
-        <p
-          className="clear"
+        <button
+          className="ec-filter-clear"
           onClick={() => {
-            dispatch({ type: "SORT_BY_PRICE", payload: false });
-            dispatch({ type: "RESET_CATEGORY_FILTER", payload: [] });
+            dispatch({ type: sortByPrice, payload: false });
+            dispatch({ type: resetCategoryFilter, payload: [] });
           }}
         >
           CLEAR ALL
-        </p>
+        </button>
       </div>
       <hr />
       <div className="filter-sort">
@@ -33,7 +40,7 @@ export const MyFilters = () => {
             type="radio"
             name="sort"
             onChange={() =>
-              dispatch({ type: "SORT_BY_PRICE", payload: "lowToHigh" })
+              dispatch({ type: sortByPrice, payload: "lowToHigh" })
             }
           />
           Low to high price
@@ -45,7 +52,7 @@ export const MyFilters = () => {
             type="radio"
             name="sort"
             onChange={() =>
-              dispatch({ type: "SORT_BY_PRICE", payload: "highToLow" })
+              dispatch({ type: sortByPrice, payload: "highToLow" })
             }
           />
           High to low price
@@ -65,12 +72,12 @@ export const MyFilters = () => {
                 onChange={(e) => {
                   if (e.target.checked) {
                     dispatch({
-                      type: "ADD_CATEGORY_FILTER",
+                      type: addCategoryFilter,
                       payload: item.categoryName,
                     });
                   } else {
                     dispatch({
-                      type: "REMOVE_CATEGORY_FILTER",
+                      type: removeCategoryFilter,
                       payload: item.categoryName,
                     });
                   }

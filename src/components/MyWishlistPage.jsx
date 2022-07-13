@@ -1,7 +1,7 @@
 import "./MyWishlistPage.css";
+import { Layout } from "./Layout";
 import { useEffect } from "react";
-import { MyFooter } from "./MyFooter";
-import { MyNavbar } from "./MyNavbar";
+import { cartData, wishlistData } from "./productActionType";
 import { useProductProvider } from "./productProvider";
 import { deleteCall, getCall, postCall } from "./ReusableFunctions";
 
@@ -9,30 +9,27 @@ export const MyWishlistPage = () => {
   const { state, dispatch } = useProductProvider();
   useEffect(async () => {
     const data = await getCall("/api/user/wishlist");
-    dispatch({ type: "WISHLIST_DATA", payload: data.wishlist });
+    dispatch({ type: wishlistData, payload: data.wishlist });
   }, []);
 
   const deleteItemFromWishlistHandler = async (itemId) => {
     const data = await deleteCall(`/api/user/wishlist/${itemId}`);
-    dispatch({ type: "WISHLIST_DATA", payload: data.wishlist });
+    dispatch({ type: wishlistData, payload: data.wishlist });
   };
 
   const moveToCartFromWishlist = async (item) => {
-    const cartData = await postCall(`/api/user/cart`, { product: item });
-    dispatch({ type: "CART_DATA", payload: cartData.cart });
+    const cartResponse = await postCall(`/api/user/cart`, { product: item });
+    dispatch({ type: cartData, payload: cartResponse.cart });
 
-    const wishlistData = await deleteCall(`/api/user/wishlist/${item._id}`);
-    dispatch({ type: "WISHLIST_DATA", payload: wishlistData.wishlist });
+    const wishlistResponse = await deleteCall(`/api/user/wishlist/${item._id}`);
+    dispatch({ type: wishlistData, payload: wishlistResponse.wishlist });
   };
 
   return (
-    <div className="body-container">
-      <div className="top">
-        <MyNavbar />
-      </div>
-      <div className="my-wishlist-page-body-content middle">
-        <h1>My Wishlist</h1>
-        <div className="my-wishlist-page-body-content-cards">
+    <Layout>
+      <div className="ec-wishlist-container">
+        <h3>My Wishlist</h3>
+        <div className="ec-wishlist-cards-container">
           {state.wishlist.map((item) => {
             return (
               <div key={item._id} className="duck-product-card">
@@ -44,7 +41,7 @@ export const MyWishlistPage = () => {
                   />
                   <div className="duck-product-card-badge duck-like-badge duck-like-badge-l">
                     <i
-                      className="duck-like-badge-icon duck-like-badge-icon-l fa-solid fa-heart"
+                      className="ec-wishlist-card-like-icon duck-like-badge-icon fa-solid fa-heart"
                       onClick={() => deleteItemFromWishlistHandler(item._id)}
                     ></i>
                   </div>
@@ -53,7 +50,7 @@ export const MyWishlistPage = () => {
                 <div className="duck-product-card-middle">
                   <p className="duck-product-card-title">{item.title}</p>
                   <p className="duck-product-card-price">
-                    <i class="fa-solid fa-indian-rupee-sign"></i>
+                    <i className="fa-solid fa-indian-rupee-sign"></i>
                     {item.price}
                   </p>
                 </div>
@@ -70,9 +67,6 @@ export const MyWishlistPage = () => {
           })}
         </div>
       </div>
-      <div>
-        <MyFooter />
-      </div>
-    </div>
+    </Layout>
   );
 };

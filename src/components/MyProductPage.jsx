@@ -1,16 +1,16 @@
 import { useEffect } from "react";
-import { MyFooter } from "./MyFooter";
-import { MyNavbar } from "./MyNavbar";
+import { Layout } from "./Layout";
 import { MyFilters } from "./MyFilters";
 import { getCall } from "./ReusableFunctions";
+import { getProduct } from "./productActionType";
 import MySmallProductCard from "./MySmallProductCard";
 import { useProductProvider } from "./productProvider";
 
 export const MyProductPage = () => {
   const { state, dispatch } = useProductProvider();
   useEffect(async () => {
-    let data = await getCall("api/products");
-    dispatch({ type: "GET_PRODUCT", payload: data.products });
+    const data = await getCall("api/products");
+    dispatch({ type: getProduct, payload: data.products });
   }, []);
 
   const sortByPriceFunction = (ourData, sortMeter) => {
@@ -22,7 +22,7 @@ export const MyProductPage = () => {
     return ourData;
   };
 
-  const searchByInputFunction = (ourData, searchMeter) => {
+  const inputSearchFunction = (ourData, searchMeter) => {
     if (searchMeter && searchMeter.length > 0) {
       return ourData.filter((item) =>
         item.title.toLowerCase().includes(searchMeter.toLowerCase())
@@ -44,32 +44,27 @@ export const MyProductPage = () => {
     state.sortByPriceMeter
   );
 
-  const searchedByInputArray = searchByInputFunction(
+  const searchedByInputArray = inputSearchFunction(
     sortedByPriceArray,
-    state.searchByInput
+    state.inputSearch
   );
   const filterByCategoryArray = filterByCategoryFunction(
     searchedByInputArray,
     state.filterByCategoryMeter
   );
+
   return (
-    <div className="body-container">
-      <div className="top">
-        <MyNavbar />
-      </div>
-      <div className="my-product-page-body-content middle">
-        <div className="my-product-page-filters-container">
+    <Layout>
+      <div className="ec-product-page-container">
+        <div className="ec-product-page-filters-container">
           <MyFilters />
         </div>
-        <div className="my-product-page-small-cards">
+        <div className="ec-product-page-cards-container">
           {filterByCategoryArray.map((item) => {
             return <MySmallProductCard item={item} key={item._id} />;
           })}
         </div>
       </div>
-      <div className="bottom">
-        <MyFooter />
-      </div>
-    </div>
+    </Layout>
   );
 };

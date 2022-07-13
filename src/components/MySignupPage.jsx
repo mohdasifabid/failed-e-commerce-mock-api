@@ -2,6 +2,7 @@ import { useState } from "react";
 import { postCall } from "./ReusableFunctions";
 import { useAuthProvider } from "./authProvider";
 import { useNavigate } from "react-router-dom";
+import { loginStatus, signupStatus } from "./authActionType";
 
 export const MySignupPage = () => {
   const navigate = useNavigate();
@@ -13,14 +14,16 @@ export const MySignupPage = () => {
 
   const saveNewUserInfo = async () => {
     const data = await postCall("/api/auth/signup", {
-      name: name,
+      firstName: name,
+      lastName: "",
       email: email,
       password: password,
       confirmedPassword: confirmedPassword,
     });
-    authDispatch({ type: "SIGN_UP_STATUS", payload: true });
+    authDispatch({ type: signupStatus, payload: true });
     localStorage.setItem("encodedToken", data.encodedToken);
-    navigate("/login-page");
+    localStorage.setItem("currentUser", JSON.stringify(data.createdUser));
+    navigate("/login");
   };
 
   return (
@@ -55,12 +58,12 @@ export const MySignupPage = () => {
         <button className="login-buttons" onClick={saveNewUserInfo}>
           Signup
         </button>
-        <p
+        <a
           style={{ textAlign: "center", cursor: "pointer" }}
-          onClick={() => navigate("/login-page")}
+          onClick={() => navigate("/login")}
         >
           Already a user? <span>Login here</span>
-        </p>
+        </a>
       </div>
     </div>
   );

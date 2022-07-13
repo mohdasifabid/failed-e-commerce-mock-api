@@ -2,6 +2,7 @@ import { useState } from "react";
 import { postCall } from "./ReusableFunctions";
 import { useAuthProvider } from "./authProvider";
 import { useNavigate } from "react-router-dom";
+import { loginStatus } from "./authActionType";
 
 export const MyLoginPage = () => {
   let navigate = useNavigate();
@@ -14,9 +15,10 @@ export const MyLoginPage = () => {
       email: email,
       password: password,
     });
-    authDispatch({ type: "LOGIN_STATUS", payload: true });
+    authDispatch({ type: loginStatus, payload: true });
     localStorage.setItem("encodedToken", data.encodedToken);
-    navigate("/product-page");
+    localStorage.setItem("currentUser", JSON.stringify(data.foundUser));
+    navigate("/products");
   };
 
   const guestLoginHandler = async () => {
@@ -24,9 +26,10 @@ export const MyLoginPage = () => {
       email: "bukart@gmail.com",
       password: "buKart123",
     });
-    authDispatch({ type: "LOGIN_STATUS", payload: true });
+    authDispatch({ type: loginStatus, payload: true });
     localStorage.setItem("encodedToken", data.encodedToken);
-    navigate("/product-page");
+    localStorage.setItem("currentUser", JSON.stringify(data.foundUser));
+    navigate("/products");
   };
   return (
     <div className="my-login-page-body">
@@ -51,12 +54,12 @@ export const MyLoginPage = () => {
         <button className="login-buttons" onClick={guestLoginHandler}>
           LOGIN AS GUEST
         </button>
-        <p
+        <a
           style={{ textAlign: "center", cursor: "pointer" }}
-          onClick={() => navigate("/signup-page")}
+          onClick={() => navigate("/signup")}
         >
           Not a user? <span>Create account</span>
-        </p>
+        </a>
       </div>
     </div>
   );
