@@ -10,12 +10,10 @@ import { useAuthProvider } from "./components/authProvider";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { MySignupPage } from "./components/MySignupPage";
 import { MyAddressPage } from "./components/MyAddressPage";
-import { MyPaymentPage } from "./components/MyPaymentPage";
 import { Orders } from "./components/Orders";
 import { LOGIN_STATUS } from "./components/authActionType";
 import { Layout } from "./components/Layout";
 import { EditAddress } from "./components/EditAddress";
-import { CartCard } from "./components/CartCard";
 
 function App() {
   const { dispatch: authDispatch, state: authState } = useAuthProvider();
@@ -32,11 +30,9 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route path="/cart-card" element={<CartCard />} />
         <Route path="/editAddress/:id" element={<EditAddress />} />
         <Route path="/" element={<MyLandingPage />} />
         <Route path="/address" element={<MyAddressPage />} />
-        <Route path="/payment" element={<MyPaymentPage />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/layout" element={<Layout />} />
         {authState.isLogin ? (
