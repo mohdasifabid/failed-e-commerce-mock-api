@@ -1,6 +1,6 @@
 
 .duck-square-img-container{
-    width: 100%;
+    width: inherit;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,8 +8,9 @@
     margin: 1rem 0;
 }
 .duck-square-img{
-    width: 90%;
-    height: 70vh;
+
+    width: inherit;
+    height: 100%;
 }
 
 .duck-primary-btn-s {

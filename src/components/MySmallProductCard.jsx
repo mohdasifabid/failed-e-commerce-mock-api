@@ -1,69 +1,38 @@
 import "./MySmallProductCard.css";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthProvider } from "./authProvider";
 import { useProductProvider } from "./productProvider";
-import axios from "axios";
+import { deleteCall, postCall } from "./ReusableFunctions";
+import { cartData, wishlistData } from "./productActionType";
 
 export default function MySmallProductCard({ item }) {
   const { state, dispatch } = useProductProvider();
+  const { state: authState } = useAuthProvider();
+  const navigate = useNavigate();
   const { img, title, price, author, categoryName } = item;
+  const [wishlistIconColor, setWishlistIconColor] = useState({});
 
   const addToWishlistHandler = async (item) => {
-    const token = localStorage.getItem("encodedToken");
-    const response = await axios.post(
-      "/api/user/wishlist",
-      {
-        product: item,
-      },
-      {
-        headers: {
-          authorization: token,
-        },
-      }
-    );
-    if (response.status === 201) {
-      const getWishlistData = async () => {
-        const token = localStorage.getItem("encodedToken");
-        const response = await axios.get("/api/user/wishlist", {
-          headers: {
-            authorization: token,
-          },
-        });
-        if (response.status === 200) {
-          dispatch({ type: "WISHLIST_DATA", payload: response.data.wishlist });
-        }
-      };
-      getWishlistData();
-
-      // dispatch({ type: "WISHLIST_DATA", payload: response.data.wishlist });
-    }
+    const data = await postCall("/api/user/wishlist", { product: item });
+    dispatch({ type: wishlistData, payload: data.wishlist });
   };
-
+  const deleteFromWishlistHandler = async (itemId) => {
+    const data = await deleteCall(`/api/user/wishlist/${itemId}`);
+    dispatch({ type: wishlistData, payload: data.wishlist });
+  };
   const addToCartHandler = async (item) => {
-    const token = localStorage.getItem("encodedToken");
-    const response = await axios.post(
-      `/api/user/cart`,
-
-      { product: item },
-      {
-        headers: {
-          authorization: token,
-        },
-      }
-    );
-    if (response.status === 201) {
-      const getCartData = async () => {
-        const token = localStorage.getItem("encodedToken");
-        const response = await axios.get("/api/user/cart", {
-          headers: {
-            authorization: token,
-          },
-        });
-        if (response.status === 200) {
-          dispatch({ type: "CART_DATA", payload: response.data.cart });
-        }
-      };
-      getCartData();
-    }
+    const data = await postCall("/api/user/cart", { product: item });
+    dispatch({ type: cartData, payload: data.cart });
   };
+
+  const deleteFromCartHandler = async (itemId) => {
+    const data = await deleteCall(`/api/user/cart/${itemId}`);
+    dispatch({ type: cartData, payload: data.cart });
+  };
+  const inCart = state.cart.some((prod) => prod._id === item._id);
+
+  const inWishlist = state.wishlist.some((prod) => prod._id === item._id);
 
   return (
     <div className="duck-card-product-container">
@@ -74,24 +43,79 @@ export default function MySmallProductCard({ item }) {
       <p className="duck-card-product-price">
         <small>INR</small> <strong>{price}</strong>
       </p>
-      <button
-        className="duck-card-product-btn btn-add-to-cart"
-        onClick={() => addToCartHandler(item)}
-      >
-        Add to Cart
-      </button>
-      <button
-        className="duck-card-product-btn btn-add-to-wishlist"
-        onClick={() => addToWishlistHandler(item)}
-      >
-        Add to wishlist
-      </button>
-      <div className="duck-card-product-badge-like-container">
-        <i
-          className="fa-solid fa-heart duck-card-product-badge-like"
-          onClick={() => addToWishlistHandler(item)}
-        ></i>
-      </div>
+      {inCart ? (
+        <button
+          className="duck-card-product-btn btn-add-to-cart"
+          onClick={() =>
+            authState.isLogin
+              ? deleteFromCartHandler(item._id)
+              : navigate("/login")
+          }
+        >
+          Remove from Cart
+        </button>
+      ) : (
+        <button
+          className="duck-card-product-btn btn-add-to-cart"
+          onClick={() =>
+            authState.isLogin ? addToCartHandler(item) : navigate("/login")
+          }
+        >
+          Add to Cart
+        </button>
+      )}
+      {inWishlist ? (
+        <button
+          className="duck-card-product-btn btn-add-to-wishlist"
+          onClick={() => {
+            authState.isLogin
+              ? (deleteFromWishlistHandler(item._id),
+                setWishlistIconColor("rgb(229,231,235)"))
+              : navigate("/login");
+          }}
+        >
+          Remove from Wishlist
+        </button>
+      ) : (
+        <button
+          className="duck-card-product-btn btn-add-to-wishlist"
+          onClick={() => {
+            authState.isLogin
+              ? (addToWishlistHandler(item), setWishlistIconColor("gray"))
+              : navigate("/login");
+          }}
+        >
+          Add to Wishlist
+        </button>
+      )}
+
+      {inWishlist ? (
+        <a
+          className="duck-card-product-badge-like-container"
+          onClick={() => {
+            authState.isLogin
+              ? deleteFromWishlistHandler(item._id)
+              : navigate("/login");
+          }}
+        >
+          <i
+            style={{ color: "gray" }}
+            className="fa-solid fa-heart duck-card-product-badge-like"
+          ></i>
+        </a>
+      ) : (
+        <a
+          className="duck-card-product-badge-like-container"
+          onClick={() => {
+            authState.isLogin ? addToWishlistHandler(item) : navigate("/login");
+          }}
+        >
+          <i
+            style={{ color: "rgb(229,231,235)" }}
+            className="fa-solid fa-heart duck-card-product-badge-like"
+          ></i>
+        </a>
+      )}
     </div>
   );
 }

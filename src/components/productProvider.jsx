@@ -1,37 +1,50 @@
 import { createContext, useContext, useReducer } from "react";
+import {
+  addCategoryFilter,
+  cartData,
+  getAddress,
+  getCategory,
+  getProduct,
+  getSelectedAddress,
+  removeCategoryFilter,
+  resetCategoryFilter,
+  searchByInput,
+  sortByPrice,
+  wishlistData,
+} from "./productActionType";
 
 const ProductContext = createContext();
 const useProductProvider = () => useContext(ProductContext);
 
 const productChooserFunction = (state, action) => {
   switch (action.type) {
-    case "SHOW_PRODUCT":
+    case getProduct:
       return {
         ...state,
         products: action.payload,
       };
-    case "WISHLIST_DATA":
+    case wishlistData:
       return {
         ...state,
         wishlist: action.payload,
       };
-    case "CART_DATA":
+    case cartData:
       return {
         ...state,
         cart: action.payload,
       };
-    case "SHOW_CATEGORY":
+    case getCategory:
       return {
         ...state,
         categories: action.payload,
       };
-    case "SORT_BY_PRICE":
+    case sortByPrice:
       return {
         ...state,
         sortByPriceMeter: action.payload,
       };
 
-    case "REMOVE_CATEGORY_FILTER":
+    case removeCategoryFilter:
       const filteredCategory = [...state.filterByCategoryMeter];
       const updatedfilterByCategoryMeter = filteredCategory.filter(
         (item) => item !== action.payload
@@ -41,18 +54,31 @@ const productChooserFunction = (state, action) => {
         filterByCategoryMeter: updatedfilterByCategoryMeter,
       };
 
-    case "ADD_CATEGORY_FILTER":
+    case addCategoryFilter:
       return {
         ...state,
         filterByCategoryMeter: [...state.filterByCategoryMeter, action.payload],
       };
-
-    case "SEARCH_BY_INPUT":
+    case resetCategoryFilter:
       return {
         ...state,
-        searchByInput: action.payload,
+        filterByCategoryMeter: action.payload,
       };
-
+    case searchByInput:
+      return {
+        ...state,
+        inputSearch: action.payload,
+      };
+    case getAddress:
+      return {
+        ...state,
+        addresses: action.payload,
+      };
+    case getSelectedAddress:
+      return {
+        ...state,
+        selectedAddress: action.payload,
+      };
     default:
       return state;
   }
@@ -63,9 +89,11 @@ const initialState = {
   categories: [],
   sortByPriceMeter: false,
   filterByCategoryMeter: [],
-  searchByInput: "",
+  inputSearch: "",
   cart: [],
   wishlist: [],
+  addresses: [],
+  selectedAddress: {},
 };
 
 const ProductProvider = ({ children }) => {

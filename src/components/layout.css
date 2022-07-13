@@ -1,0 +1,17 @@
+.ec-layout-body{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+.ec-navbar-container{
+    flex-basis: 65px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.ec-footer-container{
+    flex-basis: 120px;
+}
+.ec-layout-child-container{
+    flex-grow: 1;
+}

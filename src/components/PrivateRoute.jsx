@@ -8,7 +8,7 @@ export const PrivateRoute = () => {
   } else {
     return (
       <>
-        <Navigate to="/login-page" />
+        <Navigate to="/login" />
       </>
     );
   }

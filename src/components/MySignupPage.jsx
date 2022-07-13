@@ -1,77 +1,70 @@
-import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { MyFooter } from "./MyFooter";
-import { MyNavbar } from "./MyNavbar";
-import axios from "axios";
+import { postCall } from "./ReusableFunctions";
 import { useAuthProvider } from "./authProvider";
+import { useNavigate } from "react-router-dom";
+import { loginStatus, signupStatus } from "./authActionType";
 
 export const MySignupPage = () => {
-  const { state, dispatch } = useAuthProvider();
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { dispatch: authDispatch } = useAuthProvider();
   const [confirmedPassword, setConfirmedPassword] = useState("");
 
-  const navigate = useNavigate();
   const saveNewUserInfo = async () => {
-    const response = await axios.post("/api/auth/signup", {
-      name: name,
+    const data = await postCall("/api/auth/signup", {
+      firstName: name,
+      lastName: "",
       email: email,
       password: password,
       confirmedPassword: confirmedPassword,
     });
-
-    if (response.status === 201) {
-      dispatch({ type: "SIGN_UP_STATUS", payload: true });
-      localStorage.setItem("encodedToken", response.data.encodedToken);
-      navigate("/login-page");
-    }
+    authDispatch({ type: signupStatus, payload: true });
+    localStorage.setItem("encodedToken", data.encodedToken);
+    localStorage.setItem("currentUser", JSON.stringify(data.createdUser));
+    navigate("/login");
   };
 
   return (
-    <div>
-      <MyNavbar />
-      <div className="my-login-page-body">
-        <div className="login-page">
-          <p className="login-title">Create new account</p>
-          <input
-            type="text"
-            className="login-email-input login-inputs"
-            placeholder="Enter your name here"
-            onChange={(e) => setName(e.target.value)}
-          />
-          <input
-            type="email"
-            className="login-email-input login-inputs"
-            placeholder="Enter your email here"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            className="login-password login-inputs"
-            placeholder="Enter your password here"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <input
-            type="password"
-            className="login-password login-inputs"
-            placeholder="Confirm your password here"
-            onChange={(e) => setConfirmedPassword(e.target.value)}
-          />
+    <div className="my-login-page-body">
+      <div className="login-page">
+        <p className="login-title">Create new account</p>
+        <input
+          type="text"
+          className="login-email-input login-inputs"
+          placeholder="Enter your name here"
+          onChange={(e) => setName(e.target.value)}
+        />
+        <input
+          type="email"
+          className="login-email-input login-inputs"
+          placeholder="Enter your email here"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          className="login-password login-inputs"
+          placeholder="Enter your password here"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <input
+          type="password"
+          className="login-password login-inputs"
+          placeholder="Confirm your password here"
+          onChange={(e) => setConfirmedPassword(e.target.value)}
+        />
 
-          {/* <button className="login-buttons" >Login With Something</button> */}
-
-          <button className="login-buttons" onClick={saveNewUserInfo}>
-            Signup
-          </button>
-          <Link to="/login-page">
-            <p style={{ textAlign: "center", cursor: "pointer" }}>
-              Already a user? <strong>Login here</strong>
-            </p>
-          </Link>
-        </div>
+        <button className="login-buttons" onClick={saveNewUserInfo}>
+          Signup
+        </button>
+        <a
+          style={{ textAlign: "center", cursor: "pointer" }}
+          onClick={() => navigate("/login")}
+        >
+          Already a user? <span>Login here</span>
+        </a>
       </div>
-      <MyFooter />
     </div>
   );
 };

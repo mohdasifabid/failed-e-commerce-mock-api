@@ -68,3 +68,7 @@
   background-color: var(--secondary-color);
   border: .1rem solid var(--primary-color);
 }
+.duck-card-product-btn:hover{
+  background-color: var(--primary-color);
+  color: #fff;
+}

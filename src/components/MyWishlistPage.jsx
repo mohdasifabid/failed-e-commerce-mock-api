@@ -1,83 +1,35 @@
-import { useEffect } from "react";
-import { MyFooter } from "./MyFooter";
-import { MyNavbar } from "./MyNavbar";
 import "./MyWishlistPage.css";
+import { Layout } from "./Layout";
+import { useEffect } from "react";
+import { cartData, wishlistData } from "./productActionType";
 import { useProductProvider } from "./productProvider";
-import axios from "axios";
+import { deleteCall, getCall, postCall } from "./ReusableFunctions";
 
 export const MyWishlistPage = () => {
   const { state, dispatch } = useProductProvider();
-  useEffect(() => {
-    const getWishlistData = async () => {
-      const token = localStorage.getItem("encodedToken");
-      const response = await axios.get("/api/user/wishlist", {
-        headers: {
-          authorization: token,
-        },
-      });
-      if (response.status === 200) {
-        dispatch({ type: "WISHLIST_DATA", payload: response.data.wishlist });
-      }
-    };
-    getWishlistData();
+  useEffect(async () => {
+    const data = await getCall("/api/user/wishlist");
+    dispatch({ type: wishlistData, payload: data.wishlist });
   }, []);
 
   const deleteItemFromWishlistHandler = async (itemId) => {
-    const token = localStorage.getItem("encodedToken");
-    const response = await axios.delete(`/api/user/wishlist/${itemId}`, {
-      headers: {
-        authorization: token,
-      },
-      data: itemId,
-    });
-    return response;
+    const data = await deleteCall(`/api/user/wishlist/${itemId}`);
+    dispatch({ type: wishlistData, payload: data.wishlist });
   };
+
   const moveToCartFromWishlist = async (item) => {
-    const token = localStorage.getItem("encodedToken");
-    const response = await axios.post(
-      `/api/user/cart`,
+    const cartResponse = await postCall(`/api/user/cart`, { product: item });
+    dispatch({ type: cartData, payload: cartResponse.cart });
 
-      { product: item },
-      {
-        headers: {
-          authorization: token,
-        },
-      }
-    );
-    deleteItemFromWishlistHandler(item._id);
-
-    const getWishlistData = async () => {
-      const token = localStorage.getItem("encodedToken");
-      const response = await axios.get("/api/user/wishlist", {
-        headers: {
-          authorization: token,
-        },
-      });
-      if (response.status === 200) {
-        dispatch({ type: "WISHLIST_DATA", payload: response.data.wishlist });
-      }
-    };
-    getWishlistData();
-    const getCartData = async () => {
-      const token = localStorage.getItem("encodedToken");
-      const response = await axios.get("/api/user/cart", {
-        headers: {
-          authorization: token,
-        },
-      });
-      if (response.status === 200) {
-        dispatch({ type: "CART_DATA", payload: response.data.cart });
-      }
-    };
-    getCartData();
+    const wishlistResponse = await deleteCall(`/api/user/wishlist/${item._id}`);
+    dispatch({ type: wishlistData, payload: wishlistResponse.wishlist });
   };
 
   return (
-    <div>
-      <MyNavbar />
-      <div className="my-wishlist-page-body-content">
-        <h1>My Wishlist</h1>
-        <div className="my-wishlist-page-body-content-cards">
+    <Layout>
+      <div className="ec-wishlist-container">
+        <h3>My Wishlist</h3>
+        <div className="ec-wishlist-cards-container">
           {state.wishlist.map((item) => {
             return (
               <div key={item._id} className="duck-product-card">
@@ -89,7 +41,7 @@ export const MyWishlistPage = () => {
                   />
                   <div className="duck-product-card-badge duck-like-badge duck-like-badge-l">
                     <i
-                      className="duck-like-badge-icon duck-like-badge-icon-l fa-solid fa-heart"
+                      className="ec-wishlist-card-like-icon duck-like-badge-icon fa-solid fa-heart"
                       onClick={() => deleteItemFromWishlistHandler(item._id)}
                     ></i>
                   </div>
@@ -97,11 +49,14 @@ export const MyWishlistPage = () => {
 
                 <div className="duck-product-card-middle">
                   <p className="duck-product-card-title">{item.title}</p>
-                  <p className="duck-product-card-price">{item.price}</p>
+                  <p className="duck-product-card-price">
+                    <i className="fa-solid fa-indian-rupee-sign"></i>
+                    {item.price}
+                  </p>
                 </div>
                 <div className="duck-product-card-bottom">
                   <button
-                    className="duck-product-card-btn duck-btn duck-btn-solid-l duck-btn-remove-from-cart"
+                    className="duck-card-product-btn btn-add-to-wishlist"
                     onClick={() => moveToCartFromWishlist(item)}
                   >
                     Move to cart
@@ -112,7 +67,6 @@ export const MyWishlistPage = () => {
           })}
         </div>
       </div>
-      <MyFooter />
-    </div>
+    </Layout>
   );
 };

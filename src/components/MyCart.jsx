@@ -1,184 +1,179 @@
-import { MyFooter } from "./MyFooter";
-import { MyNavbar } from "./MyNavbar";
 import "./MyCart.css";
-import { useProductProvider } from "./productProvider";
+import { Layout } from "./Layout";
 import { useEffect } from "react";
-import axios from "axios";
+import { cartData, wishlistData } from "./productActionType";
+import { useNavigate } from "react-router-dom";
+import { useProductProvider } from "./productProvider";
+import { deleteCall, getCall, postCall } from "./ReusableFunctions";
+
 export const MyCart = () => {
   const { state, dispatch } = useProductProvider();
-  const totalPrice = state.cart.reduce((a, c) => a + Number(c.price), 0);
-
-  useEffect(() => {
-    const getCartData = async () => {
-      const token = localStorage.getItem("encodedToken");
-      const response = await axios.get("/api/user/cart", {
-        headers: {
-          authorization: token,
-        },
-      });
-      if (response.status === 200) {
-        dispatch({ type: "CART_DATA", payload: response.data.cart });
-      }
-    };
-    getCartData();
+  const navigate = useNavigate();
+  const { name, street, city, zipCode } = state.selectedAddress;
+  useEffect(async () => {
+    const data = await getCall("/api/user/cart");
+    dispatch({ type: cartData, payload: data.cart });
   }, []);
 
-  const deleteItemFromCartHandler = async (id) => {
-    const token = localStorage.getItem("encodedToken");
-    const response = await axios.delete(`/api/user/cart/${id}`, {
-      headers: {
-        authorization: token,
+  const moveItemFromCartToWishlist = async (item) => {
+    const wishlistResponse = await postCall("/api/user/wishlist", {
+      product: item,
+    });
+    dispatch({ type: wishlistData, payload: wishlistResponse.wishlist });
+    const cartResponse = await deleteCall(`/api/user/cart/${item._id}`);
+    dispatch({ type: cartData, payload: cartResponse.cart });
+  };
+
+  const increaseQuantityHandler = async (itemId) => {
+    const data = await postCall(`/api/user/cart/${itemId}`, {
+      action: {
+        type: "increment",
       },
     });
-    if (response.status === 200) {
-      const getCartData = async () => {
-        const token = localStorage.getItem("encodedToken");
-        const response = await axios.get("/api/user/cart", {
-          headers: {
-            authorization: token,
-          },
-        });
-        if (response.status === 200) {
-          dispatch({ type: "CART_DATA", payload: response.data.cart });
-        }
-      };
-      getCartData();
-    }
+    dispatch({ type: cartData, payload: data.cart });
   };
 
-  const moveItemFromCartToWishlist = async (item) => {
-    const token = localStorage.getItem("encodedToken");
-    // *****Step--1 : post the item to cart using post api
-    const response = await axios.post(
-      "/api/user/wishlist",
-      {
-        product: item,
+  const decreaseQuantityHandler = async (itemId) => {
+    const data = await postCall(`/api/user/cart/${itemId}`, {
+      action: {
+        type: "decrement",
       },
-      {
-        headers: {
-          authorization: token,
-        },
-      }
-    );
-    console.log(response);
-    // *****Step--2 : now delete this item from cart, using #delete api
-    const deleteItem = async (id) => {
-      const token = localStorage.getItem("encodedToken");
-      const response = await axios.delete(`/api/user/cart/${id}`, {
-        headers: {
-          authorization: token,
-        },
-      });
-      return response;
-    };
-    deleteItem(item._id);
-    // By far both post and delete are working but they are updating on their respective place once we visit that.
-    // So, ***** Step--3 : would involves calling of two function with get api to update the cart & wishlist on run time.
-
-    const getCartData = async () => {
-      const token = localStorage.getItem("encodedToken");
-      const response = await axios.get("/api/user/cart", {
-        headers: {
-          authorization: token,
-        },
-      });
-      if (response.status === 200) {
-        dispatch({ type: "CART_DATA", payload: response.data.cart });
-      }
-    };
-    getCartData();
-
-    const getWishlistData = async () => {
-      const token = localStorage.getItem("encodedToken");
-      const response = await axios.get("/api/user/wishlist", {
-        headers: {
-          authorization: token,
-        },
-      });
-      if (response.status === 200) {
-        dispatch({ type: "WISHLIST_DATA", payload: response.data.wishlist });
-      }
-    };
-    getWishlistData();
+    });
+    dispatch({ type: cartData, payload: data.cart });
   };
 
+  const totalPrice = state.cart.reduce((a, c) => {
+    const priceOfAnItem = c.price * c.qty;
+    return a + Number(priceOfAnItem);
+  }, 0);
+
+  const postOrderHandler = async () => {
+    let cartItems = state.cart;
+    const data = await postCall("/api/user/orders", {
+      order: { cart: cartItems, address: state.selectedAddress },
+    });
+    navigate("/orders");
+  };
   return (
-    <div>
-      <MyNavbar />
-      <div className="my-cart-page-body-content">
-        <div className="my-cart-page-body-content-cards">
+    <Layout>
+      <div
+        className="ec-cart-page-container"
+        style={state.cart.length > 0 ? {} : { display: "none" }}
+      >
+        <div className="ec-ls-card">
+          {Object.keys(state.selectedAddress).length === 0 && (
+            <button
+              className="ec-bill-card-btn duck-btn duck-btn-solid-l ec-bill-card-btn-left"
+              onClick={() => navigate("/address")}
+            >
+              Select address
+            </button>
+          )}
           {state.cart.map((item) => {
             return (
-              <div key={item._id} className="duck-product-card">
-                <div className="duck-product-card-top">
-                  <img
-                    className="duck-product-card-img"
-                    src={item.img}
-                    alt=""
-                  />
-                  <div className="duck-product-card-badge duck-like-badge duck-like-badge-l">
-                    <i
-                      className="duck-like-badge-icon duck-like-badge-icon-l fa-solid fa-heart"
-                      onClick={() => {
-                        deleteItemFromCartHandler(item._id);
-                      }}
-                    ></i>
+              <div className="ec-ls-card-leftside" key={item._id}>
+                <img src={item.img} alt="" className="ec-ls-card-img" />
+                <div>
+                  <p className="ec-ls-product-title">{item.title}</p>
+                  <p className="ec-ls-product-subtitle">
+                    <small>
+                      Price:
+                      <small>
+                        <i className="fa-solid fa-indian-rupee-sign"></i>
+                      </small>
+                      {item.price}
+                    </small>
+                  </p>
+                  <div className="ec-ls-card-quantity-manager ">
+                    <button
+                      className="ec-quantity-manager-child ec-ls-card-btns"
+                      onClick={() => decreaseQuantityHandler(item._id)}
+                    >
+                      -
+                    </button>
+                    <span className="ec-quantity-manager-child">
+                      {item.qty}
+                    </span>
+                    <button
+                      className="ec-quantity-manager-child ec-ls-card-btns"
+                      onClick={() => increaseQuantityHandler(item._id)}
+                    >
+                      +
+                    </button>
                   </div>
-                </div>
-
-                <div className="duck-product-card-middle">
-                  <p className="duck-product-card-title">{item.title}</p>
-                  <p className="duck-product-card-price">{item.price}</p>
-                </div>
-                <div className="duck-product-card-bottom">
                   <button
-                    className="duck-product-card-btn duck-btn duck-btn-solid-l duck-btn-remove-from-cart"
-                    onClick={() => {
-                      deleteItemFromCartHandler(item._id);
-                    }}
-                  >
-                    Remove from cart
-                  </button>
-                  <button
-                    className="duck-product-card-btn duck-btn duck-btn-solid-l duck-btn-add-to-wishlist"
+                    className="ec-ls-card-btn ec-ls-card-btns"
                     onClick={() => moveItemFromCartToWishlist(item)}
                   >
-                    Move to wishlist
+                    Move To Wishlist
                   </button>
                 </div>
               </div>
             );
           })}
-        </div>
-
-        <div className="duck-bill-card">
-          <div className="duck-bill-card-title">Price Details</div>
-          <div className="duck-bill-card-price-details">
-            {state.cart.map((item) => {
-              return (
-                <div
-                  key={item._id}
-                  className="duck-bill-card-price-details-content"
-                >
-                  <p>{item.title}</p>
-                  <p>{item.price}</p>
-                </div>
-              );
-            })}
+          <div className="ec-bill-card">
+            {Object.keys(state.selectedAddress).length !== 0 && (
+              <>
+                <p>
+                  Address: <strong>{name}</strong>
+                </p>
+                <p>{street},</p>
+                <p>{city}</p>
+                <p>
+                  {state.selectedAddress.state},{zipCode}
+                </p>
+              </>
+            )}
+            <div className="ec-bill-card-title">Payment Details</div>
+            <div className="ec-bill-card-price-details">
+              {state.cart.map((item) => {
+                return (
+                  <div
+                    key={item._id}
+                    className="ec-bill-card-price-details-content"
+                  >
+                    <p>{item.title}</p>
+                    <p>
+                      {item.qty} x {item.price}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="ec-bill-card-total-amount">
+              <p>TOTAL AMOUNT</p>
+              <p>
+                <i className="fa-solid fa-indian-rupee-sign"></i>
+                {totalPrice}
+              </p>
+            </div>
+            {Object.keys(state.selectedAddress).length !== 0 && (
+              <button
+                className="ec-bill-card-btn duck-btn duck-btn-solid-l ec-bill-card-change-address"
+                onClick={() => navigate("/address")}
+              >
+                Change address
+              </button>
+            )}
+            {Object.keys(state.selectedAddress).length !== 0 ? (
+              <button
+                className="ec-bill-card-btn duck-btn duck-btn-solid-l"
+                onClick={postOrderHandler}
+              >
+                Place Order
+              </button>
+            ) : (
+              <button
+                disabled
+                className="ec-bill-card-btn duck-btn duck-btn-solid-l"
+                onClick={postOrderHandler}
+              >
+                Place Order
+              </button>
+            )}
           </div>
-          <div className="duck-bill-card-total-amount">
-            <p>TOTAL AMOUNT</p>
-            <p>{totalPrice}</p>
-          </div>
-          <div className="duck-bill-card-saving-info">
-            You will save Rs1999 on this order
-          </div>
-          <button className="duck-bill-card-btn duck-btn duck-btn-solid-l">
-            Place Order{" "}
-          </button>
         </div>
       </div>
-      <MyFooter />
-    </div>
+    </Layout>
   );
 };

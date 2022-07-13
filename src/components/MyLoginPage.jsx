@@ -1,60 +1,66 @@
-import axios from "axios";
 import { useState } from "react";
-import { MyFooter } from "./MyFooter";
-import { MyNavbar } from "./MyNavbar";
-import { useNavigate, Link } from "react-router-dom";
+import { postCall } from "./ReusableFunctions";
 import { useAuthProvider } from "./authProvider";
+import { useNavigate } from "react-router-dom";
+import { loginStatus } from "./authActionType";
 
 export const MyLoginPage = () => {
-  const { state, dispatch } = useAuthProvider();
+  let navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  let navigate = useNavigate();
+  const { dispatch: authDispatch } = useAuthProvider();
 
   const saveEmailPassword = async () => {
-    const response = await axios.post("/api/auth/login", {
+    let data = await postCall("/api/auth/login", {
       email: email,
       password: password,
     });
-
-    if (response.status === 200) {
-      dispatch({ type: "LOGIN_STATUS", payload: true });
-      localStorage.setItem("encodedToken", response.data.encodedToken);
-      navigate("/product-page");
-    }
+    authDispatch({ type: loginStatus, payload: true });
+    localStorage.setItem("encodedToken", data.encodedToken);
+    localStorage.setItem("currentUser", JSON.stringify(data.foundUser));
+    navigate("/products");
   };
 
+  const guestLoginHandler = async () => {
+    let data = await postCall("/api/auth/login", {
+      email: "bukart@gmail.com",
+      password: "buKart123",
+    });
+    authDispatch({ type: loginStatus, payload: true });
+    localStorage.setItem("encodedToken", data.encodedToken);
+    localStorage.setItem("currentUser", JSON.stringify(data.foundUser));
+    navigate("/products");
+  };
   return (
-    <div>
-      <MyNavbar />
-      <div className="my-login-page-body">
-        <div className="login-page">
-          <p className="login-title">LOGIN</p>
-          <input
-            type="email"
-            className="login-email-input login-inputs"
-            placeholder="Enter your email here"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            className="login-password login-inputs"
-            placeholder="Enter your password here"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {/* <button className="login-buttons" >Login With Something</button> */}
+    <div className="my-login-page-body">
+      <div className="login-page">
+        <p className="login-title">LOGIN</p>
+        <input
+          type="email"
+          className="login-email-input login-inputs"
+          placeholder="Enter your email here"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          className="login-password login-inputs"
+          placeholder="Enter your password here"
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-          <button className="login-buttons" onClick={saveEmailPassword}>
-            LOGIN
-          </button>
-          <Link to="/signup-page">
-            <p style={{ textAlign: "center", cursor: "pointer" }}>
-              Not a user? <strong>create account</strong>
-            </p>
-          </Link>
-        </div>
+        <button className="login-buttons" onClick={saveEmailPassword}>
+          LOGIN
+        </button>
+        <button className="login-buttons" onClick={guestLoginHandler}>
+          LOGIN AS GUEST
+        </button>
+        <a
+          style={{ textAlign: "center", cursor: "pointer" }}
+          onClick={() => navigate("/signup")}
+        >
+          Not a user? <span>Create account</span>
+        </a>
       </div>
-      <MyFooter />
     </div>
   );
 };

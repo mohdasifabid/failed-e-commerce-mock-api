@@ -1,18 +1,15 @@
-
-
-.my-wishlist-page-body-content{
+.ec-wishlist-container{
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 26.9rem;
 }
-.my-wishlist-page-body-content-cards{
+.ec-wishlist-cards-container{
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: 1rem;
     align-items: center;
 }
-.duck-like-badge-icon-l:active{
+.ec-wishlist-card-like-icon:active{
     color: white;
 } 
