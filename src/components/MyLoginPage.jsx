@@ -34,7 +34,7 @@ export const MyLoginPage = () => {
   return (
     <div className="my-login-page-body">
       <div className="login-page">
-        <p className="login-title">LOGIN</p>
+        <p className="login-title" >LOGIN</p>
         <input
           type="email"
           className="login-email-input login-inputs"
@@ -55,7 +55,8 @@ export const MyLoginPage = () => {
           LOGIN AS GUEST
         </button>
         <a
-          style={{ textAlign: "center", cursor: "pointer" }}
+          className="loginBottom"
+          style={{ textAlign: "center", cursor: "pointer"}}
           onClick={() => navigate("/signup")}
         >
           Not a user? <span>Create account</span>

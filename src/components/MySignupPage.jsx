@@ -59,6 +59,7 @@ export const MySignupPage = () => {
           Signup
         </button>
         <a
+         className="loginBottom"
           style={{ textAlign: "center", cursor: "pointer" }}
           onClick={() => navigate("/login")}
         >
