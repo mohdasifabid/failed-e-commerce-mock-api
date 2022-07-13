@@ -2,7 +2,7 @@ import { useState } from "react";
 import { postCall } from "./ReusableFunctions";
 import { useAuthProvider } from "./authProvider";
 import { useNavigate } from "react-router-dom";
-import { loginStatus } from "./authActionType";
+import { LOGIN_STATUS } from "./authActionType";
 
 export const MyLoginPage = () => {
   let navigate = useNavigate();
@@ -15,7 +15,7 @@ export const MyLoginPage = () => {
       email: email,
       password: password,
     });
-    authDispatch({ type: loginStatus, payload: true });
+    authDispatch({ type: LOGIN_STATUS, payload: true });
     localStorage.setItem("encodedToken", data.encodedToken);
     localStorage.setItem("currentUser", JSON.stringify(data.foundUser));
     navigate("/products");
@@ -26,9 +26,8 @@ export const MyLoginPage = () => {
       email: "bukart@gmail.com",
       password: "buKart123",
     });
-    authDispatch({ type: loginStatus, payload: true });
+    authDispatch({ type: LOGIN_STATUS, payload: true });
     localStorage.setItem("encodedToken", data.encodedToken);
-    localStorage.setItem("currentUser", JSON.stringify(data.foundUser));
     navigate("/products");
   };
   return (

@@ -19,7 +19,7 @@ export const getAllProductsHandler = function () {
  * send GET Request at /api/user/products/:productId
  * */
 
-export const getProductHandler = function (schema, request) {
+export const GET_PRODUCTHandler = function (schema, request) {
   const productId = request.params.productId;
   try {
     const product = schema.products.findBy({ _id: productId });

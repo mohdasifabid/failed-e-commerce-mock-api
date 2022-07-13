@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Layout } from "./Layout";
 import { MyFilters } from "./MyFilters";
 import { getCall } from "./ReusableFunctions";
-import { getProduct } from "./productActionType";
+import { GET_PRODUCT } from "./productActionType";
 import MySmallProductCard from "./MySmallProductCard";
 import { useProductProvider } from "./productProvider";
 
@@ -10,10 +10,10 @@ export const MyProductPage = () => {
   const { state, dispatch } = useProductProvider();
   useEffect(async () => {
     const data = await getCall("api/products");
-    dispatch({ type: getProduct, payload: data.products });
+    dispatch({ type: GET_PRODUCT, payload: data.products });
   }, []);
 
-  const sortByPriceFunction = (ourData, sortMeter) => {
+  const SORT_BY_PRICEFunction = (ourData, sortMeter) => {
     if (sortMeter === "lowToHigh") {
       return ourData.sort((a, b) => Number(a.price) - Number(b.price));
     } else if (sortMeter === "highToLow") {
@@ -39,9 +39,9 @@ export const MyProductPage = () => {
     }
     return ourData;
   };
-  const sortedByPriceArray = sortByPriceFunction(
+  const sortedByPriceArray = SORT_BY_PRICEFunction(
     state.products,
-    state.sortByPriceMeter
+    state.SORT_BY_PRICEMeter
   );
 
   const searchedByInputArray = inputSearchFunction(

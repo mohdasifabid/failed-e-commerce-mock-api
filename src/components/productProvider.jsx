@@ -1,16 +1,16 @@
 import { createContext, useContext, useReducer } from "react";
 import {
-  addCategoryFilter,
-  cartData,
-  getAddress,
-  getCategory,
-  getProduct,
-  getSelectedAddress,
-  removeCategoryFilter,
-  resetCategoryFilter,
-  searchByInput,
-  sortByPrice,
-  wishlistData,
+  ADD_CATEGORY_FILTER,
+  CART_DATA,
+  GET_ADDRESS,
+  GET_CATEGORY,
+  GET_PRODUCT,
+  GET_SELECTED_ADDRESS,
+  REMOVE_CATEGORY_FILTER,
+  RESET_CATEGORY_FILTER,
+  SEARCH_BY_INPUT,
+  SORT_BY_PRICE,
+  WISHLIST_DATA,
 } from "./productActionType";
 
 const ProductContext = createContext();
@@ -18,33 +18,33 @@ const useProductProvider = () => useContext(ProductContext);
 
 const productChooserFunction = (state, action) => {
   switch (action.type) {
-    case getProduct:
+    case GET_PRODUCT:
       return {
         ...state,
         products: action.payload,
       };
-    case wishlistData:
+    case WISHLIST_DATA:
       return {
         ...state,
         wishlist: action.payload,
       };
-    case cartData:
+    case CART_DATA:
       return {
         ...state,
         cart: action.payload,
       };
-    case getCategory:
+    case GET_CATEGORY:
       return {
         ...state,
         categories: action.payload,
       };
-    case sortByPrice:
+    case SORT_BY_PRICE:
       return {
         ...state,
-        sortByPriceMeter: action.payload,
+        SORT_BY_PRICEMeter: action.payload,
       };
 
-    case removeCategoryFilter:
+    case REMOVE_CATEGORY_FILTER:
       const filteredCategory = [...state.filterByCategoryMeter];
       const updatedfilterByCategoryMeter = filteredCategory.filter(
         (item) => item !== action.payload
@@ -54,27 +54,36 @@ const productChooserFunction = (state, action) => {
         filterByCategoryMeter: updatedfilterByCategoryMeter,
       };
 
-    case addCategoryFilter:
+    case ADD_CATEGORY_FILTER:
       return {
         ...state,
         filterByCategoryMeter: [...state.filterByCategoryMeter, action.payload],
       };
-    case resetCategoryFilter:
+    case RESET_CATEGORY_FILTER:
+      
+      const filterByCategoryMeterCopy = [...filterByCategoryMeter]
+      const index = filterByCategoryMeterCopy.findIndex(item=>item.name === action.payload)
+      if(action.payload === "clear_all"){
+       filterByCategoryMeterCopy.splice(0, filterByCategoryMeterCopy.length)
+      } else{
+        filterByCategoryMeterCopy.splice(index,1)
+      }
       return {
         ...state,
-        filterByCategoryMeter: action.payload,
+        filterByCategoryMeter: filterByCategoryMeterCopy,
       };
-    case searchByInput:
+  
+    case SEARCH_BY_INPUT:
       return {
         ...state,
         inputSearch: action.payload,
       };
-    case getAddress:
+    case GET_ADDRESS:
       return {
         ...state,
         addresses: action.payload,
       };
-    case getSelectedAddress:
+    case GET_SELECTED_ADDRESS:
       return {
         ...state,
         selectedAddress: action.payload,
@@ -87,7 +96,7 @@ const productChooserFunction = (state, action) => {
 const initialState = {
   products: [],
   categories: [],
-  sortByPriceMeter: false,
+  SORT_BY_PRICEMeter: false,
   filterByCategoryMeter: [],
   inputSearch: "",
   cart: [],

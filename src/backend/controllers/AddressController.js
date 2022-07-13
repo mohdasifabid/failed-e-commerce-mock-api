@@ -12,7 +12,7 @@ import { v4 as uuid } from "uuid";
  * This handler handles getting items to user's address.
  * send GET Request at /api/user/address
  * */
-export const getAddressHandler = function (schema, request) {
+export const GET_ADDRESSHandler = function (schema, request) {
   const userId = requiresAuth.call(this, request);
   if (!userId) {
     new Response(
