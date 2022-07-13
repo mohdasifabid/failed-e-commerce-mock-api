@@ -2,7 +2,7 @@ import { useState } from "react";
 import { postCall } from "./ReusableFunctions";
 import { useAuthProvider } from "./authProvider";
 import { useNavigate } from "react-router-dom";
-import { LOGIN_STATUS, SIGN_UP_STATUS } from "./authActionType";
+import { SIGN_UP_STATUS } from "./authActionType";
 
 export const MySignupPage = () => {
   const navigate = useNavigate();
