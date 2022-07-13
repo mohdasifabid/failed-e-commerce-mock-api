@@ -71,14 +71,21 @@
   height: 100vh;
 }
 .login-page{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 25%;
   border: 2px solid var(--secondary-color);
-  padding: 1.5rem 3rem;
+  /* padding: 1.5rem 3rem; */
+  padding: 3rem 2rem;
+  gap: .5rem;
 }
 
 .login-buttons{
   cursor: pointer;
   border: none;
+  padding: .5rem;
+  width: 90%;
 }
 .login-buttons:hover{
   background-color: var(--primary-color);
@@ -86,7 +93,8 @@
 }
 .login-inputs{
   outline: none;
-  padding: 0 .5rem;
+  padding:  .5rem;
+  width: 85%;
   border: 1px solid var(--secondary-color);
 }
 .login-inputs:focus{
@@ -99,9 +107,10 @@
 .login-page p{
   margin-top: 0;
 }
-.login-title{
-  margin-bottom: 0;
+.loginBottom {
+  margin-top: 1rem;
 }
+
 /* navbar */
 .ec-nav-container{
 display: flex;
