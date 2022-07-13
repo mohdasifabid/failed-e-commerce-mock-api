@@ -23,8 +23,10 @@ export const MyFilters = () => {
         <button
           className="ec-filter-clear"
           onClick={() => {
-            dispatch({ type: sortByPrice, payload: false });
-            dispatch({ type: resetCategoryFilter, payload: [] });
+            // dispatch({ type: sortByPrice, payload: false });
+           
+            // dispatch({ type: resetCategoryFilter, payload: [] });
+             dispatch({type: resetCategoryFilter, payload: "clear_all"})
           }}
         >
           CLEAR ALL

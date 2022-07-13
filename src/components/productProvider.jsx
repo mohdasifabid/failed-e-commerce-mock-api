@@ -60,10 +60,19 @@ const productChooserFunction = (state, action) => {
         filterByCategoryMeter: [...state.filterByCategoryMeter, action.payload],
       };
     case resetCategoryFilter:
+      
+      const filterByCategoryMeterCopy = [...filterByCategoryMeter]
+      const index = filterByCategoryMeterCopy.findIndex(item=>item.name === action.payload)
+      if(action.payload === "clear_all"){
+       filterByCategoryMeterCopy.splice(0, filterByCategoryMeterCopy.length)
+      } else{
+        filterByCategoryMeterCopy.splice(index,1)
+      }
       return {
         ...state,
-        filterByCategoryMeter: action.payload,
+        filterByCategoryMeter: filterByCategoryMeterCopy,
       };
+  
     case searchByInput:
       return {
         ...state,
