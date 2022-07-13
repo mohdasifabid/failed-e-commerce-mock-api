@@ -29,7 +29,7 @@ export const getAllCategoriesHandler = function () {
  * send GET Request at /api/user/category/:categoryId
  * */
 
-export const getCategoryHandler = function (schema, request) {
+export const GET_CATEGORYHandler = function (schema, request) {
   const categoryId = request.params.categoryId;
   try {
     const category = schema.categories.findBy({ _id: categoryId });

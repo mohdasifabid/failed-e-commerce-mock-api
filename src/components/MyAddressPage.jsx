@@ -2,7 +2,7 @@ import "./MyAddressPage.css";
 import { Layout } from "./Layout";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAddress, getSelectedAddress } from "./productActionType";
+import { GET_ADDRESS, GET_SELECTED_ADDRESS } from "./productActionType";
 import { useProductProvider } from "./productProvider";
 import { deleteCall, getCall, postCall } from "./ReusableFunctions";
 
@@ -13,23 +13,23 @@ export const MyAddressPage = () => {
   const navigate = useNavigate();
   useEffect(async () => {
     const data = await getCall("/api/user/address");
-    dispatch({ type: getAddress, payload: data.address });
+    dispatch({ type: GET_ADDRESS, payload: data.address });
   }, []);
 
   const deleteAddressHandler = async (id) => {
     const data = await deleteCall(`/api/user/address/${id}`);
-    dispatch({ type: getAddress, payload: data.address });
+    dispatch({ type: GET_ADDRESS, payload: data.address });
   };
 
   const addNewAddressHandler = async () => {
     const data = await postCall("/api/user/address", { address: newAddress });
-    dispatch({ type: getAddress, payload: data.address });
+    dispatch({ type: GET_ADDRESS, payload: data.address });
     setDisplayModal(false);
   };
 
   const selectedAddressHandler = (e) => {
     let address = state.addresses.find((add) => add._id === e.target.value);
-    dispatch({ type: getSelectedAddress, payload: address });
+    dispatch({ type: GET_SELECTED_ADDRESS, payload: address });
     navigate("/cart");
   };
   return (

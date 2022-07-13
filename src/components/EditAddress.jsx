@@ -1,7 +1,7 @@
 import { Layout } from "./Layout";
 import { useEffect, useState } from "react";
 import { postCall } from "./ReusableFunctions";
-import { getAddress } from "./productActionType";
+import { GET_ADDRESS } from "./productActionType";
 import { useProductProvider } from "./productProvider";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -21,7 +21,7 @@ export const EditAddress = () => {
     const data = await postCall(`/api/user/address/${id}`, {
       address: updatedAddress,
     });
-    dispatch({ type: getAddress, payload: data.address });
+    dispatch({ type: GET_ADDRESS, payload: data.address });
     navigate("/address");
   };
 

@@ -1,7 +1,7 @@
 import "./MyWishlistPage.css";
 import { Layout } from "./Layout";
 import { useEffect } from "react";
-import { cartData, wishlistData } from "./productActionType";
+import { CART_DATA, WISHLIST_DATA } from "./productActionType";
 import { useProductProvider } from "./productProvider";
 import { deleteCall, getCall, postCall } from "./ReusableFunctions";
 
@@ -9,20 +9,20 @@ export const MyWishlistPage = () => {
   const { state, dispatch } = useProductProvider();
   useEffect(async () => {
     const data = await getCall("/api/user/wishlist");
-    dispatch({ type: wishlistData, payload: data.wishlist });
+    dispatch({ type: WISHLIST_DATA, payload: data.wishlist });
   }, []);
 
   const deleteItemFromWishlistHandler = async (itemId) => {
     const data = await deleteCall(`/api/user/wishlist/${itemId}`);
-    dispatch({ type: wishlistData, payload: data.wishlist });
+    dispatch({ type: WISHLIST_DATA, payload: data.wishlist });
   };
 
   const moveToCartFromWishlist = async (item) => {
     const cartResponse = await postCall(`/api/user/cart`, { product: item });
-    dispatch({ type: cartData, payload: cartResponse.cart });
+    dispatch({ type: CART_DATA, payload: cartResponse.cart });
 
     const wishlistResponse = await deleteCall(`/api/user/wishlist/${item._id}`);
-    dispatch({ type: wishlistData, payload: wishlistResponse.wishlist });
+    dispatch({ type: WISHLIST_DATA, payload: wishlistResponse.wishlist });
   };
 
   return (

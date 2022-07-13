@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { LOGIN_STATUS } from "./authActionType";
 import { useAuthProvider } from "./authProvider";
-import { searchByInput } from "./productActionType";
+import { SEARCH_BY_INPUT } from "./productActionType";
 import { useProductProvider } from "./productProvider";
 
 export const MyNavbar = () => {
@@ -19,7 +19,7 @@ export const MyNavbar = () => {
         type="text"
         placeholder="search here"
         onChange={(e) => {
-          dispatch({ type: searchByInput, payload: e.target.value });
+          dispatch({ type: SEARCH_BY_INPUT, payload: e.target.value });
           e.target.value.length > 0 && navigate("/products");
         }}
       />
