@@ -41,7 +41,7 @@ export const MyProductPage = () => {
   };
   const sortedByPriceArray = SORT_BY_PRICEFunction(
     state.products,
-    state.SORT_BY_PRICEMeter
+    state.sortByPriceMeter
   );
 
   const searchedByInputArray = inputSearchFunction(

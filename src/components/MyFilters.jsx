@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getCall } from "./ReusableFunctions";
 import { useProductProvider } from "./productProvider";
 import {
@@ -11,11 +11,11 @@ import {
 
 export const MyFilters = () => {
   const { state, dispatch } = useProductProvider();
+  const [checkboxCleared, setCheckboxCleared] = useState(null)
   useEffect(async () => {
     const data = await getCall("api/categories");
     dispatch({ type: GET_CATEGORY, payload: data.categories });
   }, []);
-
   return (
     <div className="ec-filters-container">
       <div className="filter-header">
@@ -23,9 +23,7 @@ export const MyFilters = () => {
         <button
           className="ec-filter-clear"
           onClick={() => {
-            // dispatch({ type: SORT_BY_PRICE, payload: false });
-           
-            // dispatch({ type: RESET_CATEGORY_FILTER, payload: [] });
+            setCheckboxCleared(false)
              dispatch({type: RESET_CATEGORY_FILTER, payload: "clear_all"})
           }}
         >
@@ -37,6 +35,7 @@ export const MyFilters = () => {
         SORT
         <label htmlFor="lowToHighPriceInput">
           <input
+          checked={state.sortByPriceMeter === "lowToHigh"}
             value={"lowToHigh"}
             id="lowToHighPriceInput"
             type="radio"
@@ -49,13 +48,15 @@ export const MyFilters = () => {
         </label>
         <label htmlFor="highToLowPriceInput">
           <input
+          checked={state.sortByPriceMeter === "highToLow"}
             value={"highToLow"}
             id="highToLowPriceInput"
             type="radio"
             name="sort"
-            onChange={() =>
+            onChange={() =>{
+              setCheckboxCleared(checkboxCleared)
               dispatch({ type: SORT_BY_PRICE, payload: "highToLow" })
-            }
+            }}
           />
           High to low price
         </label>
@@ -67,6 +68,7 @@ export const MyFilters = () => {
           return (
             <label htmlFor={item.id} key={item._id}>
               <input
+              checked={checkboxCleared}
                 value={item.categoryName}
                 id={item.id}
                 name={item.id}
