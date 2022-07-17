@@ -2,15 +2,18 @@ import { useEffect } from "react";
 import { Layout } from "./Layout";
 import { MyFilters } from "./MyFilters";
 import { getCall } from "./ReusableFunctions";
-import { GET_PRODUCT } from "./productActionType";
 import MySmallProductCard from "./MySmallProductCard";
 import { useProductProvider } from "./productProvider";
+import {useDispatch, useSelector} from "react-redux"
+import { setProducts } from "../features/productSlice";
 
 export const MyProductPage = () => {
-  const { state, dispatch } = useProductProvider();
+  const { state } = useProductProvider();
+  const reduxDispatch = useDispatch()
+  const products = useSelector((state)=>state.productState.products)
   useEffect(async () => {
     const data = await getCall("api/products");
-    dispatch({ type: GET_PRODUCT, payload: data.products });
+    reduxDispatch(setProducts(data.products))
   }, []);
 
   const sortByPriceFunction = (ourData, sortMeter) => {
@@ -40,7 +43,7 @@ export const MyProductPage = () => {
     return ourData;
   };
   const sortedByPriceArray = sortByPriceFunction(
-    state.products,
+    products,
     state.sortByPriceMeter
   );
 
