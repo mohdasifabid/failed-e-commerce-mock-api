@@ -5,6 +5,8 @@ import { useAuthProvider } from "./authProvider";
 import { useProductProvider } from "./productProvider";
 import { deleteCall, postCall } from "./ReusableFunctions";
 import { CART_DATA, WISHLIST_DATA } from "./productActionType";
+import { useDispatch} from "react-redux"
+import { setCartData } from "../features/cartSlice";
 
 export default function MySmallProductCard({ item }) {
   const { state, dispatch } = useProductProvider();
@@ -12,6 +14,7 @@ export default function MySmallProductCard({ item }) {
   const navigate = useNavigate();
   const { img, title, price, author, categoryName } = item;
   const [wishlistIconColor, setWishlistIconColor] = useState({});
+  const cartDispatch = useDispatch()
 
   const addToWishlistHandler = async (item) => {
     const data = await postCall("/api/user/wishlist", { product: item });
@@ -24,6 +27,7 @@ export default function MySmallProductCard({ item }) {
   const addToCartHandler = async (item) => {
     const data = await postCall("/api/user/cart", { product: item });
     dispatch({ type: CART_DATA, payload: data.cart });
+    cartDispatch(setCartData( data.cart))
   };
 
   const deleteFromCartHandler = async (itemId) => {

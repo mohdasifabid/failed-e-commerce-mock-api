@@ -5,14 +5,18 @@ import { CART_DATA, WISHLIST_DATA } from "./productActionType";
 import { useNavigate } from "react-router-dom";
 import { useProductProvider } from "./productProvider";
 import { deleteCall, getCall, postCall } from "./ReusableFunctions";
+import {useSelector, useDispatch} from "react-redux"
+import { setCartData } from "../features/cartSlice";
 
 export const MyCart = () => {
   const { state, dispatch } = useProductProvider();
   const navigate = useNavigate();
+  const cart = useSelector((state)=>state.cartState.cart)
+  const reduxDispatch = useDispatch()
   const { name, street, city, zipCode } = state.selectedAddress;
   useEffect(async () => {
     const data = await getCall("/api/user/cart");
-    dispatch({ type: CART_DATA, payload: data.cart });
+    reduxDispatch(setCartData(data.cart))
   }, []);
 
   const moveItemFromCartToWishlist = async (item) => {
@@ -21,7 +25,7 @@ export const MyCart = () => {
     });
     dispatch({ type: WISHLIST_DATA, payload: wishlistResponse.wishlist });
     const cartResponse = await deleteCall(`/api/user/cart/${item._id}`);
-    dispatch({ type: CART_DATA, payload: cartResponse.cart });
+    reduxDispatch(setCartData(cartResponse.cart))
   };
 
   const increaseQuantityHandler = async (itemId) => {
@@ -58,7 +62,7 @@ export const MyCart = () => {
     <Layout>
       <div
         className="ec-cart-page-container"
-        style={state.cart.length > 0 ? {} : { display: "none" }}
+        style={cart.length > 0 ? {} : { display: "none" }}
       >
         <div className="ec-ls-card">
           {Object.keys(state.selectedAddress).length === 0 && (
@@ -69,7 +73,7 @@ export const MyCart = () => {
               Select address
             </button>
           )}
-          {state.cart.map((item) => {
+          {cart.map((item) => {
             return (
               <div className="ec-ls-card-leftside" key={item._id}>
                 <img src={item.img} alt="" className="ec-ls-card-img" />
@@ -140,7 +144,8 @@ export const MyCart = () => {
                 );
               })}
             </div>
-            <div className="ec-bill-card-total-amount">
+            
+            < div className="ec-bill-card-total-amount">
               <p>TOTAL AMOUNT</p>
               <p>
                 <i className="fa-solid fa-indian-rupee-sign"></i>
