@@ -130,7 +130,7 @@ export const MyCart = () => {
             )}
             <div className="ec-bill-card-title">Payment Details</div>
             <div className="ec-bill-card-price-details">
-              {state.cart.map((item) => {
+              {cart.map((item) => {
                 return (
                   <div
                     key={item._id}

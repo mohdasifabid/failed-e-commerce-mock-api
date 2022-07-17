@@ -8,6 +8,7 @@ export const MyNavbar = () => {
   const { state, dispatch } = useProductProvider();
   const { state: authState, dispatch: authDispatch } = useAuthProvider();
   const cart = useSelector((state)=>state.cartState.cart)
+  const wishlist = useSelector((state)=>state.wishlistState.wishlist)
 
   let navigate = useNavigate();
   return (
@@ -31,13 +32,12 @@ export const MyNavbar = () => {
       <a className="duck-icon-badge" onClick={() => navigate("/wishlist")}>
         <i className="fa-solid fa-heart  navbar-icons"></i>
         <p className="duck-icon-badge-content navbar-badge-content">
-          {state.wishlist.length}
+          {wishlist.length}
         </p>
       </a>
       <a className="duck-icon-badge ec-cart" onClick={() => navigate("/cart")}>
         <i className="fa-solid fa-cart-shopping  navbar-icons"></i>
         <p className="duck-icon-badge-content navbar-badge-content">
-          {/* {state.cart.length} */}
           {cart.length}
         </p>
       </a>
