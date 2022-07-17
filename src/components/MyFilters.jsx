@@ -9,13 +9,22 @@ import {
   SORT_BY_PRICE,
 } from "./productActionType";
 
+import {useDispatch, useSelector} from "react-redux"
+import { setCategory } from "../features/categorySlice";
+
 export const MyFilters = () => {
   const { state, dispatch } = useProductProvider();
   const [checkboxCleared, setCheckboxCleared] = useState(null)
+  const reduxDispatch = useDispatch()
+
+  const categories = useSelector((state)=>state.categoryState.categories)
+
   useEffect(async () => {
     const data = await getCall("api/categories");
     dispatch({ type: GET_CATEGORY, payload: data.categories });
+    reduxDispatch(setCategory(data.categories))
   }, []);
+
   return (
     <div className="ec-filters-container">
       <div className="filter-header">
@@ -64,7 +73,7 @@ export const MyFilters = () => {
       <hr />
       <div className="filter-category">
         Categories
-        {state.categories.map((item) => {
+        {categories.map((item) => {
           return (
             <label htmlFor={item.id} key={item._id}>
               <input
