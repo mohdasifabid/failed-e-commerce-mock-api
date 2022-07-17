@@ -3,10 +3,12 @@ import { LOGIN_STATUS } from "./authActionType";
 import { useAuthProvider } from "./authProvider";
 import { SEARCH_BY_INPUT } from "./productActionType";
 import { useProductProvider } from "./productProvider";
-
+import {useSelector} from "react-redux"
 export const MyNavbar = () => {
   const { state, dispatch } = useProductProvider();
   const { state: authState, dispatch: authDispatch } = useAuthProvider();
+  const cart = useSelector((state)=>state.cartState.cart)
+
   let navigate = useNavigate();
   return (
     <div className="ec-nav-container">
@@ -35,7 +37,8 @@ export const MyNavbar = () => {
       <a className="duck-icon-badge ec-cart" onClick={() => navigate("/cart")}>
         <i className="fa-solid fa-cart-shopping  navbar-icons"></i>
         <p className="duck-icon-badge-content navbar-badge-content">
-          {state.cart.length}
+          {/* {state.cart.length} */}
+          {cart.length}
         </p>
       </a>
 
