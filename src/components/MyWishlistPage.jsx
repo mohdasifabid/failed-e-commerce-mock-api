@@ -2,33 +2,49 @@ import "./MyWishlistPage.css";
 import { Layout } from "./Layout";
 import { useEffect } from "react";
 import { deleteCall, getCall, postCall } from "./ReusableFunctions";
-import { useSelector, useDispatch} from "react-redux"
+import { useSelector, useDispatch } from "react-redux";
 import { setWishlist } from "../features/wishlistSlice";
 import { setCartData } from "../features/cartSlice";
 
 export const MyWishlistPage = () => {
-  const wishlist = useSelector((state)=>state.wishlistState.wishlist)
-  const reduxDispatch = useDispatch()
-  console.log(wishlist)
+  const wishlist = useSelector((state) => state.wishlistState.wishlist);
+  const reduxDispatch = useDispatch();
+  const cart = useSelector((state) => state.cartState.cart);
 
   useEffect(async () => {
     const data = await getCall("/api/user/wishlist");
-    reduxDispatch(setWishlist(data.wishlist))
+    reduxDispatch(setWishlist(data.wishlist));
   }, []);
 
   const deleteItemFromWishlistHandler = async (itemId) => {
     const data = await deleteCall(`/api/user/wishlist/${itemId}`);
-    reduxDispatch(setWishlist(data.wishlist))
-
+    reduxDispatch(setWishlist(data.wishlist));
   };
 
-  const moveToCartFromWishlist = async (item) => {
-    const cartResponse = await postCall(`/api/user/cart`, { product: item });
-    reduxDispatch(setCartData(cartResponse.cart))
-  
-    const wishlistResponse = await deleteCall(`/api/user/wishlist/${item._id}`);
-    reduxDispatch(setWishlist(wishlistResponse.wishlist))
+  const moveToCartFromWishlist = async (item, cart) => {
+    const inCart = cart.some((prod) => prod.title === item.title);
+    if (inCart) {
+      const data = await postCall(`/api/user/cart/${item._id}`, {
+        action: {
+          type: "increment",
+        },
+      });
+      reduxDispatch(setCartData(data.cart));
 
+      const wishlistResponse = await deleteCall(
+        `/api/user/wishlist/${item._id}`
+      );
+
+      reduxDispatch(setWishlist(wishlistResponse.wishlist));
+    } else {
+      const cartResponse = await postCall(`/api/user/cart`, { product: item });
+      reduxDispatch(setCartData(cartResponse.cart));
+
+      const wishlistResponse = await deleteCall(
+        `/api/user/wishlist/${item._id}`
+      );
+      reduxDispatch(setWishlist(wishlistResponse.wishlist));
+    }
   };
 
   return (
@@ -63,7 +79,7 @@ export const MyWishlistPage = () => {
                 <div className="duck-product-card-bottom">
                   <button
                     className="duck-card-product-btn btn-add-to-wishlist"
-                    onClick={() => moveToCartFromWishlist(item)}
+                    onClick={() => moveToCartFromWishlist(item, cart)}
                   >
                     Move to cart
                   </button>
