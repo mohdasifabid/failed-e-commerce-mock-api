@@ -11,21 +11,28 @@ export const MyProductPage = () => {
   const { state } = useProductProvider();
   const reduxDispatch = useDispatch()
   const products = useSelector((state)=>state.productState.products)
+  const sortPriceQuery = useSelector((state)=>state.filteredState.sortPriceQuery)
+  const selectedCategories = useSelector(state=> state.filteredState.selectedCategories)
   useEffect(async () => {
     const data = await getCall("api/products");
     reduxDispatch(setProducts(data.products))
   }, []);
 
   const sortByPriceFunction = (ourData, sortMeter) => {
-    if (sortMeter === "lowToHigh") {
-      return ourData.sort((a, b) => Number(a.price) - Number(b.price));
-    } else if (sortMeter === "highToLow") {
-      return ourData.sort((a, b) => Number(b.price) - Number(a.price));
+    const copyData = [...ourData]
+    if(sortMeter === ""){
+      return copyData
     }
-    return ourData;
+    if (sortMeter === "lowToHigh") {
+      return copyData.sort((a, b) => Number(a.price) - Number(b.price));
+    } else if (sortMeter === "highToLow") {
+      return copyData.sort((a, b) => Number(b.price) - Number(a.price));
+    }
+    return copyData;
   };
 
   const inputSearchFunction = (ourData, searchMeter) => {
+    
     if (searchMeter && searchMeter.length > 0) {
       return ourData.filter((item) =>
         item.title.toLowerCase().includes(searchMeter.toLowerCase())
@@ -35,16 +42,17 @@ export const MyProductPage = () => {
   };
 
   const filterByCategoryFunction = (ourData, categoryMeter) => {
+    const dataCopy = [...ourData]
     if (categoryMeter.length > 0) {
-      return ourData.filter((item) => {
+      return dataCopy.filter((item) => {
         return categoryMeter.indexOf(item.categoryName) !== -1;
       });
     }
-    return ourData;
+    return dataCopy;
   };
-  const sortedByPriceArray = sortByPriceFunction(
+  const sortedByPriceArray =  sortByPriceFunction(
     products,
-    state.sortByPriceMeter
+    sortPriceQuery
   );
 
   const searchedByInputArray = inputSearchFunction(
@@ -53,7 +61,7 @@ export const MyProductPage = () => {
   );
   const filterByCategoryArray = filterByCategoryFunction(
     searchedByInputArray,
-    state.filterByCategoryMeter
+    selectedCategories
   );
 
   return (
