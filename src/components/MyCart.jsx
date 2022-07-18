@@ -46,13 +46,13 @@ export const MyCart = () => {
     dispatch({ type: CART_DATA, payload: data.cart });
   };
 
-  const totalPrice = state.cart.reduce((a, c) => {
+  const totalPrice = cart.reduce((a, c) => {
     const priceOfAnItem = c.price * c.qty;
     return a + Number(priceOfAnItem);
   }, 0);
 
   const postOrderHandler = async () => {
-    let cartItems = state.cart;
+    let cartItems = cart;
     const data = await postCall("/api/user/orders", {
       order: { cart: cartItems, address: state.selectedAddress },
     });

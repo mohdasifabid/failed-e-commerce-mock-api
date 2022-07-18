@@ -4,6 +4,7 @@ import productReducer from "./productSlice"
 import wishlistReducer from "./wishlistSlice"
 import categoryReducer from "./categorySlice"
 import filterReducer from  "./filterSlice"
+import addressReducer from "./addressSlice"
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     productState: productReducer,
     wishlistState: wishlistReducer,
     categoryState: categoryReducer,
-    filteredState: filterReducer
+    filteredState: filterReducer,
+    addressState: addressReducer
   }
 })

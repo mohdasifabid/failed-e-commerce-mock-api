@@ -2,34 +2,37 @@ import "./MyAddressPage.css";
 import { Layout } from "./Layout";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GET_ADDRESS, GET_SELECTED_ADDRESS } from "./productActionType";
-import { useProductProvider } from "./productProvider";
+import { useDispatch , useSelector} from "react-redux";
 import { deleteCall, getCall, postCall } from "./ReusableFunctions";
+import { setAddresses, setSelectedAddress } from "../features/addressSlice";
 
 export const MyAddressPage = () => {
-  const { state, dispatch } = useProductProvider();
   const [newAddress, setNewAddress] = useState({});
   const [displayModal, setDisplayModal] = useState(false);
+  const reduxDispatch = useDispatch()
+  const addresses = useSelector(state=>state.addressState.addresses)
   const navigate = useNavigate();
+
   useEffect(async () => {
     const data = await getCall("/api/user/address");
-    dispatch({ type: GET_ADDRESS, payload: data.address });
+    reduxDispatch(setAddresses(data.address))
   }, []);
 
   const deleteAddressHandler = async (id) => {
     const data = await deleteCall(`/api/user/address/${id}`);
-    dispatch({ type: GET_ADDRESS, payload: data.address });
+    reduxDispatch(setAddresses(data.address))
+
   };
 
   const addNewAddressHandler = async () => {
     const data = await postCall("/api/user/address", { address: newAddress });
-    dispatch({ type: GET_ADDRESS, payload: data.address });
+    reduxDispatch(setAddresses(data.address))
     setDisplayModal(false);
   };
 
   const selectedAddressHandler = (e) => {
-    let address = state.addresses.find((add) => add._id === e.target.value);
-    dispatch({ type: GET_SELECTED_ADDRESS, payload: address });
+    let address = addresses.find((add) => add._id === e.target.value);
+    reduxDispatch(setSelectedAddress(address))
     navigate("/cart");
   };
   return (
@@ -44,7 +47,7 @@ export const MyAddressPage = () => {
             style={displayModal ? { display: "none" } : {}}
           >
             <h3> Delievery Addresses</h3>
-            {state.addresses.length > 0 ? null : (
+            {addresses.length > 0 ? null : (
               <button
                 onClick={() => setDisplayModal(true)}
                 className="add-address-btn"
@@ -52,7 +55,7 @@ export const MyAddressPage = () => {
                 Add Address
               </button>
             )}
-            {state.addresses.map((user) => {
+            {addresses.map((user) => {
               return (
                 <div className="ec-delievery-address-card" key={user._id}>
                   <input
@@ -88,7 +91,7 @@ export const MyAddressPage = () => {
               );
             })}
             <a
-              style={state.addresses.length === 0 ? { display: "none" } : {}}
+              style={addresses.length === 0 ? { display: "none" } : {}}
               className="ec-addNewAddress-link"
               onClick={() => {
                 setDisplayModal(true);
