@@ -54,8 +54,8 @@ export const Orders = () => {
                       <>
                         {item.order.cart.reduce((a, c) => (
                           <p>
-                            {/* Total Price:<span> </span> */}
-                            {/* <i className="fa-solid fa-indian-rupee-sign"></i> */}
+                            Total Price:<span> </span> 
+                             <i className="fa-solid fa-indian-rupee-sign"></i>
                             <span> {Number(a.price) + Number(c.price)}</span>
                           </p>
                         ))}
