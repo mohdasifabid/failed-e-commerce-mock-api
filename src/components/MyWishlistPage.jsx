@@ -1,14 +1,12 @@
 import "./MyWishlistPage.css";
 import { Layout } from "./Layout";
 import { useEffect } from "react";
-import { useProductProvider } from "./productProvider";
 import { deleteCall, getCall, postCall } from "./ReusableFunctions";
 import { useSelector, useDispatch} from "react-redux"
 import { setWishlist } from "../features/wishlistSlice";
 import { setCartData } from "../features/cartSlice";
 
 export const MyWishlistPage = () => {
-  const { state, dispatch } = useProductProvider();
   const wishlist = useSelector((state)=>state.wishlistState.wishlist)
   const reduxDispatch = useDispatch()
   console.log(wishlist)

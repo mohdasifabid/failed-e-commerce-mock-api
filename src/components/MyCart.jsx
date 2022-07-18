@@ -122,7 +122,7 @@ export const MyCart = () => {
                 <p>{street},</p>
                 <p>{city}</p>
                 <p>
-                  {state},{zipCode}
+                  {selectedAddress.state},{zipCode}
                 </p>
               </>
             )}
