@@ -1,19 +1,17 @@
 import "./MyCart.css";
 import { Layout } from "./Layout";
 import { useEffect } from "react";
-import { CART_DATA, WISHLIST_DATA } from "./productActionType";
 import { useNavigate } from "react-router-dom";
-import { useProductProvider } from "./productProvider";
 import { deleteCall, getCall, postCall } from "./ReusableFunctions";
 import {useSelector, useDispatch} from "react-redux"
 import { setCartData } from "../features/cartSlice";
 
 export const MyCart = () => {
-  const { state, dispatch } = useProductProvider();
   const navigate = useNavigate();
   const cart = useSelector((state)=>state.cartState.cart)
+  const selectedAddress = useSelector(state=>state.addressState.selectedAddress)
   const reduxDispatch = useDispatch()
-  const { name, street, city, zipCode } = state.selectedAddress;
+  const { name, street, city, zipCode } = selectedAddress;
   useEffect(async () => {
     const data = await getCall("/api/user/cart");
     reduxDispatch(setCartData(data.cart))
@@ -23,7 +21,6 @@ export const MyCart = () => {
     const wishlistResponse = await postCall("/api/user/wishlist", {
       product: item,
     });
-    dispatch({ type: WISHLIST_DATA, payload: wishlistResponse.wishlist });
     const cartResponse = await deleteCall(`/api/user/cart/${item._id}`);
     reduxDispatch(setCartData(cartResponse.cart))
   };
@@ -34,7 +31,7 @@ export const MyCart = () => {
         type: "increment",
       },
     });
-    dispatch({ type: CART_DATA, payload: data.cart });
+    reduxDispatch(setCartData(data.cart))
   };
 
   const decreaseQuantityHandler = async (itemId) => {
@@ -43,7 +40,8 @@ export const MyCart = () => {
         type: "decrement",
       },
     });
-    dispatch({ type: CART_DATA, payload: data.cart });
+    reduxDispatch(setCartData(data.cart))
+
   };
 
   const totalPrice = cart.reduce((a, c) => {
@@ -54,7 +52,7 @@ export const MyCart = () => {
   const postOrderHandler = async () => {
     let cartItems = cart;
     const data = await postCall("/api/user/orders", {
-      order: { cart: cartItems, address: state.selectedAddress },
+      order: { cart: cartItems, address: selectedAddress },
     });
     navigate("/orders");
   };
@@ -65,7 +63,7 @@ export const MyCart = () => {
         style={cart.length > 0 ? {} : { display: "none" }}
       >
         <div className="ec-ls-card">
-          {Object.keys(state.selectedAddress).length === 0 && (
+          {Object.keys(selectedAddress).length === 0 && (
             <button
               className="ec-bill-card-btn duck-btn duck-btn-solid-l ec-bill-card-btn-left"
               onClick={() => navigate("/address")}
@@ -116,7 +114,7 @@ export const MyCart = () => {
             );
           })}
           <div className="ec-bill-card">
-            {Object.keys(state.selectedAddress).length !== 0 && (
+            {Object.keys(selectedAddress).length !== 0 && (
               <>
                 <p>
                   Address: <strong>{name}</strong>
@@ -124,7 +122,7 @@ export const MyCart = () => {
                 <p>{street},</p>
                 <p>{city}</p>
                 <p>
-                  {state.selectedAddress.state},{zipCode}
+                  {state},{zipCode}
                 </p>
               </>
             )}
@@ -152,7 +150,7 @@ export const MyCart = () => {
                 {totalPrice}
               </p>
             </div>
-            {Object.keys(state.selectedAddress).length !== 0 && (
+            {Object.keys(selectedAddress).length !== 0 && (
               <button
                 className="ec-bill-card-btn duck-btn duck-btn-solid-l ec-bill-card-change-address"
                 onClick={() => navigate("/address")}
@@ -160,7 +158,7 @@ export const MyCart = () => {
                 Change address
               </button>
             )}
-            {Object.keys(state.selectedAddress).length !== 0 ? (
+            {Object.keys(selectedAddress).length !== 0 ? (
               <button
                 className="ec-bill-card-btn duck-btn duck-btn-solid-l"
                 onClick={postOrderHandler}
