@@ -12,11 +12,11 @@ import {
 } from "./backend/controllers/CartController";
 import {
   getAllCategoriesHandler,
-  getCategoryHandler,
+  GET_CATEGORYHandler,
 } from "./backend/controllers/CategoryController";
 import {
   getAllProductsHandler,
-  getProductHandler,
+  GET_PRODUCTHandler,
 } from "./backend/controllers/ProductController";
 import {
   addItemToWishlistHandler,
@@ -24,7 +24,7 @@ import {
   removeItemFromWishlistHandler,
 } from "./backend/controllers/WishlistController";
 import {
-  getAddressHandler,
+  GET_ADDRESSHandler,
   addAddressHandler,
   removeAddressHandler,
   updateAddressHandler,
@@ -82,11 +82,11 @@ export function makeServer({ environment = "development" } = {}) {
 
       // products routes (public)
       this.get("/products", getAllProductsHandler.bind(this));
-      this.get("/products/:productId", getProductHandler.bind(this));
+      this.get("/products/:productId", GET_PRODUCTHandler.bind(this));
 
       // categories routes (public)
       this.get("/categories", getAllCategoriesHandler.bind(this));
-      this.get("/categories/:categoryId", getCategoryHandler.bind(this));
+      this.get("/categories/:categoryId", GET_CATEGORYHandler.bind(this));
 
       // cart routes (private)
       this.get("/user/cart", getCartItemsHandler.bind(this));
@@ -106,7 +106,7 @@ export function makeServer({ environment = "development" } = {}) {
         removeItemFromWishlistHandler.bind(this)
       );
 
-      this.get("/user/address", getAddressHandler.bind(this));
+      this.get("/user/address", GET_ADDRESSHandler.bind(this));
       this.post("/user/address", addAddressHandler.bind(this));
       this.post("/user/address/:addressId", updateAddressHandler.bind(this));
       this.delete("/user/address/:addressId", removeAddressHandler.bind(this));

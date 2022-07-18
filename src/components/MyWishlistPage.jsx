@@ -1,28 +1,34 @@
 import "./MyWishlistPage.css";
 import { Layout } from "./Layout";
 import { useEffect } from "react";
-import { cartData, wishlistData } from "./productActionType";
-import { useProductProvider } from "./productProvider";
 import { deleteCall, getCall, postCall } from "./ReusableFunctions";
+import { useSelector, useDispatch} from "react-redux"
+import { setWishlist } from "../features/wishlistSlice";
+import { setCartData } from "../features/cartSlice";
 
 export const MyWishlistPage = () => {
-  const { state, dispatch } = useProductProvider();
+  const wishlist = useSelector((state)=>state.wishlistState.wishlist)
+  const reduxDispatch = useDispatch()
+  console.log(wishlist)
+
   useEffect(async () => {
     const data = await getCall("/api/user/wishlist");
-    dispatch({ type: wishlistData, payload: data.wishlist });
+    reduxDispatch(setWishlist(data.wishlist))
   }, []);
 
   const deleteItemFromWishlistHandler = async (itemId) => {
     const data = await deleteCall(`/api/user/wishlist/${itemId}`);
-    dispatch({ type: wishlistData, payload: data.wishlist });
+    reduxDispatch(setWishlist(data.wishlist))
+
   };
 
   const moveToCartFromWishlist = async (item) => {
     const cartResponse = await postCall(`/api/user/cart`, { product: item });
-    dispatch({ type: cartData, payload: cartResponse.cart });
-
+    reduxDispatch(setCartData(cartResponse.cart))
+  
     const wishlistResponse = await deleteCall(`/api/user/wishlist/${item._id}`);
-    dispatch({ type: wishlistData, payload: wishlistResponse.wishlist });
+    reduxDispatch(setWishlist(wishlistResponse.wishlist))
+
   };
 
   return (
@@ -30,7 +36,7 @@ export const MyWishlistPage = () => {
       <div className="ec-wishlist-container">
         <h3>My Wishlist</h3>
         <div className="ec-wishlist-cards-container">
-          {state.wishlist.map((item) => {
+          {wishlist.map((item) => {
             return (
               <div key={item._id} className="duck-product-card">
                 <div className="duck-product-card-top">

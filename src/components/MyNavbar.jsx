@@ -1,61 +1,63 @@
-import { Link, useNavigate } from "react-router-dom";
-import { loginStatus } from "./authActionType";
-import { useAuthProvider } from "./authProvider";
-import { searchByInput } from "./productActionType";
-import { useProductProvider } from "./productProvider";
-
+import { useNavigate } from "react-router-dom";
+import {useSelector, useDispatch} from "react-redux"
+import { setSearchedProducts } from "../features/filterSlice";
+import { setAuthentication } from "../features/authSlice";
 export const MyNavbar = () => {
-  const { state, dispatch } = useProductProvider();
-  const { state: authState, dispatch: authDispatch } = useAuthProvider();
+  const cart = useSelector((state)=>state.cartState.cart)
+  const wishlist = useSelector((state)=>state.wishlistState.wishlist)
+  const isAuthenticated = useSelector(state=>state.authState.isAuthenticated)
+  const reduxDispatch = useDispatch()
+  const searchQuery = useSelector(state=> state.filteredState.searchQuery)
   let navigate = useNavigate();
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  
   return (
     <div className="ec-nav-container">
       <a className="ec-brand-name" onClick={() => navigate("/")}>
         <strong>B</strong>u<strong>K</strong>art
       </a>
       <input
-        value={state.inputSearch}
+        value={searchQuery}
         className="ec-nav-input"
         type="text"
         placeholder="search here"
         onChange={(e) => {
-          dispatch({ type: searchByInput, payload: e.target.value });
+          reduxDispatch(setSearchedProducts(e.target.value))
           e.target.value.length > 0 && navigate("/products");
         }}
       />
+      <div className="ec-nav-rightside-items">
+      <a  className="duck-icon-badge ec-cart ec-nav-products-link" onClick={()=>navigate("/products")}>Products</a>
 
       <a className="duck-icon-badge" onClick={() => navigate("/wishlist")}>
         <i className="fa-solid fa-heart  navbar-icons"></i>
         <p className="duck-icon-badge-content navbar-badge-content">
-          {state.wishlist.length}
+          {wishlist.length}
         </p>
       </a>
       <a className="duck-icon-badge ec-cart" onClick={() => navigate("/cart")}>
         <i className="fa-solid fa-cart-shopping  navbar-icons"></i>
         <p className="duck-icon-badge-content navbar-badge-content">
-          {state.cart.length}
+          {cart.length}
         </p>
       </a>
 
-      {authState.isLogin ? (
-        <div
-          className="ec-nav-login "
+      {isAuthenticated ? (
+        <a
+          className="duck-icon-badge ec-cart"
           onClick={() => {
-            authDispatch({ type: loginStatus, payload: false });
+            reduxDispatch(setAuthentication(false));
             localStorage.removeItem("encodedToken");
             navigate("/login");
           }}
-        >
-          <i className="fa-solid fa-user"></i>
-          <span> {currentUser.firstName + " " + currentUser.lastName} </span>
-        </div>
+        > Logout
+        </a>
       ) : (
-        <i
-          className="fa-regular fa-user ec-nav-login"
+        <a
+          className="duck-icon-badge ec-cart"
           onClick={() => navigate("/login")}
-        ></i>
+        >Login</a>
       )}
+      </div>
     </div>
   );
 };

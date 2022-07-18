@@ -2,27 +2,36 @@ import { useEffect } from "react";
 import { Layout } from "./Layout";
 import { MyFilters } from "./MyFilters";
 import { getCall } from "./ReusableFunctions";
-import { getProduct } from "./productActionType";
 import MySmallProductCard from "./MySmallProductCard";
-import { useProductProvider } from "./productProvider";
+import {useDispatch, useSelector} from "react-redux"
+import { setProducts } from "../features/productSlice";
 
 export const MyProductPage = () => {
-  const { state, dispatch } = useProductProvider();
+  const reduxDispatch = useDispatch()
+  const products = useSelector((state)=>state.productState.products)
+  const sortPriceQuery = useSelector((state)=>state.filteredState.sortPriceQuery)
+  const selectedCategories = useSelector(state=> state.filteredState.selectedCategories)
+  const searchQuery = useSelector(state=> state.filteredState.searchQuery)
   useEffect(async () => {
     const data = await getCall("api/products");
-    dispatch({ type: getProduct, payload: data.products });
+    reduxDispatch(setProducts(data.products))
   }, []);
 
   const sortByPriceFunction = (ourData, sortMeter) => {
-    if (sortMeter === "lowToHigh") {
-      return ourData.sort((a, b) => Number(a.price) - Number(b.price));
-    } else if (sortMeter === "highToLow") {
-      return ourData.sort((a, b) => Number(b.price) - Number(a.price));
+    const copyData = [...ourData]
+    if(sortMeter === ""){
+      return copyData
     }
-    return ourData;
+    if (sortMeter === "lowToHigh") {
+      return copyData.sort((a, b) => Number(a.price) - Number(b.price));
+    } else if (sortMeter === "highToLow") {
+      return copyData.sort((a, b) => Number(b.price) - Number(a.price));
+    }
+    return copyData;
   };
 
   const inputSearchFunction = (ourData, searchMeter) => {
+    
     if (searchMeter && searchMeter.length > 0) {
       return ourData.filter((item) =>
         item.title.toLowerCase().includes(searchMeter.toLowerCase())
@@ -32,25 +41,26 @@ export const MyProductPage = () => {
   };
 
   const filterByCategoryFunction = (ourData, categoryMeter) => {
+    const dataCopy = [...ourData]
     if (categoryMeter.length > 0) {
-      return ourData.filter((item) => {
+      return dataCopy.filter((item) => {
         return categoryMeter.indexOf(item.categoryName) !== -1;
       });
     }
-    return ourData;
+    return dataCopy;
   };
-  const sortedByPriceArray = sortByPriceFunction(
-    state.products,
-    state.sortByPriceMeter
+  const sortedByPriceArray =  sortByPriceFunction(
+    products,
+    sortPriceQuery
   );
 
   const searchedByInputArray = inputSearchFunction(
     sortedByPriceArray,
-    state.inputSearch
+    searchQuery
   );
   const filterByCategoryArray = filterByCategoryFunction(
     searchedByInputArray,
-    state.filterByCategoryMeter
+    selectedCategories
   );
 
   return (

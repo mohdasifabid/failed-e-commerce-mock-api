@@ -1,15 +1,12 @@
 import { useState } from "react";
 import { postCall } from "./ReusableFunctions";
-import { useAuthProvider } from "./authProvider";
 import { useNavigate } from "react-router-dom";
-import { loginStatus, signupStatus } from "./authActionType";
 
 export const MySignupPage = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { dispatch: authDispatch } = useAuthProvider();
   const [confirmedPassword, setConfirmedPassword] = useState("");
 
   const saveNewUserInfo = async () => {
@@ -20,9 +17,7 @@ export const MySignupPage = () => {
       password: password,
       confirmedPassword: confirmedPassword,
     });
-    authDispatch({ type: signupStatus, payload: true });
     localStorage.setItem("encodedToken", data.encodedToken);
-    localStorage.setItem("currentUser", JSON.stringify(data.createdUser));
     navigate("/login");
   };
 

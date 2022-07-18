@@ -1,19 +1,20 @@
 import { Layout } from "./Layout";
 import { useEffect, useState } from "react";
 import { postCall } from "./ReusableFunctions";
-import { getAddress } from "./productActionType";
-import { useProductProvider } from "./productProvider";
 import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch , useSelector} from "react-redux";
+import { setAddresses } from "../features/addressSlice";
 
 export const EditAddress = () => {
-  const { state, dispatch } = useProductProvider();
   const [updatedAddress, setUpdatedAddress] = useState({});
+  const reduxDispatch = useDispatch()
+  const addresses = useSelector(state=>state.addressState.addresses)
 
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const addressToEdit = state.addresses.find((add) => add._id === id);
+    const addressToEdit = addresses.find((add) => add._id === id);
     setUpdatedAddress(addressToEdit);
   }, []);
 
@@ -21,7 +22,7 @@ export const EditAddress = () => {
     const data = await postCall(`/api/user/address/${id}`, {
       address: updatedAddress,
     });
-    dispatch({ type: getAddress, payload: data.address });
+    reduxDispatch(setAddresses(data.address))
     navigate("/address");
   };
 

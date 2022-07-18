@@ -1,21 +1,21 @@
 import { useState } from "react";
 import { postCall } from "./ReusableFunctions";
-import { useAuthProvider } from "./authProvider";
 import { useNavigate } from "react-router-dom";
-import { loginStatus } from "./authActionType";
+import { useDispatch } from "react-redux";
+import { setAuthentication } from "../features/authSlice";
 
 export const MyLoginPage = () => {
   let navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { dispatch: authDispatch } = useAuthProvider();
+  const reduxDispatch = useDispatch()
 
   const saveEmailPassword = async () => {
     let data = await postCall("/api/auth/login", {
       email: email,
       password: password,
     });
-    authDispatch({ type: loginStatus, payload: true });
+    reduxDispatch(setAuthentication(true))
     localStorage.setItem("encodedToken", data.encodedToken);
     localStorage.setItem("currentUser", JSON.stringify(data.foundUser));
     navigate("/products");
@@ -26,9 +26,8 @@ export const MyLoginPage = () => {
       email: "bukart@gmail.com",
       password: "buKart123",
     });
-    authDispatch({ type: loginStatus, payload: true });
+    reduxDispatch(setAuthentication(true))
     localStorage.setItem("encodedToken", data.encodedToken);
-    localStorage.setItem("currentUser", JSON.stringify(data.foundUser));
     navigate("/products");
   };
   return (

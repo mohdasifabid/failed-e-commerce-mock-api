@@ -11,7 +11,6 @@ export const Orders = () => {
     const data = await getCall("/api/user/orders");
     setOrders(data.orders);
   }, []);
-
   return (
     <Layout>
       <div className="ec-order-page">
@@ -28,7 +27,7 @@ export const Orders = () => {
             </a>
           </h4>
         )}
-        {orders.map((item) => {
+        {orders && orders.map((item) => {
           return (
             <div className="ec-order-container " key={item.createdAt}>
               <div className="ec-order-leftside">
@@ -55,8 +54,8 @@ export const Orders = () => {
                       <>
                         {item.order.cart.reduce((a, c) => (
                           <p>
-                            {/* Total Price:<span> </span> */}
-                            {/* <i className="fa-solid fa-indian-rupee-sign"></i> */}
+                            Total Price:<span> </span> 
+                             <i className="fa-solid fa-indian-rupee-sign"></i>
                             <span> {Number(a.price) + Number(c.price)}</span>
                           </p>
                         ))}

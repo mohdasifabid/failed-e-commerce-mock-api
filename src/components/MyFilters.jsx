@@ -1,19 +1,18 @@
 import { useEffect } from "react";
 import { getCall } from "./ReusableFunctions";
-import { useProductProvider } from "./productProvider";
-import {
-  addCategoryFilter,
-  getCategory,
-  removeCategoryFilter,
-  resetCategoryFilter,
-  sortByPrice,
-} from "./productActionType";
+import {useDispatch, useSelector} from "react-redux"
+import { setCategory } from "../features/categorySlice";
+import { addCategory, removeCategory, setCategoryArray, sortPriceFrom } from "../features/filterSlice";
 
 export const MyFilters = () => {
-  const { state, dispatch } = useProductProvider();
+  const reduxDispatch = useDispatch()
+  const sortPriceQuery = useSelector((state)=>state.filteredState.sortPriceQuery)
+
+
+  const categories = useSelector((state)=>state.categoryState.categories)
   useEffect(async () => {
     const data = await getCall("api/categories");
-    dispatch({ type: getCategory, payload: data.categories });
+    reduxDispatch(setCategory(data.categories))
   }, []);
 
   return (
@@ -23,8 +22,9 @@ export const MyFilters = () => {
         <button
           className="ec-filter-clear"
           onClick={() => {
-            dispatch({ type: sortByPrice, payload: false });
-            dispatch({ type: resetCategoryFilter, payload: [] });
+             reduxDispatch(sortPriceFrom(""))
+             reduxDispatch(setCategoryArray([]))
+
           }}
         >
           CLEAR ALL
@@ -35,25 +35,27 @@ export const MyFilters = () => {
         SORT
         <label htmlFor="lowToHighPriceInput">
           <input
+          checked={sortPriceQuery === "lowToHigh"}
             value={"lowToHigh"}
             id="lowToHighPriceInput"
             type="radio"
             name="sort"
-            onChange={() =>
-              dispatch({ type: sortByPrice, payload: "lowToHigh" })
-            }
+            onChange={() =>{
+              reduxDispatch(sortPriceFrom("lowToHigh"))
+            }}
           />
           Low to high price
         </label>
         <label htmlFor="highToLowPriceInput">
           <input
+          checked={sortPriceQuery === "highToLow"}
             value={"highToLow"}
             id="highToLowPriceInput"
             type="radio"
             name="sort"
-            onChange={() =>
-              dispatch({ type: sortByPrice, payload: "highToLow" })
-            }
+            onChange={() =>{
+              reduxDispatch(sortPriceFrom("highToLow"))
+            }}
           />
           High to low price
         </label>
@@ -61,25 +63,18 @@ export const MyFilters = () => {
       <hr />
       <div className="filter-category">
         Categories
-        {state.categories.map((item) => {
+        {categories.map((item) => {
           return (
             <label htmlFor={item.id} key={item._id}>
               <input
-                value={item.categoryName}
                 id={item.id}
                 name={item.id}
                 type="checkbox"
                 onChange={(e) => {
                   if (e.target.checked) {
-                    dispatch({
-                      type: addCategoryFilter,
-                      payload: item.categoryName,
-                    });
+                    reduxDispatch(addCategory(item.categoryName))
                   } else {
-                    dispatch({
-                      type: removeCategoryFilter,
-                      payload: item.categoryName,
-                    });
+                    reduxDispatch(removeCategory(item.categoryName))
                   }
                 }}
               />

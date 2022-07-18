@@ -1,27 +1,28 @@
 import "./MyCart.css";
 import { Layout } from "./Layout";
 import { useEffect } from "react";
-import { cartData, wishlistData } from "./productActionType";
 import { useNavigate } from "react-router-dom";
-import { useProductProvider } from "./productProvider";
 import { deleteCall, getCall, postCall } from "./ReusableFunctions";
+import {useSelector, useDispatch} from "react-redux"
+import { setCartData } from "../features/cartSlice";
 
 export const MyCart = () => {
-  const { state, dispatch } = useProductProvider();
   const navigate = useNavigate();
-  const { name, street, city, zipCode } = state.selectedAddress;
+  const cart = useSelector((state)=>state.cartState.cart)
+  const selectedAddress = useSelector(state=>state.addressState.selectedAddress)
+  const reduxDispatch = useDispatch()
+  const { name, street, city, zipCode } = selectedAddress;
   useEffect(async () => {
     const data = await getCall("/api/user/cart");
-    dispatch({ type: cartData, payload: data.cart });
+    reduxDispatch(setCartData(data.cart))
   }, []);
 
   const moveItemFromCartToWishlist = async (item) => {
     const wishlistResponse = await postCall("/api/user/wishlist", {
       product: item,
     });
-    dispatch({ type: wishlistData, payload: wishlistResponse.wishlist });
     const cartResponse = await deleteCall(`/api/user/cart/${item._id}`);
-    dispatch({ type: cartData, payload: cartResponse.cart });
+    reduxDispatch(setCartData(cartResponse.cart))
   };
 
   const increaseQuantityHandler = async (itemId) => {
@@ -30,7 +31,7 @@ export const MyCart = () => {
         type: "increment",
       },
     });
-    dispatch({ type: cartData, payload: data.cart });
+    reduxDispatch(setCartData(data.cart))
   };
 
   const decreaseQuantityHandler = async (itemId) => {
@@ -39,18 +40,19 @@ export const MyCart = () => {
         type: "decrement",
       },
     });
-    dispatch({ type: cartData, payload: data.cart });
+    reduxDispatch(setCartData(data.cart))
+
   };
 
-  const totalPrice = state.cart.reduce((a, c) => {
+  const totalPrice = cart.reduce((a, c) => {
     const priceOfAnItem = c.price * c.qty;
     return a + Number(priceOfAnItem);
   }, 0);
 
   const postOrderHandler = async () => {
-    let cartItems = state.cart;
+    let cartItems = cart;
     const data = await postCall("/api/user/orders", {
-      order: { cart: cartItems, address: state.selectedAddress },
+      order: { cart: cartItems, address: selectedAddress },
     });
     navigate("/orders");
   };
@@ -58,10 +60,10 @@ export const MyCart = () => {
     <Layout>
       <div
         className="ec-cart-page-container"
-        style={state.cart.length > 0 ? {} : { display: "none" }}
+        style={cart.length > 0 ? {} : { display: "none" }}
       >
         <div className="ec-ls-card">
-          {Object.keys(state.selectedAddress).length === 0 && (
+          {Object.keys(selectedAddress).length === 0 && (
             <button
               className="ec-bill-card-btn duck-btn duck-btn-solid-l ec-bill-card-btn-left"
               onClick={() => navigate("/address")}
@@ -69,7 +71,7 @@ export const MyCart = () => {
               Select address
             </button>
           )}
-          {state.cart.map((item) => {
+          {cart.map((item) => {
             return (
               <div className="ec-ls-card-leftside" key={item._id}>
                 <img src={item.img} alt="" className="ec-ls-card-img" />
@@ -112,7 +114,7 @@ export const MyCart = () => {
             );
           })}
           <div className="ec-bill-card">
-            {Object.keys(state.selectedAddress).length !== 0 && (
+            {Object.keys(selectedAddress).length !== 0 && (
               <>
                 <p>
                   Address: <strong>{name}</strong>
@@ -120,13 +122,13 @@ export const MyCart = () => {
                 <p>{street},</p>
                 <p>{city}</p>
                 <p>
-                  {state.selectedAddress.state},{zipCode}
+                  {selectedAddress.state},{zipCode}
                 </p>
               </>
             )}
             <div className="ec-bill-card-title">Payment Details</div>
             <div className="ec-bill-card-price-details">
-              {state.cart.map((item) => {
+              {cart.map((item) => {
                 return (
                   <div
                     key={item._id}
@@ -140,14 +142,15 @@ export const MyCart = () => {
                 );
               })}
             </div>
-            <div className="ec-bill-card-total-amount">
+            
+            < div className="ec-bill-card-total-amount">
               <p>TOTAL AMOUNT</p>
               <p>
                 <i className="fa-solid fa-indian-rupee-sign"></i>
                 {totalPrice}
               </p>
             </div>
-            {Object.keys(state.selectedAddress).length !== 0 && (
+            {Object.keys(selectedAddress).length !== 0 && (
               <button
                 className="ec-bill-card-btn duck-btn duck-btn-solid-l ec-bill-card-change-address"
                 onClick={() => navigate("/address")}
@@ -155,7 +158,7 @@ export const MyCart = () => {
                 Change address
               </button>
             )}
-            {Object.keys(state.selectedAddress).length !== 0 ? (
+            {Object.keys(selectedAddress).length !== 0 ? (
               <button
                 className="ec-bill-card-btn duck-btn duck-btn-solid-l"
                 onClick={postOrderHandler}
