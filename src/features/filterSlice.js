@@ -2,7 +2,8 @@ import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
    selectedCategories: [],
-   sortPriceQuery: ""
+   sortPriceQuery: "",
+   searchQuery: ""
 }
 
 const filterSlice = createSlice({
@@ -22,6 +23,9 @@ const filterSlice = createSlice({
         },
         sortPriceFrom: (state, action) => {
              state.sortPriceQuery = action.payload
+        },
+        setSearchedProducts : (state, action) => {
+            state.searchQuery = action.payload
         }
     }
 })
@@ -29,5 +33,5 @@ const filterSlice = createSlice({
 
 
 
-export const { addCategory, removeCategory,setCategoryArray, sortPriceFrom} = filterSlice.actions
+export const { addCategory, removeCategory,setCategoryArray, sortPriceFrom, setSearchedProducts} = filterSlice.actions
 export default filterSlice.reducer

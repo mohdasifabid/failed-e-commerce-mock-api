@@ -3,16 +3,15 @@ import { Layout } from "./Layout";
 import { MyFilters } from "./MyFilters";
 import { getCall } from "./ReusableFunctions";
 import MySmallProductCard from "./MySmallProductCard";
-import { useProductProvider } from "./productProvider";
 import {useDispatch, useSelector} from "react-redux"
 import { setProducts } from "../features/productSlice";
 
 export const MyProductPage = () => {
-  const { state } = useProductProvider();
   const reduxDispatch = useDispatch()
   const products = useSelector((state)=>state.productState.products)
   const sortPriceQuery = useSelector((state)=>state.filteredState.sortPriceQuery)
   const selectedCategories = useSelector(state=> state.filteredState.selectedCategories)
+  const searchQuery = useSelector(state=> state.filteredState.searchQuery)
   useEffect(async () => {
     const data = await getCall("api/products");
     reduxDispatch(setProducts(data.products))
@@ -57,7 +56,7 @@ export const MyProductPage = () => {
 
   const searchedByInputArray = inputSearchFunction(
     sortedByPriceArray,
-    state.inputSearch
+    searchQuery
   );
   const filterByCategoryArray = filterByCategoryFunction(
     searchedByInputArray,
