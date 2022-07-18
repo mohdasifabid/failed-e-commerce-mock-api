@@ -1,15 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import { LOGIN_STATUS } from "./authActionType";
-import { useAuthProvider } from "./authProvider";
 import {useSelector, useDispatch} from "react-redux"
 import { setSearchedProducts } from "../features/filterSlice";
+import { setAuthentication } from "../features/authSlice";
 export const MyNavbar = () => {
-  const { state: authState, dispatch: authDispatch } = useAuthProvider();
   const cart = useSelector((state)=>state.cartState.cart)
   const wishlist = useSelector((state)=>state.wishlistState.wishlist)
+  const isAuthenticated = useSelector(state=>state.authState.isAuthenticated)
   const reduxDispatch = useDispatch()
   const searchQuery = useSelector(state=> state.filteredState.searchQuery)
   let navigate = useNavigate();
+  
   return (
     <div className="ec-nav-container">
       <a className="ec-brand-name" onClick={() => navigate("/")}>
@@ -41,11 +41,11 @@ export const MyNavbar = () => {
         </p>
       </a>
 
-      {authState.isLogin ? (
+      {isAuthenticated ? (
         <a
           className="duck-icon-badge ec-cart"
           onClick={() => {
-            authDispatch({ type: LOGIN_STATUS, payload: false });
+            reduxDispatch(setAuthentication(false));
             localStorage.removeItem("encodedToken");
             navigate("/login");
           }}

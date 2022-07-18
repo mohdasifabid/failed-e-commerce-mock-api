@@ -1,20 +1,18 @@
 import "./MySmallProductCard.css";
 import { useNavigate } from "react-router-dom";
-import { useAuthProvider } from "./authProvider";
 import { deleteCall, postCall } from "./ReusableFunctions";
-import { useDispatch} from "react-redux"
+import { useDispatch, useSelector} from "react-redux"
 import { setCartData } from "../features/cartSlice";
 import { setWishlist } from "../features/wishlistSlice";
-import { useSelector} from "react-redux"
 
 
 export default function MySmallProductCard({ item }) {
-  const { state: authState } = useAuthProvider();
   const navigate = useNavigate();
   const { img, title, price, author, categoryName } = item;
   const reduxDispatch = useDispatch()
   const cart = useSelector((state)=>state.cartState.cart)
   const wishlist = useSelector((state)=>state.wishlistState.wishlist)
+  const isAuthenticated = useSelector(state=>state.authState.isAuthenticated)
   const addToWishlistHandler = async (item) => {
     const data = await postCall("/api/user/wishlist", { product: item });
     reduxDispatch(setWishlist(data.wishlist))
@@ -50,7 +48,7 @@ export default function MySmallProductCard({ item }) {
         <button
           className="duck-card-product-btn btn-add-to-cart"
           onClick={() =>
-            authState.isLogin
+            isAuthenticated
               ? deleteFromCartHandler(item._id)
               : navigate("/login")
           }
@@ -61,7 +59,7 @@ export default function MySmallProductCard({ item }) {
         <button
           className="duck-card-product-btn btn-add-to-cart"
           onClick={() =>
-            authState.isLogin ? addToCartHandler(item) : navigate("/login")
+            isAuthenticated ? addToCartHandler(item) : navigate("/login")
           }
         >
           Add to Cart
@@ -71,7 +69,7 @@ export default function MySmallProductCard({ item }) {
         <button
           className="duck-card-product-btn btn-add-to-wishlist"
           onClick={() => {
-            authState.isLogin && 
+            isAuthenticated && 
               navigate("/login");
           }}
         >
@@ -81,7 +79,7 @@ export default function MySmallProductCard({ item }) {
         <button
           className="duck-card-product-btn btn-add-to-wishlist"
           onClick={() => {
-            authState.isLogin
+            isAuthenticated
               ? addToWishlistHandler(item): navigate("/login");
           }}
         >
@@ -93,7 +91,7 @@ export default function MySmallProductCard({ item }) {
         <a
           className="duck-card-product-badge-like-container"
           onClick={() => {
-            authState.isLogin
+            isAuthenticated
               ? deleteFromWishlistHandler(item._id)
               : navigate("/login");
           }}
@@ -107,7 +105,7 @@ export default function MySmallProductCard({ item }) {
         <a
           className="duck-card-product-badge-like-container"
           onClick={() => {
-            authState.isLogin ? addToWishlistHandler(item) : navigate("/login");
+            isAuthenticated? addToWishlistHandler(item) : navigate("/login");
           }}
         >
           <i

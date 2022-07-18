@@ -1,9 +1,9 @@
-import { useAuthProvider } from "./authProvider";
 import { Navigate, Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const PrivateRoute = () => {
-  const { state } = useAuthProvider();
-  if (state.isLogin) {
+  const isAuthenticated = useSelector(state=>state.authState.isAuthenticated)
+  if (isAuthenticated) {
     return <Outlet />;
   } else {
     return (
