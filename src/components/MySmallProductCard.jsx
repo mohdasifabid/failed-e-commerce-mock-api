@@ -1,37 +1,40 @@
 import "./MySmallProductCard.css";
 import { useNavigate } from "react-router-dom";
 import { deleteCall, postCall } from "./ReusableFunctions";
-import { useDispatch, useSelector} from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import { setCartData } from "../features/cartSlice";
 import { setWishlist } from "../features/wishlistSlice";
-
 
 export default function MySmallProductCard({ item }) {
   const navigate = useNavigate();
   const { img, title, price, author, categoryName } = item;
-  const reduxDispatch = useDispatch()
-  const cart = useSelector((state)=>state.cartState.cart)
-  const wishlist = useSelector((state)=>state.wishlistState.wishlist)
-  const isAuthenticated = useSelector(state=>state.authState.isAuthenticated)
+  const reduxDispatch = useDispatch();
+  const cart = useSelector((state) => state.cartState.cart);
+  const wishlist = useSelector((state) => state.wishlistState.wishlist);
+  const isAuthenticated = useSelector(
+    (state) => state.authState.isAuthenticated
+  );
+  
   const addToWishlistHandler = async (item) => {
     const data = await postCall("/api/user/wishlist", { product: item });
-    reduxDispatch(setWishlist(data.wishlist))
+    reduxDispatch(setWishlist(data.wishlist));
   };
   const deleteFromWishlistHandler = async (itemId) => {
     const data = await deleteCall(`/api/user/wishlist/${itemId}`);
-    reduxDispatch(setCartData( data.cart))
-
+    reduxDispatch(setWishlist(data.wishlist));
   };
+  
   const addToCartHandler = async (item) => {
     const data = await postCall("/api/user/cart", { product: item });
-    reduxDispatch(setCartData( data.cart))
+    reduxDispatch(setCartData(data.cart));
   };
 
   const deleteFromCartHandler = async (itemId) => {
     const data = await deleteCall(`/api/user/cart/${itemId}`);
-    reduxDispatch(setCartData(data.cart))
+    reduxDispatch(setCartData(data.cart));
   };
   const inCart = cart.some((prod) => prod._id === item._id);
+  
 
   const inWishlist = wishlist.some((prod) => prod._id === item._id);
 
@@ -69,8 +72,9 @@ export default function MySmallProductCard({ item }) {
         <button
           className="duck-card-product-btn btn-add-to-wishlist"
           onClick={() => {
-            isAuthenticated && 
-              navigate("/login");
+            isAuthenticated
+              ? deleteFromWishlistHandler(item._id)
+              : navigate("/login");
           }}
         >
           Remove from Wishlist
@@ -79,8 +83,7 @@ export default function MySmallProductCard({ item }) {
         <button
           className="duck-card-product-btn btn-add-to-wishlist"
           onClick={() => {
-            isAuthenticated
-              ? addToWishlistHandler(item): navigate("/login");
+            isAuthenticated ? addToWishlistHandler(item) : navigate("/login");
           }}
         >
           Add to Wishlist
@@ -105,7 +108,7 @@ export default function MySmallProductCard({ item }) {
         <a
           className="duck-card-product-badge-like-container"
           onClick={() => {
-            isAuthenticated? addToWishlistHandler(item) : navigate("/login");
+            isAuthenticated ? addToWishlistHandler(item) : navigate("/login");
           }}
         >
           <i

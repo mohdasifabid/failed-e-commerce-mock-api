@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import {useSelector, useDispatch} from "react-redux"
 import { setSearchedProducts } from "../features/filterSlice";
 import { setAuthentication } from "../features/authSlice";
+
 export const MyNavbar = () => {
   const cart = useSelector((state)=>state.cartState.cart)
   const wishlist = useSelector((state)=>state.wishlistState.wishlist)
@@ -37,7 +38,7 @@ export const MyNavbar = () => {
       <a className="duck-icon-badge ec-cart" onClick={() => navigate("/cart")}>
         <i className="fa-solid fa-cart-shopping  navbar-icons"></i>
         <p className="duck-icon-badge-content navbar-badge-content">
-          {cart.length}
+          {cart && cart.length}
         </p>
       </a>
 

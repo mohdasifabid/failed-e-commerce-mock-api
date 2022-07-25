@@ -14,7 +14,7 @@ const filterSlice = createSlice({
              state.selectedCategories = [...state.selectedCategories, action.payload]
             },
         removeCategory: (state,action) => {
-            state.selectedCategories = [...copyOfSelectedCategories].filter(
+            state.selectedCategories = [...state.selectedCategories].filter(
                 (item) => item !== action.payload
               );
         },

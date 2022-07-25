@@ -7,6 +7,7 @@ import { addCategory, removeCategory, setCategoryArray, sortPriceFrom } from "..
 export const MyFilters = () => {
   const reduxDispatch = useDispatch()
   const sortPriceQuery = useSelector((state)=>state.filteredState.sortPriceQuery)
+  const selectedCategories = useSelector((state)=>state.filteredState.selectedCategories)
 
 
   const categories = useSelector((state)=>state.categoryState.categories)
@@ -66,7 +67,8 @@ export const MyFilters = () => {
         {categories.map((item) => {
           return (
             <label htmlFor={item.id} key={item._id}>
-              <input
+              <input 
+                checked={selectedCategories.some(cat=>cat === item.categoryName)}
                 id={item.id}
                 name={item.id}
                 type="checkbox"

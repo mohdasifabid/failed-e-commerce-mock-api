@@ -3,26 +3,31 @@ import { Layout } from "./Layout";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteCall, getCall, postCall } from "./ReusableFunctions";
-import {useSelector, useDispatch} from "react-redux"
+import { useSelector, useDispatch } from "react-redux";
 import { setCartData } from "../features/cartSlice";
+import { setWishlist } from "../features/wishlistSlice";
 
 export const MyCart = () => {
   const navigate = useNavigate();
-  const cart = useSelector((state)=>state.cartState.cart)
-  const selectedAddress = useSelector(state=>state.addressState.selectedAddress)
-  const reduxDispatch = useDispatch()
+  const cart = useSelector((state) => state.cartState.cart);
+  const selectedAddress = useSelector(
+    (state) => state.addressState.selectedAddress
+  );
+  const reduxDispatch = useDispatch();
   const { name, street, city, zipCode } = selectedAddress;
   useEffect(async () => {
     const data = await getCall("/api/user/cart");
-    reduxDispatch(setCartData(data.cart))
+    reduxDispatch(setCartData(data.cart));
   }, []);
 
   const moveItemFromCartToWishlist = async (item) => {
     const wishlistResponse = await postCall("/api/user/wishlist", {
       product: item,
     });
+    reduxDispatch(setWishlist(wishlistResponse.wishlist));
+
     const cartResponse = await deleteCall(`/api/user/cart/${item._id}`);
-    reduxDispatch(setCartData(cartResponse.cart))
+    reduxDispatch(setCartData(cartResponse.cart));
   };
 
   const increaseQuantityHandler = async (itemId) => {
@@ -31,7 +36,7 @@ export const MyCart = () => {
         type: "increment",
       },
     });
-    reduxDispatch(setCartData(data.cart))
+    reduxDispatch(setCartData(data.cart));
   };
 
   const decreaseQuantityHandler = async (itemId) => {
@@ -40,8 +45,7 @@ export const MyCart = () => {
         type: "decrement",
       },
     });
-    reduxDispatch(setCartData(data.cart))
-
+    reduxDispatch(setCartData(data.cart));
   };
 
   const totalPrice = cart.reduce((a, c) => {
@@ -142,8 +146,8 @@ export const MyCart = () => {
                 );
               })}
             </div>
-            
-            < div className="ec-bill-card-total-amount">
+
+            <div className="ec-bill-card-total-amount">
               <p>TOTAL AMOUNT</p>
               <p>
                 <i className="fa-solid fa-indian-rupee-sign"></i>
