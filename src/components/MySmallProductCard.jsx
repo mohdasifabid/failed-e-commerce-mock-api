@@ -23,6 +23,7 @@ export default function MySmallProductCard({ item }) {
     const data = await deleteCall(`/api/user/wishlist/${itemId}`);
     reduxDispatch(setWishlist(data.wishlist));
   };
+  
   const addToCartHandler = async (item) => {
     const data = await postCall("/api/user/cart", { product: item });
     reduxDispatch(setCartData(data.cart));
