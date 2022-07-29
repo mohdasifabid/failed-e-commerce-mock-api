@@ -25,7 +25,7 @@ function App() {
     if (token) {
       reduxDispatch(setAuthentication(true))
     } else {
-      reduxDispatch(setAuthentication(true))
+      reduxDispatch(setAuthentication(false))
     }
   }, []);
 
